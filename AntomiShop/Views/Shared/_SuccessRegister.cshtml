@@ -1,0 +1,13 @@
+﻿@model Antomi.Data.Entities.User.User;
+@{
+    ViewData["Title"] = "موفقیت ثبت نام";
+}
+<div class="alert alert-success m-5">
+    <h1>کاربر گرامی حساب کاربری شما با موفقیت در سایت ایجاد شد</h1>
+    <p>ایمیلی حاوی لینک فالسازی به ایمیل @Model.Email ارسال شد جهت فعالسازی حساب کاربری خود وارد ایمیلتان شده و روی لینک فعالسازی کلیک نمایید.</p>
+    <hr />
+    <a class="btn btn-warning" href="/RegisterAndLogin">بازگشت به صفحه ورود</a>
+</div>
+
+
+

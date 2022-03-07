@@ -33,6 +33,9 @@ namespace Antomi.Data.Entities.User
         public string Password { get; set; }
         [MaxLength(50)]
         public string ActiveCode { get; set; }
+        [Display(Name = "شماره تلفن همراه")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        public string? PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public DateTime? BirthDay { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;

@@ -1,13 +1,26 @@
 using Antomi.Data.Context;
+using Antomi.Core.Services.Interfaces;
+using Antomi.Core.Services;
+using Antomi.Core.Convertors;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<AntomiContext>(context =>
-    context.UseSqlServer(builder.Configuration.GetConnectionString("AntomiConnection"))
-);
+#region DbContext
+    builder.Services.AddDbContext<AntomiContext>(context =>
+        context.UseSqlServer(builder.Configuration.GetConnectionString("AntomiConnection"))
+    );
+
+#endregion
+
+#region IOC
+
+builder.Services.AddTransient<IUserService,UserService>();
+builder.Services.AddTransient<IViewRenderService,RenderViewToString>();
+
+#endregion
 
 var app = builder.Build();
 

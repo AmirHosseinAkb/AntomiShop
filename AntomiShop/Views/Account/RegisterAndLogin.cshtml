@@ -1,10 +1,6 @@
-﻿
+﻿@model RegisterAndLoginViewModel
 @{
-    ViewData["Title"] = "RegisterAndLogin";
-}
-
-@{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "ثبت نام و ورود";
 }
 
 <div class="breadcrumbs_area">
@@ -31,12 +27,14 @@
                         <h2>ورود</h2>
                         <form action="#">
                             <p>
-                                <label>نام کاربری یا ایمیل <span>*</span></label>
+                                <label>نام کاربری یا ایمیل <span class="text-danger">*</span></label>
                                 <input type="text" dir="ltr">
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </p>
                             <p>
-                                <label>رمز عبور <span>*</span></label>
+                                <label>رمز عبور <span class="text-danger">*</span></label>
                                 <input type="password" dir="ltr">
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </p>
                             <div class="login_submit">
                                 <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
@@ -56,14 +54,21 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="account_form register">
                         <h2>ثبت نام</h2>
-                        <form action="#">
+                        <form asp-controller="Account" asp-action="register" method="post">
                             <p>
-                                <label>آدرس ایمیل <span>*</span></label>
-                                <input type="text" dir="ltr">
+                                <label>آدرس ایمیل <span class="text-danger">*</span></label>
+                                <input asp-for="Email" type="text" dir="ltr">
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </p>
                             <p>
-                                <label>رمز عبور <span>*</span></label>
-                                <input type="password" dir="ltr">
+                                <label>رمز عبور <span class="text-danger">*</span></label>
+                                <input asp-for="Password" type="password" dir="ltr">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </p>
+                               <p>
+                                <label>تکرار رمز عبور<span class="text-danger">*</span></label>
+                                <input asp-for="Repassword" type="password" dir="ltr">
+                                <span asp-validation-for="Repassword" class="text-danger"></span>
                             </p>
                             <div class="login_submit">
                                 <button type="submit">ثبت نام</button>
