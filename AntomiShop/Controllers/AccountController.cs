@@ -6,7 +6,7 @@ namespace AntomiShop.Controllers
     {
 
         [Route("/Login")]
-        public IActionResult Login()
+        public IActionResult RegisterAndLogin()
         {
             return View();
         }
