@@ -1,7 +1,13 @@
+using Antomi.Data.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<AntomiContext>(context =>
+    context.UseSqlServer(builder.Configuration.GetConnectionString("AntomiConnection"))
+);
 
 var app = builder.Build();
 

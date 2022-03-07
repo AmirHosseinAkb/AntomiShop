@@ -14,4 +14,8 @@
     <Folder Include="Senders\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Antomi.Data\Antomi.Data.csproj" />
+  </ItemGroup>
+
 </Project>
