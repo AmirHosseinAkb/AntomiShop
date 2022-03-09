@@ -52,6 +52,12 @@ namespace Antomi.Core.Services
                 .SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email) && u.Password == PasswordHasher.HashPasswordMD5(password));
         }
 
+        public ConfirmUserInformationsViewModel GetUserInformationsToConfirm(string email)
+        {
+            var user = GetUserByEmail(email);
+            return null;
+        }
+
         public UserPanelInformationsViewModel GetUserPanelInformations(string email)
         {
             var user = GetUserByEmail(email);

@@ -41,9 +41,12 @@ namespace Antomi.Data.Entities.User
         public DateTime RegisterDate { get; set; } = DateTime.Now;
         [MaxLength(200)]
         public string AvatarName { get; set; }
-        [Display(Name = "آدرس")]
-        [MaxLength(700, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
-        public string? Address { get; set; }
         public bool IsDeleted { get; set; }
+
+        #region Relations
+
+        public List<Address> Addresses { get; set; }
+
+        #endregion
     }
 }

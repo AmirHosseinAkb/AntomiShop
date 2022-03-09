@@ -19,6 +19,7 @@ namespace Antomi.Core.Services.Interfaces
         #region UserPanel
 
         UserPanelInformationsViewModel GetUserPanelInformations(string email);
+        ConfirmUserInformationsViewModel GetUserInformationsToConfirm(string email);
 
         #endregion
     }

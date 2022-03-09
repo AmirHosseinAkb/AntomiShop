@@ -13,6 +13,13 @@ namespace Antomi.Core.DTOs.User
         public string? PhoneNumber { get; set; }
         public DateTime RegisterDate { get; set; }
         public int WalletBalance { get; set; }
-
+    }
+    public class ConfirmUserInformationsViewModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhineNumber { get; set; }
+        public DateTime BirthDay { get; set; }
+        public string Address { get; set; }
     }
 }
