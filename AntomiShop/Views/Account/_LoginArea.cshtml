@@ -1,7 +1,4 @@
 ﻿@model RegisterAndLoginViewModel
-@{
-    ViewData["Title"] = "ثبت نام و ورود";
-}
 
 <div class="breadcrumbs_area">
     <div class="container">
@@ -21,6 +18,7 @@
     <div class="container">
         <div class="customer_login">
             <div class="row">
+                <!--login area start-->
                 <div class="col-lg-6 col-md-6">
                     @if (ViewBag.LogedIn == true)
                     {
@@ -34,16 +32,18 @@
                         </script>
                     }
                     <div class="account_form login">
-                        <form asp-action="Login" asp-controller="Account" method="post">
-                            <h2>ورود</h2>
+                        <h2>ورود</h2>
+                        <form asp-controller="Account" asp-action="Login" method="post">
                             <p>
                                 <label> ایمیل <span class="text-danger">*</span></label>
                                 <input asp-for="Email" type="text" dir="ltr">
+                                <span asp-validation-for="Email" class="text-danger"></span>
 
                             </p>
                             <p>
                                 <label> رمز عبور <span class="text-danger">*</span></label>
                                 <input asp-for="Password" type="password" dir="ltr">
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </p>
                             <div class="login_submit">
                                 <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
@@ -54,14 +54,15 @@
                                 <button type="submit">ورود</button>
 
                             </div>
+
                         </form>
                     </div>
                 </div>
                 <!--login area start-->
                 <div class="col-lg-6 col-md-6">
                     <div class="account_form register">
-                        <form asp-action="Register" asp-controller="Account" method="post">
-                            <h2>ثبت نام</h2>
+                        <h2>ثبت نام</h2>
+                        <form asp-controller="Account" asp-action="Register" method="post">
                             <p>
                                 <label>آدرس ایمیل <span class="text-danger">*</span></label>
                                 <input asp-for="Email" type="text" dir="ltr">
@@ -84,6 +85,3 @@
         </div>
     </div>
 </div>
-
-
-

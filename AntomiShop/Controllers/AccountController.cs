@@ -6,6 +6,9 @@ using Antomi.Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
 using Antomi.Core.Convertors;
 using Antomi.Core.Senders;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AntomiShop.Controllers
 {
@@ -31,12 +34,17 @@ namespace AntomiShop.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("RegisterAndLogin", register);
+                return View("_RegisterArea", register);
             }
             if (_userService.IsExistEmail(register.Email))
             {
                 ModelState.AddModelError("Email", "این ایمیل از قبل وجود دارد");
-                return View("RegisterAndLogin", register);
+                return View("_RegisterArea", register);
+            }
+            if (register.Password != register.Repassword)
+            {
+                ModelState.AddModelError("RePassword", "تکرار رمز عبور صحیح نمی باشد");
+                return View("_RegisterArea", register);
             }
             User user = new User()
             {
@@ -53,6 +61,55 @@ namespace AntomiShop.Controllers
             //Add User
             _userService.AddUser(user);
             return View("_SuccessRegister", user);
+        }
+        
+        [Route("ActiveAccount/{activeCode}")]
+        public IActionResult ActiveAccount(string activeCode)
+        {
+            ViewBag.IsActived = _userService.ActiveUserAccount(activeCode);
+            return View();
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        public IActionResult Login(RegisterAndLoginViewModel login)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("_LoginArea", login);
+            }
+            var user = _userService.GetUserForLogin(login.Email, login.Password);
+            if (user != null)
+            {
+                if (user.IsActive)
+                {
+                    var claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
+                        new Claim(ClaimTypes.Name,user.Email),
+                        new Claim("AvatarName",user.AvatarName)
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var properties = new AuthenticationProperties()
+                    {
+                        IsPersistent = login.RememberMe
+                    };
+                    HttpContext.SignInAsync(principal, properties);
+                    ViewBag.LogedIn = true;
+                    return View("_LoginArea");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "لطفا ابتدا حساب کاربری خود را فعال کنید");
+                    return View("_LoginArea", login);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Email", "کاربری با این مشخصات وجود ندارد");
+                return View("_LoginArea", login);
+            }
         }
     }
 }

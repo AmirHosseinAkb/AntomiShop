@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Antomi.Core.Convertors;
+using Antomi.Core.Generators;
+using Antomi.Core.Security;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Context;
 using Antomi.Data.Entities.User;
@@ -18,11 +20,30 @@ namespace Antomi.Core.Services
             _context=context;
         }
 
+        public bool ActiveUserAccount(string activeCode)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
+            if (user != null)
+            {
+                user.IsActive = true;
+                user.ActiveCode = NameGenerator.GenerateUniqName();
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public int AddUser(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
             return user.UserId;
+        }
+
+        public User GetUserForLogin(string email, string password)
+        {
+            return _context.Users
+                .SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email) && u.Password == PasswordHasher.HashPasswordMD5(password));
         }
 
         public bool IsExistEmail(string email)

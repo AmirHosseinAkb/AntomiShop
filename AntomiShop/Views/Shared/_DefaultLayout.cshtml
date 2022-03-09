@@ -10,11 +10,10 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
 
-	<meta name="theme-color" content="#c40316">
+    <meta name="theme-color" content="#c40316">
 
-    <!-- CSS 
+    <!-- CSS
     ========================= -->
-
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="/assets/css/plugins.css">
 
@@ -51,7 +50,8 @@
                         </div>
                         <div class="header_configure_area">
                             <div class="header_wishlist">
-                                <a href="wishlist.html"><i class="ion-android-favorite-outline"></i>
+                                <a href="wishlist.html">
+                                    <i class="ion-android-favorite-outline"></i>
                                     <span class="wishlist_count">3</span>
                                 </a>
                             </div>
@@ -88,17 +88,17 @@
                                                 <a href="#"><i class="ion-android-close"></i></a>
                                             </div>
                                         </div>
-									</div>
-									<div class="mini_cart_table">
-										<div class="cart_total">
-											<span>جمع اجزا:</span>
-											<span class="price">138,000 تومان</span>
-										</div>
-										<div class="cart_total mt-10">
-											<span>جمع کل:</span>
-											<span class="price">138,000 تومان</span>
-										</div>
-									</div>
+                                    </div>
+                                    <div class="mini_cart_table">
+                                        <div class="cart_total">
+                                            <span>جمع اجزا:</span>
+                                            <span class="price">138,000 تومان</span>
+                                        </div>
+                                        <div class="cart_total mt-10">
+                                            <span>جمع کل:</span>
+                                            <span class="price">138,000 تومان</span>
+                                        </div>
+                                    </div>
                                     <div class="mini_cart_footer">
                                         <div class="cart_button">
                                             <a href="cart.html">مشاهده سبد</a>
@@ -255,7 +255,8 @@
                             <div class="main_menu menu_position text-center">
                                 <nav>
                                     <ul>
-                                        <li><a class="active" href="index.html">خانه<i class="fa fa-angle-down"></i></a>
+                                        <li>
+                                            <a class="active" href="index.html">خانه<i class="fa fa-angle-down"></i></a>
                                             <ul class="sub_menu">
                                                 <li><a href="index.html">خانه فروشگاه 1</a></li>
                                                 <li><a href="index-2.html">خانه فروشگاه 2</a></li>
@@ -265,10 +266,12 @@
                                                 <li><a href="index-6.html">خانه فروشگاه 6</a></li>
                                             </ul>
                                         </li>
-                                        <li class="mega_items"><a href="shop.html">فروشگاه<i class="fa fa-angle-down"></i></a>
+                                        <li class="mega_items">
+                                            <a href="shop.html">فروشگاه<i class="fa fa-angle-down"></i></a>
                                             <div class="mega_menu">
                                                 <ul class="mega_menu_inner">
-                                                    <li><a href="#">طرح های فروشگاه</a>
+                                                    <li>
+                                                        <a href="#">طرح های فروشگاه</a>
                                                         <ul>
                                                             <li><a href="shop-fullwidth.html">تمام عرض</a></li>
                                                             <li><a href="shop-fullwidth-list.html">تمام عرض لیست</a></li>
@@ -277,7 +280,8 @@
                                                             <li><a href="shop-list.html">نمایش لیست</a></li>
                                                         </ul>
                                                     </li>
-                                                    <li><a href="#">سایر صفحات</a>
+                                                    <li>
+                                                        <a href="#">سایر صفحات</a>
                                                         <ul>
                                                             <li><a href="cart.html">سبد خرید</a></li>
                                                             <li><a href="wishlist.html">لیست علاقه‌مندی‌ها</a></li>
@@ -286,7 +290,8 @@
                                                             <li><a href="404.html">خطای 404</a></li>
                                                         </ul>
                                                     </li>
-                                                    <li><a href="#">انواع محصول</a>
+                                                    <li>
+                                                        <a href="#">انواع محصول</a>
                                                         <ul>
                                                             <li><a href="product-details.html">جزئیات محصول</a></li>
                                                             <li><a href="product-sidebar.html">محصول با نوار کناری</a></li>
@@ -299,7 +304,8 @@
                                                 </ul>
                                             </div>
                                         </li>
-                                        <li><a href="blog.html">بلاگ<i class="fa fa-angle-down"></i></a>
+                                        <li>
+                                            <a href="blog.html">بلاگ<i class="fa fa-angle-down"></i></a>
                                             <ul class="sub_menu pages">
                                                 <li><a href="blog-details.html">جزئیات مطلب بلاگ</a></li>
                                                 <li><a href="blog-fullwidth.html">بلاگ تمام عرض</a></li>
@@ -307,7 +313,8 @@
                                                 <li><a href="blog-no-sidebar.html">بلاگ بدون نوار کناری</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="#">صفحات <i class="fa fa-angle-down"></i></a>
+                                        <li>
+                                            <a href="#">صفحات <i class="fa fa-angle-down"></i></a>
                                             <ul class="sub_menu pages">
                                                 <li><a href="about.html">درباره ما</a></li>
                                                 <li><a href="faq.html">سوالات متداول</a></li>
@@ -328,12 +335,25 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="header_configure_area">
-                                 <div class="header_wishlist" title="ورود به حساب کاربری">
-                                    <a href="/RegisterAndLogin"><i class="ion-ios-contact-outline"></i>
-                                    </a>
-                                </div>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <div class="header_wishlist" title="ثبت نام/ورود">
+                                        <a href="/RegisterAndLogin">
+                                            <i class="ion-ios-contact-outline"></i>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                     <div class="header_wishlist" title="حساب کاربری شما">
+                                        <a href="/UserPanel">
+                                                <img src="/UserAvatar/@User.GetAvatarName()"/>
+                                        </a>
+                                    </div>
+                                }
                                 <div class="header_wishlist">
-                                    <a href="wishlist.html"><i class="ion-android-favorite-outline"></i>
+                                    <a href="wishlist.html">
+                                        <i class="ion-android-favorite-outline"></i>
                                         <span class="wishlist_count">3</span>
                                     </a>
                                 </div>
@@ -371,17 +391,17 @@
                                                     <a href="#"><i class="ion-android-close"></i></a>
                                                 </div>
                                             </div>
-										</div>
-										<div class="mini_cart_table">
-											<div class="cart_total">
-												<span>جمع اجزا:</span>
-												<span class="price">138,000 تومان</span>
-											</div>
-											<div class="cart_total mt-10">
-												<span>جمع کل:</span>
-												<span class="price">138,000 تومان</span>
-											</div>
-										</div>
+                                        </div>
+                                        <div class="mini_cart_table">
+                                            <div class="cart_total">
+                                                <span>جمع اجزا:</span>
+                                                <span class="price">138,000 تومان</span>
+                                            </div>
+                                            <div class="cart_total mt-10">
+                                                <span>جمع کل:</span>
+                                                <span class="price">138,000 تومان</span>
+                                            </div>
+                                        </div>
                                         <div class="mini_cart_footer">
                                             <div class="cart_button">
                                                 <a href="cart.html">مشاهده سبد</a>
@@ -399,7 +419,6 @@
                     </div>
                 </div>
                 <!--header middel end-->
-
                 <!--header bottom satrt-->
                 <div class="header_bottom">
                     <div class="row align-items-center">
@@ -410,9 +429,11 @@
                                 </div>
                                 <div class="categories_menu_toggle">
                                     <ul>
-                                        <li class="menu_item_children"><a href="#">لباس و پوشاک <i class="fa fa-angle-left"></i></a>
+                                        <li class="menu_item_children">
+                                            <a href="#">لباس و پوشاک <i class="fa fa-angle-left"></i></a>
                                             <ul class="categories_mega_menu">
-                                                <li class="menu_item_children"><a href="#">لباس ها</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">لباس ها</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">زیر پیراهن</a></li>
                                                         <li><a href="">عصرانه</a></li>
@@ -420,7 +441,8 @@
                                                         <li><a href="">ورزشی</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">کیف دستی</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">کیف دستی</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">رودوشی</a></li>
                                                         <li><a href="">کیف مدرسه</a></li>
@@ -428,7 +450,8 @@
                                                         <li><a href="">کت ها</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">کفش ها</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">کفش ها</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">چکمه های مچ پا</a></li>
                                                         <li><a href="">صندل ها قفل دار </a></li>
@@ -436,7 +459,8 @@
                                                         <li><a href="">کتاب ها</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">پوشاک</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">پوشاک</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">ژاکت و کت </a></li>
                                                         <li><a href="">بارانی ها</a></li>
@@ -446,9 +470,11 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="menu_item_children"><a href="#"> دکور و مبلمان <i class="fa fa-angle-left"></i></a>
+                                        <li class="menu_item_children">
+                                            <a href="#"> دکور و مبلمان <i class="fa fa-angle-left"></i></a>
                                             <ul class="categories_mega_menu column_3">
-                                                <li class="menu_item_children"><a href="#">صندلی</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">صندلی</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">ناهارخوری</a></li>
                                                         <li><a href="">اتاق خواب</a></li>
@@ -456,7 +482,8 @@
                                                         <li><a href="">اتاق نشیمن</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">نورپردازی</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">نورپردازی</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">نورپردازی سقفی</a></li>
                                                         <li><a href="">نورپردازی دیواری</a></li>
@@ -464,7 +491,8 @@
                                                         <li><a href="">نورپردازی هوشمند</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">مبل</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">مبل</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">مبل های پارچه ای</a></li>
                                                         <li><a href="">مبل های چرمی</a></li>
@@ -474,9 +502,11 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="menu_item_children"><a href="#"> قطعات خودرو <i class="fa fa-angle-left"></i></a>
+                                        <li class="menu_item_children">
+                                            <a href="#"> قطعات خودرو <i class="fa fa-angle-left"></i></a>
                                             <ul class="categories_mega_menu column_2">
-                                                <li class="menu_item_children"><a href="#">ابزار ترمز</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">ابزار ترمز</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">میل لنگ</a></li>
                                                         <li><a href="">قرقره</a></li>
@@ -484,7 +514,8 @@
                                                         <li><a href="">بنزین</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">ترمز اضطراری</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">ترمز اضطراری</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">عروسک های دخترانه</a></li>
                                                         <li><a href="">ابزار آموزشی دخترانه</a></li>
@@ -494,9 +525,11 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="menu_item_children"><a href="#"> کامپیوتر و لپ تاپ <i class="fa fa-angle-left"></i></a>
+                                        <li class="menu_item_children">
+                                            <a href="#"> کامپیوتر و لپ تاپ <i class="fa fa-angle-left"></i></a>
                                             <ul class="categories_mega_menu column_2">
-                                                <li class="menu_item_children"><a href="#">شلوار جین</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">شلوار جین</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">ساختمان</a></li>
                                                         <li><a href="">لوازم الکترونیکی</a></li>
@@ -504,7 +537,8 @@
                                                         <li><a href="">اسباب بازی های مخصوص</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="menu_item_children"><a href="#">ماسین حساب ها</a>
+                                                <li class="menu_item_children">
+                                                    <a href="#">ماسین حساب ها</a>
                                                     <ul class="categorie_sub_menu">
                                                         <li><a href="">عروسک های دخترانه</a></li>
                                                         <li><a href="">ابزار آموزشی دخترانه</a></li>
@@ -520,7 +554,8 @@
                                         <li><a href="#">ابزار شبکه</a></li>
                                         <li><a href="#">فیلتر های کارایی</a></li>
                                         <li><a href="#"> قطعات موتور</a></li>
-                                        <li id="cat_toggle" class="has-sub"><a href="#"> دسته های بیشتر</a>
+                                        <li id="cat_toggle" class="has-sub">
+                                            <a href="#"> دسته های بیشتر</a>
                                             <ul class="categorie_sub">
                                                 <li><a href="#">دسته های پنهان</a></li>
                                             </ul>
@@ -572,45 +607,10 @@
             </div>
         </div>
     </header>
-@RenderBody()
+    @RenderBody()
 
     <!--footer area start-->
     <footer class="footer_widgets">
-        <!--newsletter area start-->
-        <div class="newsletter_area">
-            <div class="container">
-                <div class="newsletter_inner">
-					<div class="row align-items-center">
-                        <div class="col-lg-3 col-md-5">
-                            <div class="newsletter_sing_up">
-                                <h3>عضویت در خبرنامه</h3>
-                                <p>با عضویت از <span>30% تخفیف</span> بهره مند شوید</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-7">
-                            <div class="subscribe_content">
-                                <p><strong>به 226,000+ مشترک ما</strong> بپیوندید و از تخفیف های ویژه هفتگی مخصوص مشترکین خبرنامه بهره مند شوید.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-12">
-                            <div class="subscribe_form">
-                                <form id="mc-form" class="mc-form footer-newsletter">
-                                    <input id="mc-email" type="email" autocomplete="off" placeholder="... آدرس ایمیل شما" dir="ltr">
-                                    <button id="mc-submit">اشتراک</button>
-                                </form>
-                                <!-- mailchimp-alerts Start -->
-                                <div class="mailchimp-alerts text-centre">
-                                    <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                                    <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                                    <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                                </div><!-- mailchimp-alerts end -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--newsletter area end-->
         <div class="footer_top">
             <div class="container">
                 <div class="row">
@@ -722,7 +722,6 @@
         </div>
     </footer>
     <!--footer area end-->
-
     <!-- modal area start-->
     <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "فعالسازی حساب کاربری";
+}
+
+@if (ViewBag.IsActived == true)
+{
+    <div class="alert alert-success" style="margin:10px 5px">
+        <p>حساب کاربری شما با موفقیت فعال شد حال میتوانید وارد حساب کاربری خود شوید</p>
+        <hr>
+        <a href="/registerAndLogin" class="btn btn-warning">بازگشت به صفحه ورود</a>
+    </div>
+}
+else
+{
+     <div class="alert alert-danger" style="margin:10px 5px">
+        <p>عملیات فعالسازی حساب کاربری با شکست مواجه شد لطفا دوباره امتحان کنید</p>
+        <hr>
+        <a href="/registerAndLogin" class="btn btn-warning">بازگشت به صفحه ورود</a>
+    </div>
+}
+

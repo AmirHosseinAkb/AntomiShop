@@ -3,22 +3,35 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Core.Services;
 using Antomi.Core.Convertors;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 #region DbContext
-    builder.Services.AddDbContext<AntomiContext>(context =>
-        context.UseSqlServer(builder.Configuration.GetConnectionString("AntomiConnection"))
-    );
+builder.Services.AddDbContext<AntomiContext>(context =>
+    context.UseSqlServer(builder.Configuration.GetConnectionString("AntomiConnection"))
+);
 
 #endregion
 
 #region IOC
 
-builder.Services.AddTransient<IUserService,UserService>();
-builder.Services.AddTransient<IViewRenderService,RenderViewToString>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
+
+#endregion
+
+#region Authentication
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/RegisterAndLogin";
+        option.LogoutPath = "/Logout";
+        option.ExpireTimeSpan = TimeSpan.FromDays(10);
+    });
 
 #endregion
 
@@ -36,6 +49,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

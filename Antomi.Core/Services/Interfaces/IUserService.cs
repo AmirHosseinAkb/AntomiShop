@@ -11,5 +11,7 @@ namespace Antomi.Core.Services.Interfaces
     {
         bool IsExistEmail(string email);
         int AddUser(User user);
+        bool ActiveUserAccount(string activeCode);
+        User GetUserForLogin(string email, string password);
     }
 }
