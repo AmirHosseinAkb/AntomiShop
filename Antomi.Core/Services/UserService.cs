@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Antomi.Core.Convertors;
+using Antomi.Core.DTOs.User;
 using Antomi.Core.Generators;
 using Antomi.Core.Security;
 using Antomi.Core.Services.Interfaces;
@@ -40,10 +41,29 @@ namespace Antomi.Core.Services
             return user.UserId;
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email));
+        }
+
         public User GetUserForLogin(string email, string password)
         {
             return _context.Users
                 .SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email) && u.Password == PasswordHasher.HashPasswordMD5(password));
+        }
+
+        public UserPanelInformationsViewModel GetUserPanelInformations(string email)
+        {
+            var user = GetUserByEmail(email);
+            UserPanelInformationsViewModel informations = new UserPanelInformationsViewModel()
+            {
+                FullName = user.FirstName + " " + user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                RegisterDate = user.RegisterDate,
+                WalletBalance=0
+            };
+            return informations;
         }
 
         public bool IsExistEmail(string email)

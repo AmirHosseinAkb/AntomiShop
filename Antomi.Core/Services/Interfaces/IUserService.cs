@@ -1,4 +1,5 @@
-﻿using Antomi.Data.Entities.User;
+﻿using Antomi.Core.DTOs.User;
+using Antomi.Data.Entities.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,12 @@ namespace Antomi.Core.Services.Interfaces
         int AddUser(User user);
         bool ActiveUserAccount(string activeCode);
         User GetUserForLogin(string email, string password);
+        User GetUserByEmail(string email);
+
+        #region UserPanel
+
+        UserPanelInformationsViewModel GetUserPanelInformations(string email);
+
+        #endregion
     }
 }

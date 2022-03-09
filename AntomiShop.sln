@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntomiShop", "AntomiShop\AntomiShop.csproj", "{E82F1249-F133-4185-9F10-D35C92FDDFA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntomiShop", "AntomiShop\AntomiShop.csproj", "{E82F1249-F133-4185-9F10-D35C92FDDFA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antomi.Core", "Antomi.Core\Antomi.Core.csproj", "{36E2532D-B109-42FB-9757-DC6BEBB93F55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antomi.Core", "Antomi.Core\Antomi.Core.csproj", "{36E2532D-B109-42FB-9757-DC6BEBB93F55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antomi.Data", "Antomi.Data\Antomi.Data.csproj", "{FBE54CF4-4CA1-4466-8CEC-512F0764FDDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antomi.Data", "Antomi.Data\Antomi.Data.csproj", "{FBE54CF4-4CA1-4466-8CEC-512F0764FDDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

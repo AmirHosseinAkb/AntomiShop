@@ -38,9 +38,12 @@ namespace Antomi.Data.Entities.User
         public string? PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public DateTime? BirthDay { get; set; }
-        public DateTime CreateDate { get; set; } = DateTime.Now;
+        public DateTime RegisterDate { get; set; } = DateTime.Now;
         [MaxLength(200)]
         public string AvatarName { get; set; }
+        [Display(Name = "آدرس")]
+        [MaxLength(700, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        public string? Address { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
