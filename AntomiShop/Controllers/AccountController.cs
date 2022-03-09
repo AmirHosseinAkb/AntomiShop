@@ -23,8 +23,9 @@ namespace AntomiShop.Controllers
         }
 
         [Route("/RegisterAndLogin")]
-        public IActionResult RegisterAndLogin()
+        public IActionResult RegisterAndLogin(bool infomationConfirm=false)
         {
+            ViewBag.IsInformationConfirmed = infomationConfirm;
             return View();
         }
         
@@ -110,6 +111,13 @@ namespace AntomiShop.Controllers
                 ModelState.AddModelError("Email", "کاربری با این مشخصات وجود ندارد");
                 return View("_LoginArea", login);
             }
+        }
+
+        [Route("/Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/RegisterAndLogin");
         }
     }
 }

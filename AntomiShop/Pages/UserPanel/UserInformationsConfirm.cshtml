@@ -1,0 +1,131 @@
+﻿@page
+@model AntomiShop.Pages.UserPanel.UserInformationsConfirmModel
+@{
+}
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">خانه</a></li>
+                        <li>حساب کاربری</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="account_page_bg">
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+        <section class="main_content_area">
+            <div class="account_dashboard">
+                <div class="row">
+                    <partial name="_SideBar" />
+                    
+                    <div class="col-md-6" style="background-color:white">
+                        <div class="tab-content dashboard_content">
+                            <div class="tab-pane fade active show" id="account-details">
+                                <h3>جزئیات حساب </h3>
+                                <hr />
+                                <div class="login">
+                                    <div class="login_form_container">
+                                        <div class="form-group">
+                                            
+                                                <input type="hidden" asp-for="details.UserId" />
+                                                <input type="hidden" asp-for="details.AvatarName" />
+
+                                                <label>ایمیل</label>
+                                                <input asp-for="details.Email" class="form-control" type="text">
+                                                <span asp-validation-for="details.Email" class="text-danger"></span>
+                                                <br />
+
+                                                <label>نام</label>
+                                                <input asp-for="details.FirstName" class="form-control" type="text">
+                                                <span asp-validation-for="details.FirstName" class="text-danger"></span>
+                                                <br />
+
+                                                <label>نام خانوادگی</label>
+                                                <input asp-for="details.LastName" class="form-control" type="text">
+                                                <span asp-validation-for="details.LastName" class="text-danger"></span>
+                                                <br />
+
+                                                <label>تاریخ تولد</label>
+                                                <input id="birthDay" name="birthDay" value="@Model.details.BirthDay?.ConvertToShamsi()">
+                                                <br />
+
+                                                @if (Convert.ToBoolean(ViewData["NullBirthday"]) == true)
+                                                {
+                                                    <p class="text-danger">لطفا تاریخ تولد را وارد کنید</p>
+                                                }
+                                                <br />
+
+                                                <label>شماره تلفن همراه</label>
+                                                <input asp-for="details.PhoneNumber" class="form-control" type="number">
+                                                <span asp-validation-for="details.PhoneNumber" class="text-danger"></span>
+                                                <br />
+
+                                                <div class="save_button primary_btn default_button">
+                                                    <button type="submit">ذخیره</button>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="card-title">تصویر پروفایل</p>
+                            </div>
+                            <div class="card-body">
+                                <img id="imgAvatar" src="/UserAvatar/@Model.details.AvatarName" class="img-thumbnail" />
+                                <hr />
+                                <input id="imgInp" type="file" asp-for="@Model.details.UserAvatar" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+<script src="/js/kendo.all.min.js"></script>
+<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+<script>
+                $(document).ready(function() {
+
+    // create DatePicker from input HTML element
+                $("#birthDay").kendoDatePicker();
+            });
+</script>
+
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
+
+}

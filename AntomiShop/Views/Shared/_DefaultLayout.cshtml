@@ -345,9 +345,9 @@
                                 }
                                 else
                                 {
-                                     <div class="header_wishlist" title="حساب کاربری شما">
+                                    <div style="width: 100px;height: 50px;width:50px;margin-left:40px;position: relative;overflow: hidden;border-radius: 50%;"  title="حساب کاربری شما">
                                         <a href="/UserPanel">
-                                                <img src="/UserAvatar/@User.GetAvatarName()"/>
+                                            <img style="display: inline;margin: 0 auto;margin-left: -25%;height: 100%;width: auto;" src="/UserAvatar/@User.GetAvatarName()" />
                                         </a>
                                     </div>
                                 }
@@ -836,9 +836,10 @@
 
     <script src="/assets/js/plugins.js"></script>
     <script src="/assets/js/main.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery.validate.unobtrusive.min.js"></script>
 
-
-
+    @RenderSection("Scripts",false)
 </body>
 
 </html>

@@ -1,18 +1,17 @@
-using Antomi.Data.Entities.User;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.DTOs.User;
 using Antomi.Core.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 
 namespace AntomiShop.Pages.UserPanel
 {
-    [Authorize]
-    public class IndexModel : PageModel
+    public class UserInformationsConfirmModel : PageModel
     {
         private IUserService _userService;
-        public IndexModel(IUserService userService)
+        public UserInformationsConfirmModel(IUserService userService)
         {
             _userService = userService;
         }
@@ -24,14 +23,14 @@ namespace AntomiShop.Pages.UserPanel
         }
         public IActionResult OnPost(string birthDay)
         {
-            if(birthDay == null)
+            if (birthDay == null)
             {
                 ViewData["NullBirthday"] = true;
                 return Page();
             }
             else
             {
-                string[] splitBirthDay=birthDay.Split('/');
+                string[] splitBirthDay = birthDay.Split('/');
                 details.BirthDay = new DateTime(int.Parse(splitBirthDay[0]),
                     int.Parse(splitBirthDay[1]),
                     int.Parse(splitBirthDay[2]),
@@ -39,8 +38,8 @@ namespace AntomiShop.Pages.UserPanel
             }
             //Confirm User Details
             _userService.ConfirmUserDetails(details);
-
-            return Redirect("http://localhost:5059/UserPanel");
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/RegisterAndLogin?infomationConfirm=true");
         }
     }
 }

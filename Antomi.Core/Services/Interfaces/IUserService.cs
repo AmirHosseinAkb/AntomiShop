@@ -15,11 +15,13 @@ namespace Antomi.Core.Services.Interfaces
         bool ActiveUserAccount(string activeCode);
         User GetUserForLogin(string email, string password);
         User GetUserByEmail(string email);
+        User GetUserById(int userId);
 
         #region UserPanel
 
         UserPanelInformationsViewModel GetUserPanelInformations(string email);
-        ConfirmUserInformationsViewModel GetUserInformationsToConfirm(string email);
+        ConfirmUserDetailsViewModel GetUserDetailsToConfirm(string email);
+        void ConfirmUserDetails(ConfirmUserDetailsViewModel details);
 
         #endregion
     }

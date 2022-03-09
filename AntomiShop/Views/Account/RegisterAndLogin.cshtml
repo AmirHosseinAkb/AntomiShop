@@ -22,18 +22,25 @@
         <div class="customer_login">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
-                    @if (ViewBag.LogedIn == true)
-                    {
-                        <div class="alert alert-success">
-                            با موفقیت وارد شدید در حال انتقال ...
-                        </div>
-                        <script>
-                            // Your delay in milliseconds
-                            var delay = 3000;
-                            setTimeout(function () { window.location = "http://localhost:5059/"; }, delay);
-                        </script>
-                    }
+
                     <div class="account_form login">
+                        @if (ViewBag.LogedIn == true)
+                        {
+                            <div class="alert alert-success">
+                                با موفقیت وارد شدید در حال انتقال ...
+                            </div>
+                            <script>
+                                // Your delay in milliseconds
+                                var delay = 3000;
+                                setTimeout(function () { window.location = "http://localhost:5059/"; }, delay);
+                            </script>
+                        }
+                        @if (ViewBag.IsInformationConfirmed == true)
+                        {
+                            <div class="alert alert-warning">
+                                پس از تکمیل اطلاعات نیاز است دوباره وارد شوید
+                            </div>
+                        }
                         <form asp-action="Login" asp-controller="Account" method="post">
                             <h2>ورود</h2>
                             <p>

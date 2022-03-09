@@ -18,7 +18,7 @@ namespace Antomi.Core.Services
         private AntomiContext _context;
         public UserService(AntomiContext context)
         {
-            _context=context;
+            _context = context;
         }
 
         public bool ActiveUserAccount(string activeCode)
@@ -52,10 +52,20 @@ namespace Antomi.Core.Services
                 .SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email) && u.Password == PasswordHasher.HashPasswordMD5(password));
         }
 
-        public ConfirmUserInformationsViewModel GetUserInformationsToConfirm(string email)
+        public ConfirmUserDetailsViewModel GetUserDetailsToConfirm(string email)
         {
             var user = GetUserByEmail(email);
-            return null;
+            var details = new ConfirmUserDetailsViewModel()
+            {
+                UserId = user.UserId,
+                Email=user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                BirthDay = user.BirthDay,
+                AvatarName = user.AvatarName
+            };
+            return details;
         }
 
         public UserPanelInformationsViewModel GetUserPanelInformations(string email)
@@ -67,14 +77,55 @@ namespace Antomi.Core.Services
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 RegisterDate = user.RegisterDate,
-                WalletBalance=0
+                WalletBalance = 0
             };
             return informations;
         }
 
         public bool IsExistEmail(string email)
         {
-            return _context.Users.Any(u=>u.Email == EmailConvertor.FixEmail(email));
+            return _context.Users.Any(u => u.Email == EmailConvertor.FixEmail(email));
+        }
+
+        public void ConfirmUserDetails(ConfirmUserDetailsViewModel details)
+        {
+            var user = GetUserById(details.UserId);
+
+            if (details.UserAvatar != null)
+            {
+                string imagePath = "";
+                if (details.AvatarName != "Default.png")
+                {
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "UserAvatar",
+                        details.AvatarName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                user.AvatarName = NameGenerator.GenerateUniqName() + Path.GetExtension(details.UserAvatar.FileName);
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "UserAvatar",
+                        user.AvatarName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    details.UserAvatar.CopyTo(stream);
+                }
+            }
+            user.FirstName = details.FirstName;
+            user.LastName = details.LastName;
+            user.PhoneNumber = details.PhoneNumber;
+            user.BirthDay = details.BirthDay;
+            user.Email = details.Email;
+            _context.SaveChanges();
+        }
+
+        public User GetUserById(int userId)
+        {
+            return _context.Users.Find(userId);
         }
     }
 }
