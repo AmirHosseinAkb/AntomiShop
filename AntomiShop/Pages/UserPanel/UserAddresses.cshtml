@@ -66,7 +66,7 @@
 </div>
 @Html.AntiForgeryToken()
 
-<div id="partialModal" class="modal fade " tabindex="-1" role="dialog">
+<div id="partialModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -93,8 +93,9 @@
                     <label>پلاک</label>
                     <input asp-for="Address.Number" class="form-control" type="number">
                     <span asp-validation-for="Address.Number" class="text-danger"></span>
+                    <hr />
                     <br />
-                        <button class="btn btn-success" type="submit">ذخیره</button>
+                        <button id="btnSubmit" class="btn btn-success" type="submit">ذخیره</button>
                     </form>
                 </div>
             </div>
@@ -108,4 +109,9 @@
                $("#partialModal").modal('show');
             });
     });
+    $(function(){
+        $("#btnSubmit").click(function(){
+            $("#partialModal").modal('toggle');
+        })
+    })
 </script>

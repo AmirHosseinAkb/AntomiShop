@@ -181,7 +181,8 @@ namespace Antomi.Core.Services
 
         public void AddAddress(Address address)
         {
-            throw new NotImplementedException();
+            _context.Addresses.Add(address);
+            _context.SaveChanges();
         }
     }
 }

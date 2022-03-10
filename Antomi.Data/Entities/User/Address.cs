@@ -33,7 +33,7 @@ namespace Antomi.Data.Entities.User
         public int Number { get; set; }
         #region Relation
 
-        public User User { get; set; }
+        public User? User { get; set; }
 
         #endregion
     }

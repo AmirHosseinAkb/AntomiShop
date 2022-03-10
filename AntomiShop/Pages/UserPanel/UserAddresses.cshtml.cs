@@ -12,26 +12,30 @@ namespace AntomiShop.Pages.UserPanel
         {
             _userService = userService;
         }
+        [BindProperty]
         public Address Address { get; set; }
         public void OnGet()
         {
             ViewData["Addresses"]=_userService.GetUserAdresses(User.Identity.Name);
         }
-        public IActionResult OnGetCreateAddress()
-        {
-            return new PartialViewResult()
-            {
-                ViewName = "_CreateAddress"
-            };
-        }
         public IActionResult OnPostCreateAddress()
         {
             if (!ModelState.IsValid)
             {
+                ViewData["Addresses"] = _userService.GetUserAdresses(User.Identity.Name);
                 return Page();
             }
-
-            return Redirect("/UserPanel/UserAddersses");
+            var userId = _userService.GetUserIdByEmail(User.Identity.Name);
+            Address address = new Address()
+            {
+                UserId = userId,
+                State = Address.State,
+                City = Address.City,
+                Neighborhood = Address.Neighborhood,
+                Number = Address.Number
+            };
+            _userService.AddAddress(address);
+            return Redirect("/UserPanel/UserAddresses");
         }
     }
 }
