@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "نتیجه پرداخت";
+}
+
+@if (ViewBag.IsSucceed == true)
+{
+    <div class="alert alert-success" style="margin:20px 20px">
+        <h1>پرداخت با موفقت انجام شد</h1>
+        <br>
+        <p>با سپاس از حسن انتخاب شما! تراکنش با موفقیت انجام شد و مبلغ پرداخت شده به موجودی کیف پول شما اضافه گردید</p>
+        <hr>
+        <a class="btn btn-warning" href="/UserPanel/Wallet">بازگشت به پنل کاربری</a>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" style="margin:20px 20px">
+        <h1>عملیات پرداخت با شکست مواجه شد!</h1>
+        <br>
+        <p>برای انجام تراکنش دوباره پرداخت را انجام دهید در صورت کسر وجه تا 72 ساعت دیگر وجه به حساب شما باز گردانده خواهد شد</p>
+        <hr>
+        <a class="btn btn-warning" href="/UserPanel/Wallet">بازگشت به پنل کاربری</a>
+    </div>
+}
+

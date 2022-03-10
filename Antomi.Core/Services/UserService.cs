@@ -78,7 +78,7 @@ namespace Antomi.Core.Services
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 RegisterDate = user.RegisterDate,
-                WalletBalance = 0
+                WalletBalance = BalanceUserWallet(email)
             };
             return informations;
         }
@@ -133,6 +133,7 @@ namespace Antomi.Core.Services
         {
             var user = GetUserByEmail(email);
             user.Password = PasswordHasher.HashPasswordMD5(password);
+            _context.SaveChanges();
         }
 
         public int AddWallet(Wallet wallet)
@@ -151,6 +152,25 @@ namespace Antomi.Core.Services
         {
             var userId = GetUserIdByEmail(email);
             return _context.Wallets.Where(w => w.UserId == userId).ToList();
+        }
+
+        public Wallet GetWalletById(int walletId)
+        {
+            return _context.Wallets.Find(walletId);
+        }
+
+        public void UpdateWallet(Wallet wallet)
+        {
+            _context.Wallets.Update(wallet);
+            _context.SaveChanges();
+        }
+
+        public int BalanceUserWallet(string email)
+        {
+            var userId = GetUserIdByEmail(email);
+            var deposite = _context.Wallets.Where(w => w.TypeId == 1 && w.IsFinalled && w.UserId == userId).ToList();
+            var withdraw = _context.Wallets.Where(w => w.TypeId == 2 && w.IsFinalled && w.UserId == userId).ToList();
+            return deposite.Sum(w => w.Amount) - withdraw.Sum(w => w.Amount);
         }
     }
 }

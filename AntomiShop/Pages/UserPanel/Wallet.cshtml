@@ -65,13 +65,13 @@
                                     @foreach (var wallet in wallets)
                                     {
                                         <tr>
-                                            <td>@wallet.Amount</td>
+                                            <td>@wallet.Amount.ToString("#,0")</td>
                                             <td>@wallet.Description</td>
                                             <td>
                                                 @if (wallet.IsFinalled)
                                                 {
                                                     <span class="text-success">
-                                                        <i class="fa fa-save"></i>
+                                                        <i class="fa fa-google-wallet"></i>
                                                     </span>
                                                 }
                                                 else

@@ -44,7 +44,7 @@ namespace AntomiShop.Pages.UserPanel
             var response = payment.PaymentRequest("شارژ کیف پول", "http://localhost:5059/OnlinePayment/" + walletId);
             if (response.Result.Status == 100)
             {
-                return Redirect("https://sandbox.zarinpal.com/pg/startpay/" + response.Result.Authority);
+                return Redirect("https://SandBox.Zarinpal.Com/pg/StartPay/" + response.Result.Authority);
             }
             return RedirectToPage("Wallet");
         }

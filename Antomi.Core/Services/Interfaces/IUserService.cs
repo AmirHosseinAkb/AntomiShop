@@ -27,6 +27,9 @@ namespace Antomi.Core.Services.Interfaces
         void ChangePassword(string email, string password);
         int AddWallet(Wallet wallet);
         List<Wallet> GetUserWallets(string email);
+        Wallet GetWalletById(int walletId);
+        void UpdateWallet(Wallet wallet);
+        int BalanceUserWallet(string email);
 
         #endregion
     }
