@@ -11,6 +11,7 @@ namespace Antomi.Core.Services.Interfaces
 {
     public interface IUserService
     {
+        #region User
         bool IsExistEmail(string email);
         int AddUser(User user);
         bool ActiveUserAccount(string activeCode);
@@ -18,6 +19,7 @@ namespace Antomi.Core.Services.Interfaces
         User GetUserByEmail(string email);
         User GetUserById(int userId);
         int GetUserIdByEmail(string email);
+        #endregion
 
         #region UserPanel
 
@@ -30,6 +32,13 @@ namespace Antomi.Core.Services.Interfaces
         Wallet GetWalletById(int walletId);
         void UpdateWallet(Wallet wallet);
         int BalanceUserWallet(string email);
+
+        #endregion
+
+        #region Address
+
+        List<Address> GetUserAdresses(string email);
+        void AddAddress(Address address);
 
         #endregion
     }

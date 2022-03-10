@@ -172,5 +172,16 @@ namespace Antomi.Core.Services
             var withdraw = _context.Wallets.Where(w => w.TypeId == 2 && w.IsFinalled && w.UserId == userId).ToList();
             return deposite.Sum(w => w.Amount) - withdraw.Sum(w => w.Amount);
         }
+
+        public List<Address> GetUserAdresses(string email)
+        {
+            var userId = GetUserIdByEmail(email);
+            return _context.Addresses.Where(a => a.UserId == userId).ToList();
+        }
+
+        public void AddAddress(Address address)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
