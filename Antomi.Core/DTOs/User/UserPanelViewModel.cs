@@ -41,4 +41,26 @@ namespace Antomi.Core.DTOs.User
         public string AvatarName { get; set; }
         public IFormFile? UserAvatar { get; set; }
     }
+    public class ChangePasswordViewModel
+    {
+        [Display(Name = "رمز عبور فعلی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        [MinLength(8, ErrorMessage = "{0} نمیتواند کمتر از {1} کاراکتر باشد")]
+        [DataType(DataType.Password)]
+        public string CurrentPassword { get; set; }
+        [Display(Name = "رمز عبور جدید")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        [MinLength(8, ErrorMessage = "{0} نمیتواند کمتر از {1} کاراکتر باشد")]
+        [DataType(DataType.Password)]
+        public string NewPassword { get; set; }
+        [Display(Name = "تکرار رمز عبور جدید")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        [MinLength(8, ErrorMessage = "{0} نمیتواند کمتر از {1} کاراکتر باشد")]
+        [DataType(DataType.Password)]
+        [Compare("NewPassword",ErrorMessage ="تکرار رمز عبور صحیح نمی باشد")]
+        public string RepeatNewPassword { get; set; }
+    }
 }

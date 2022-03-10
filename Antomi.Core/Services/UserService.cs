@@ -127,5 +127,11 @@ namespace Antomi.Core.Services
         {
             return _context.Users.Find(userId);
         }
+
+        public void ChangePassword(string email, string password)
+        {
+            var user = GetUserByEmail(email);
+            user.Password = PasswordHasher.HashPasswordMD5(password);
+        }
     }
 }

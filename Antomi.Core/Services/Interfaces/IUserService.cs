@@ -22,6 +22,7 @@ namespace Antomi.Core.Services.Interfaces
         UserPanelInformationsViewModel GetUserPanelInformations(string email);
         ConfirmUserDetailsViewModel GetUserDetailsToConfirm(string email);
         void ConfirmUserDetails(ConfirmUserDetailsViewModel details);
+        void ChangePassword(string email, string password);
 
         #endregion
     }
