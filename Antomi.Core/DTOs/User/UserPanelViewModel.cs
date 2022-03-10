@@ -63,4 +63,10 @@ namespace Antomi.Core.DTOs.User
         [Compare("NewPassword",ErrorMessage ="تکرار رمز عبور صحیح نمی باشد")]
         public string RepeatNewPassword { get; set; }
     }
+    public class ChargeWalletViewMode
+    {
+        [Display(Name = "تکرار رمز عبور جدید")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        public int Amount { get; set; }
+    }
 }

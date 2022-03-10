@@ -1,0 +1,96 @@
+﻿@page
+@model AntomiShop.Pages.UserPanel.WalletModel
+@{
+}
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">خانه</a></li>
+                        <li>شارژ کیف پول</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="account_page_bg">
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <section class="main_content_area">
+                <div class="account_dashboard">
+                    <div class="row">
+                        <partial name="_SideBar" />
+                        <div class="col-md-9" style="background-color:white">
+                            <div class="tab-content dashboard_content">
+                                <div class="tab-pane fade active show" id="account-details">
+                                    <h3>شارژ کیف پول </h3>
+                                    <hr />
+                                    <div class="login">
+                                        <div class="login_form_container">
+                                            <div class="form-group">
+                                                <label>مبلغ شارژ</label>
+                                                <input asp-for="Charge.Amount" value="0" class="form-control" type="number">
+                                                <span asp-validation-for="Charge.Amount" class="text-danger"></span>
+                                                @if (Convert.ToBoolean(ViewData["MaximumAmount"]) == true)
+                                                {
+                                                    <p class="text-danger">حداقل مبلغ شارژ 5000 تومان می باشد</p>
+                                                }
+                                                <br />
+                                                <div class="save_button primary_btn default_button">
+                                                    <button type="submit">پرداخت</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            @{
+                                List<Wallet> wallets = ViewData["UserWallets"] as List<Wallet>;
+                            }
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>مبلغ تراکنش</th>
+                                        <th>توضیحات</th>
+                                        <th>تراکنش موفق</th>
+                                        <th>تاریخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var wallet in wallets)
+                                    {
+                                        <tr>
+                                            <td>@wallet.Amount</td>
+                                            <td>@wallet.Description</td>
+                                            <td>
+                                                @if (wallet.IsFinalled)
+                                                {
+                                                    <span class="text-success">
+                                                        <i class="fa fa-save"></i>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">
+                                                        <i class="fa fa-remove"></i>
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>@wallet.CreateDate.ConvertToShamsi()</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

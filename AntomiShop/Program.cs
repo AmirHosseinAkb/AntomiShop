@@ -18,8 +18,8 @@ builder.Services.AddDbContext<AntomiContext>(context =>
 
 #region IOC
 
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IViewRenderService, RenderViewToString>();
 
 #endregion
 

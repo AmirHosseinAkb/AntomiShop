@@ -1,5 +1,6 @@
 ﻿using Antomi.Core.DTOs.User;
 using Antomi.Data.Entities.User;
+using Antomi.Data.Entities.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Antomi.Core.Services.Interfaces
         User GetUserForLogin(string email, string password);
         User GetUserByEmail(string email);
         User GetUserById(int userId);
+        int GetUserIdByEmail(string email);
 
         #region UserPanel
 
@@ -23,6 +25,8 @@ namespace Antomi.Core.Services.Interfaces
         ConfirmUserDetailsViewModel GetUserDetailsToConfirm(string email);
         void ConfirmUserDetails(ConfirmUserDetailsViewModel details);
         void ChangePassword(string email, string password);
+        int AddWallet(Wallet wallet);
+        List<Wallet> GetUserWallets(string email);
 
         #endregion
     }

@@ -4,6 +4,7 @@ using Antomi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Antomi.Data.Migrations
 {
     [DbContext(typeof(AntomiContext))]
-    partial class AntomiContextModelSnapshot : ModelSnapshot
+    [Migration("20220310155744_InitWallets")]
+    partial class InitWallets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,11 +132,14 @@ namespace Antomi.Data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("WalletTypeTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("WalletId");
 
-                    b.HasIndex("TypeId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("WalletTypeTypeId");
 
                     b.ToTable("Wallets");
                 });
@@ -167,15 +172,15 @@ namespace Antomi.Data.Migrations
 
             modelBuilder.Entity("Antomi.Data.Entities.Wallet.Wallet", b =>
                 {
-                    b.HasOne("Antomi.Data.Entities.Wallet.WalletType", "WalletType")
-                        .WithMany("Wallets")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Antomi.Data.Entities.User.User", "User")
                         .WithMany("Wallets")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Antomi.Data.Entities.Wallet.WalletType", "WalletType")
+                        .WithMany("Wallets")
+                        .HasForeignKey("WalletTypeTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

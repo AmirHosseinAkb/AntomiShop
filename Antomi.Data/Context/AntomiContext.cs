@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Antomi.Data.Entities.User;
+using Antomi.Data.Entities.Wallet;
 using Microsoft.EntityFrameworkCore;
 
 namespace Antomi.Data.Context
@@ -16,5 +17,8 @@ namespace Antomi.Data.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<WalletType> WalletTypes { get; set; }
     }
 }

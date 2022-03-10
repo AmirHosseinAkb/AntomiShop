@@ -10,6 +10,7 @@ using Antomi.Core.Security;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Context;
 using Antomi.Data.Entities.User;
+using Antomi.Data.Entities.Wallet;
 
 namespace Antomi.Core.Services
 {
@@ -132,6 +133,24 @@ namespace Antomi.Core.Services
         {
             var user = GetUserByEmail(email);
             user.Password = PasswordHasher.HashPasswordMD5(password);
+        }
+
+        public int AddWallet(Wallet wallet)
+        {
+            _context.Wallets.Add(wallet);
+            _context.SaveChanges();
+            return wallet.WalletId;
+        }
+
+        public int GetUserIdByEmail(string email)
+        {
+            return GetUserByEmail(email).UserId;
+        }
+
+        public List<Wallet> GetUserWallets(string email)
+        {
+            var userId = GetUserIdByEmail(email);
+            return _context.Wallets.Where(w => w.UserId == userId).ToList();
         }
     }
 }
