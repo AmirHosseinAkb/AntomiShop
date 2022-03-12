@@ -39,6 +39,7 @@
                                                 <th>شهرستان</th>
                                                 <th>خیابان_محله</th>
                                                 <th>پلاک</th>
+                                                <th>عملیات</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,6 +50,11 @@
                                                     <td>@address.City</td>
                                                     <td>@address.Neighborhood</td>
                                                     <td>@address.Number</td>
+                                                    <td>
+                                                        <span class="text-danger">
+                                                            <a class="removeAddress  ion ion-android-remove-circle" title="حذف ادرس" onclick="GetId(@address.AddressId)"></a>
+                                                        </span>
+                                                    </td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -76,29 +82,47 @@
                 <div class="form-group">
                     <form method="post" asp-page="UserAddresses" asp-page-handler="CreateAddress">
                         <label>استان</label>
-                    <input asp-for="Address.State" class="form-control" type="text">
-                    <span asp-validation-for="Address.State" class="text-danger"></span>
-                    <br />
+                        <input asp-for="Address.State" class="form-control" type="text">
+                        <span asp-validation-for="Address.State" class="text-danger"></span>
+                        <br />
 
-                    <label>شهرستان</label>
-                    <input asp-for="Address.City" class="form-control" type="text">
-                    <span asp-validation-for="Address.City" class="text-danger"></span>
-                    <br />
+                        <label>شهرستان</label>
+                        <input asp-for="Address.City" class="form-control" type="text">
+                        <span asp-validation-for="Address.City" class="text-danger"></span>
+                        <br />
 
-                    <label>خیابان/کوچه</label>
-                    <input asp-for="Address.Neighborhood" class="form-control" type="text">
-                    <span asp-validation-for="Address.Neighborhood" class="text-danger"></span>
-                    <br />
+                        <label>خیابان/کوچه</label>
+                        <input asp-for="Address.Neighborhood" class="form-control" type="text">
+                        <span asp-validation-for="Address.Neighborhood" class="text-danger"></span>
+                        <br />
 
-                    <label>پلاک</label>
-                    <input asp-for="Address.Number" class="form-control" type="number">
-                    <span asp-validation-for="Address.Number" class="text-danger"></span>
-                    <hr />
-                    <br />
+                        <label>پلاک</label>
+                        <input asp-for="Address.Number" class="form-control" type="number">
+                        <span asp-validation-for="Address.Number" class="text-danger"></span>
+                        <hr />
+                        <br />
                         <button id="btnSubmit" class="btn btn-success" type="submit">ذخیره</button>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>آیا مطمئنید که می خواهید این آدرس را حذف کنید؟</h5>
+            </div>
+            <form method="post" asp-page="UserAddresses" asp-page-handler="DeleteAddress">
+                <div class="modal-body">
+                    <p>
+                        <input id="addressId" type="hidden" name="addressId" />
+                        <input id="btnDeleteAddress" type="submit" class="btn btn-danger" value="حذف آدرس" />
+                        <a id="btnCancell" class="btn btn-success">انصراف</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -113,5 +137,21 @@
         $("#btnSubmit").click(function(){
             $("#partialModal").modal('toggle');
         })
-    })
+    });
+
+    function GetId(addressId){
+        $("#deleteModal").modal('show');
+        $("#addressId").val(addressId);
+    };
+
+    $(function(){
+        $("#btnCancell").click(function(){
+            $("#deleteModal").modal('toggle');
+        })
+    });
+    $(function(){
+        $("#btnDeleteAddress").click(function(){
+            $("#deleteModal").modal('toggle');
+        })
+    });
 </script>

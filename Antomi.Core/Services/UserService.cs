@@ -184,5 +184,12 @@ namespace Antomi.Core.Services
             _context.Addresses.Add(address);
             _context.SaveChanges();
         }
+
+        public void DeleteAddress(int addressId)
+        {
+            var address = _context.Addresses.Find(addressId);
+            _context.Addresses.Remove(address);
+            _context.SaveChanges();
+        }
     }
 }

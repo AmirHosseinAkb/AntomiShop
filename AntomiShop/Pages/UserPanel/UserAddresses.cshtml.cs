@@ -37,5 +37,11 @@ namespace AntomiShop.Pages.UserPanel
             _userService.AddAddress(address);
             return Redirect("/UserPanel/UserAddresses");
         }
+
+        public IActionResult OnPostDeleteAddress(int addressId)
+        {
+            _userService.DeleteAddress(addressId);
+            return RedirectToPage("UserAddresses");
+        }
     }
 }

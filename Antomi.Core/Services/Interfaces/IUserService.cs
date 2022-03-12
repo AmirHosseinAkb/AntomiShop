@@ -39,6 +39,7 @@ namespace Antomi.Core.Services.Interfaces
 
         List<Address> GetUserAdresses(string email);
         void AddAddress(Address address);
+        void DeleteAddress(int addressId);
 
         #endregion
     }
