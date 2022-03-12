@@ -47,6 +47,8 @@ namespace Antomi.Core.Services.Interfaces
 
         int AddUserFromAdmin(CreateUserViewModel create);
         ShowUsersInAdminViewModel GetUsersForShowInAdmin(int pageId = 1, string name = "", string email = "");
+        EditUserViewModel GetUserForEdit(int userId);
+        void EditUserFormAdmin(EditUserViewModel editUserVM);
 
         #endregion
     }

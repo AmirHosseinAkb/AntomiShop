@@ -243,5 +243,51 @@ namespace Antomi.Core.Services
             }
             return showUsersVM;
         }
+
+        public EditUserViewModel GetUserForEdit(int userId)
+        {
+            return _context.Users.Where(u => u.UserId == userId)
+                .Select(u => new EditUserViewModel()
+                {
+                    UserId=u.UserId,
+                    Email = u.Email,
+                    AvatarName = u.AvatarName
+                }).Single();
+        }
+
+        public void EditUserFormAdmin(EditUserViewModel editUserVM)
+        {
+            var user = GetUserById(editUserVM.UserId);
+            user.Email = EmailConvertor.FixEmail(editUserVM.Email);
+            if (!string.IsNullOrEmpty(editUserVM.Password))
+            {
+                user.Password = PasswordHasher.HashPasswordMD5(editUserVM.Password);
+            }
+            _context.SaveChanges();
+            if (editUserVM.UserAvatar != null)
+            {
+                string imagePath = "";
+                if (editUserVM.AvatarName != "Default.png")
+                {
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "UserAvatar",
+                        editUserVM.AvatarName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                user.AvatarName = NameGenerator.GenerateUniqName() + Path.GetExtension(editUserVM.UserAvatar.FileName);
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "UserAvatar",
+                        user.AvatarName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    editUserVM.UserAvatar.CopyTo(stream);
+                }
+            }
+        }
     }
 }
