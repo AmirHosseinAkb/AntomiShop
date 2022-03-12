@@ -42,5 +42,12 @@ namespace Antomi.Core.Services.Interfaces
         void DeleteAddress(int addressId);
 
         #endregion
+
+        #region Admin
+
+        int AddUserFromAdmin(CreateUserViewModel create);
+        ShowUsersInAdminViewModel GetUsersForShowInAdmin(int pageId = 1, string name = "", string email = "");
+
+        #endregion
     }
 }

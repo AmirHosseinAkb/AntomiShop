@@ -191,5 +191,57 @@ namespace Antomi.Core.Services
             _context.Addresses.Remove(address);
             _context.SaveChanges();
         }
+
+        public int AddUserFromAdmin(CreateUserViewModel create)
+        {
+            var user = new User()
+            {
+                Email = EmailConvertor.FixEmail(create.Email),
+                Password = PasswordHasher.HashPasswordMD5(create.Password),
+                ActiveCode = NameGenerator.GenerateUniqName(),
+                IsActive = false,
+                AvatarName="Default.png"
+            };
+            if (create.UserAvatar != null)
+            {
+                user.AvatarName = NameGenerator.GenerateUniqName() + Path.GetExtension(create.UserAvatar.FileName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "UserAvatar",
+                    user.AvatarName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    create.UserAvatar.CopyTo(stream);
+                }
+            }
+            AddUser(user);
+            return user.UserId;
+        }
+
+        public ShowUsersInAdminViewModel GetUsersForShowInAdmin(int pageId = 1, string name = "", string email = "")
+        {
+            IQueryable<User> result = _context.Users;
+            if (!string.IsNullOrEmpty(name))
+            {
+                result = result.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name));
+            }
+            if (!string.IsNullOrEmpty(email))
+            {
+                result = result.Where(u => u.Email.Contains(email));
+            }
+            int take = 1;
+            int skip = (pageId - 1) * take;
+            var showUsersVM = new ShowUsersInAdminViewModel()
+            {
+                Users = result.Skip(skip).Take(take).ToList(),
+                CurrentPage = pageId,
+                PageCount = result.Count() / take
+            };
+            if (result.Count() % take != 0)
+            {
+                showUsersVM.PageCount++;
+            }
+            return showUsersVM;
+        }
     }
 }

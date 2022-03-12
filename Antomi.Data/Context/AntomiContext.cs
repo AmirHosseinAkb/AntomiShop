@@ -20,5 +20,7 @@ namespace Antomi.Data.Context
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<WalletType> WalletTypes { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; }
     }
 }
