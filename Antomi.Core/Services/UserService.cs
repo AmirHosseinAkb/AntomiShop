@@ -11,6 +11,7 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Context;
 using Antomi.Data.Entities.User;
 using Antomi.Data.Entities.Wallet;
+using Microsoft.EntityFrameworkCore;
 
 namespace Antomi.Core.Services
 {
@@ -294,6 +295,39 @@ namespace Antomi.Core.Services
         {
             var user = GetUserById(userId);
             user.IsDeleted = true;
+            _context.SaveChanges();
+        }
+
+        public ShowUsersInAdminViewModel GetDeletedUsersForShowInAdmin(int pageId = 1, string name = "", string email = "")
+        {
+            IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(u=>u.IsDeleted);
+            if (!string.IsNullOrEmpty(name))
+            {
+                result = result.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name));
+            }
+            if (!string.IsNullOrEmpty(email))
+            {
+                result = result.Where(u => u.Email.Contains(email));
+            }
+            int take = 1;
+            int skip = (pageId - 1) * take;
+            var showUsersVM = new ShowUsersInAdminViewModel()
+            {
+                Users = result.Skip(skip).Take(take).ToList(),
+                CurrentPage = pageId,
+                PageCount = result.Count() / take
+            };
+            if (result.Count() % take != 0)
+            {
+                showUsersVM.PageCount++;
+            }
+            return showUsersVM;
+        }
+
+        public void ReturnDeletedUser(int userId)
+        {
+            var user = _context.Users.IgnoreQueryFilters().Where(u => u.UserId == userId).Single();
+            user.IsDeleted = false;
             _context.SaveChanges();
         }
     }
