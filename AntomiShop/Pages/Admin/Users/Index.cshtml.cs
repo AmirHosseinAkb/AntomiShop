@@ -17,5 +17,11 @@ namespace AntomiShop.Pages.Admin.Users
         {
             ShowUsersInAdminViewModel=_userService.GetUsersForShowInAdmin(pageId,filterName,filterEmail);
         }
+
+        public IActionResult OnPostDeleteUser(int userId)
+        {
+            _userService.DeleteUser(userId);
+            return RedirectToPage("Index");
+        }
     }
 }

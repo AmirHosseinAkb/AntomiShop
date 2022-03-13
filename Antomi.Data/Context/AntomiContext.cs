@@ -22,5 +22,14 @@ namespace Antomi.Data.Context
         public DbSet<WalletType> WalletTypes { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasQueryFilter(u => !u.IsDeleted);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

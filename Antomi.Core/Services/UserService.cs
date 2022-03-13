@@ -289,5 +289,12 @@ namespace Antomi.Core.Services
                 }
             }
         }
+
+        public void DeleteUser(int userId)
+        {
+            var user = GetUserById(userId);
+            user.IsDeleted = true;
+            _context.SaveChanges();
+        }
     }
 }
