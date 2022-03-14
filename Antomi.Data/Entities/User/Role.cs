@@ -17,6 +17,7 @@ namespace Antomi.Data.Entities.User
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
         public string RoleTitle { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Relations
         public List<UserRoles>? UserRoles { get; set; }

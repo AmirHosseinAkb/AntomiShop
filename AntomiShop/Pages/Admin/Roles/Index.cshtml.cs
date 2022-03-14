@@ -19,5 +19,11 @@ namespace AntomiShop.Pages.Admin.Roles
         {
             Roles = _permissionService.GetRolesForShowInAdmin();
         }
+
+        public IActionResult OnPostDeleteRole(int roleId)
+        {
+            _permissionService.DeleteRole(roleId);
+            return RedirectToPage("Index");
+        }
     }
 }

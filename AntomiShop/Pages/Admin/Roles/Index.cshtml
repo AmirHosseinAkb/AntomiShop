@@ -40,7 +40,7 @@
                                     <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
                                     <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
                                     <a asp-page="EditRole" asp-route-roleId="@role.RoleId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                    <a asp-page="DeleteRole" asp-route-roleId="@role.RoleId" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    <a onclick="GetRoleIdForDelete(@role.RoleId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
                         }
@@ -50,3 +50,29 @@
         </div>
     </div>
 </div>
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h4 class="modal-header"> آیا مطمئنید که میخواهید این نقش را حذف کنید؟ </h4>
+            <div class="modal-body">
+                <form method="post" asp-page="Index" asp-page-handler="DeleteRole">
+                    <input name="roleId" id="userIdInput" type="hidden" />
+                    <input id="btnSubmit" type="submit" class="btn btn-danger" value="تایید و حذف" />
+                    <a class="btn btn-success" href="/Admin/Roles">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function GetRoleIdForDelete(roleId){
+        $("#userIdInput").val(roleId);
+        $("#deleteModal").modal('show');
+    }
+    $(function(){
+        $("#btnSubmit").click(function(){
+            $("#deleteModal").modal('toggle');
+        })
+    })
+</script>

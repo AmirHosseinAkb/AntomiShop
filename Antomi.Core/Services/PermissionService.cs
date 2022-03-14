@@ -52,6 +52,13 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteRole(int roleId)
+        {
+            var role = GetRoleById(roleId);
+            role.IsDeleted = true;
+            _context.SaveChanges();
+        }
+
         public void EditRolePermissions(int roleId, List<int> permissionIds)
         {
             _context.RolePermissions.Where(rp => rp.RoleId == roleId).ToList().ForEach(rp => _context.RolePermissions.Remove(rp));
