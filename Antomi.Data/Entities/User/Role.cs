@@ -20,7 +20,7 @@ namespace Antomi.Data.Entities.User
         public bool IsDeleted { get; set; }
 
         #region Relations
-        public List<UserRoles>? UserRoles { get; set; }
+        public List<UserRole>? UserRoles { get; set; }
         public List<RolePermission>? RolePermissions { get; set; }
 
         #endregion

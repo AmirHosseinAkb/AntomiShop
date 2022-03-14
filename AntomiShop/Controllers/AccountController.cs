@@ -54,6 +54,7 @@ namespace AntomiShop.Controllers
                 ActiveCode = NameGenerator.GenerateUniqName(),
                 AvatarName = "Default.png",
             };
+            
             //Send Activation Email
 
             var body = _viewRenderService.RenderToStringAsync("_ActivationEmail", user);

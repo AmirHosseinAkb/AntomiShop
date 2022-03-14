@@ -42,7 +42,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Permission.RolePermission", b =>
@@ -65,7 +65,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissions", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.Address", b =>
@@ -101,7 +101,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.Role", b =>
@@ -122,7 +122,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.User", b =>
@@ -179,7 +179,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.UserRoles", b =>
@@ -202,7 +202,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Wallet.Wallet", b =>
@@ -239,7 +239,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallets", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Wallet.WalletType", b =>
@@ -254,7 +254,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasKey("TypeId");
 
-                    b.ToTable("WalletTypes");
+                    b.ToTable("WalletTypes", (string)null);
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Permission.Permission", b =>

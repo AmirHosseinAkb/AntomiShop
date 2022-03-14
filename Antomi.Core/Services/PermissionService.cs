@@ -43,7 +43,7 @@ namespace Antomi.Core.Services
         {
             foreach (int roleId in roleIds)
             {
-                _context.UserRoles.Add(new UserRoles()
+                _context.UserRoles.Add(new UserRole()
                 {
                     UserId = userId,
                     RoleId = roleId

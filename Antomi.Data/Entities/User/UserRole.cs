@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Antomi.Data.Entities.User
 {
-    public class UserRoles
+    public class UserRole
     {
         [Key]
         public int UR_Id { get; set; }
