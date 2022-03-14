@@ -1,4 +1,5 @@
-﻿using Antomi.Data.Entities.User;
+﻿using Antomi.Data.Entities.Permission;
+using Antomi.Data.Entities.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace Antomi.Core.Services.Interfaces
         void AddUserRoles(int userId, List<int> roleIds);
         List<int> GetUserRoles(int userId);
         void EditUserRoles(int userId, List<int> roleIds);
+        List<Role> GetRolesForShowInAdmin();
+        List<Permission> GetAllPermissions();
     }
 }

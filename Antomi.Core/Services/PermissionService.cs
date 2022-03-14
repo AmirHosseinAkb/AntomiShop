@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Context;
+using Antomi.Data.Entities.Permission;
 using Antomi.Data.Entities.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace Antomi.Core.Services
 {
@@ -36,9 +38,19 @@ namespace Antomi.Core.Services
             AddUserRoles(userId, roleIds);
         }
 
+        public List<Permission> GetAllPermissions()
+        {
+            return _context.Permissions.ToList();
+        }
+
         public List<Role> GetAllRoles()
         {
             return _context.Roles.ToList();
+        }
+
+        public List<Role> GetRolesForShowInAdmin()
+        {
+            return _context.Roles.Include(r => r.RolePermissions).ToList();
         }
 
         public List<int> GetUserRoles(int userId)

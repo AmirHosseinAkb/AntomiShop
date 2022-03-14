@@ -1,0 +1,52 @@
+﻿@page
+@model AntomiShop.Pages.Admin.Roles.IndexModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-b-30">
+                    <a href="/Admin/Roles/CreateRole" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن نقش جدید <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                    <thead>
+                        <tr role="row">
+                            <th>نام نقش</th>
+                            <th>دسترسی های نقش</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model.Roles)
+                        {
+                            <tr>
+                                <td>@role.RoleTitle</td>
+                                <td>
+                                    <ul>
+                                        @foreach (var permission in role.RolePermissions.Select(rp => rp.Permission))
+                                        {
+                                            <li>@permission.PermissionTitle</li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td class="actions">
+                                    <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
+                                    <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
+                                    <a asp-page="EditRole" asp-route-roleId="@role.RoleId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                    <a asp-page="DeleteRole" asp-route-roleId="@role.RoleId" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

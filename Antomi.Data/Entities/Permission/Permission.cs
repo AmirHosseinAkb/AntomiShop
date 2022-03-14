@@ -1,25 +1,29 @@
-﻿using Antomi.Data.Entities.Permission;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Antomi.Data.Entities.User
+namespace Antomi.Data.Entities.Permission
 {
-    public class Role
+    public class Permission
     {
         [Key]
-        public int RoleId { get; set; }
+        public int PermissionId { get; set; }
 
-        [Display(Name = "عنوان نقش")]
+        [Display(Name = "عنوان دسترسی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
-        public string RoleTitle { get; set; }
+        public string PermissionTitle { get; set; }
+
+        public int? ParentId { get; set; }
+        [ForeignKey("ParentId")]
+        public List<Permission> Permissions { get; set; }
 
         #region Relations
-        public List<UserRoles> UserRoles { get; set; }
+
         public List<RolePermission> RolePermissions { get; set; }
 
         #endregion
