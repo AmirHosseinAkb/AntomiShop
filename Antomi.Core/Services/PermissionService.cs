@@ -52,6 +52,12 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void EditRolePermissions(int roleId, List<int> permissionIds)
+        {
+            _context.RolePermissions.Where(rp => rp.RoleId == roleId).ToList().ForEach(rp => _context.RolePermissions.Remove(rp));
+            AddRolePermissions(roleId, permissionIds);
+        }
+
         public void EditUserRoles(int userId, List<int> roleIds)
         {
             _context.UserRoles.Where(ur => ur.UserId == userId).ToList().ForEach(ur => _context.UserRoles.Remove(ur));
@@ -68,6 +74,16 @@ namespace Antomi.Core.Services
             return _context.Roles.ToList();
         }
 
+        public Role GetRoleById(int roleId)
+        {
+            return _context.Roles.Find(roleId);
+        }
+
+        public List<int> GetRolePermissions(int roleId)
+        {
+            return _context.RolePermissions.Where(rp => rp.RoleId==roleId).Select(rp=>rp.PermissionId).ToList();
+        }
+
         public List<Role> GetRolesForShowInAdmin()
         {
             return _context.Roles
@@ -79,6 +95,12 @@ namespace Antomi.Core.Services
         public List<int> GetUserRoles(int userId)
         {
             return _context.UserRoles.Where(ur => ur.UserId == userId).Select(ur => ur.RoleId).ToList();
+        }
+
+        public void UpdateRole(Role role)
+        {
+            _context.Roles.Update(role);
+            _context.SaveChanges();
         }
     }
 }
