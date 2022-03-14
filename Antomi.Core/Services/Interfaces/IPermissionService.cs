@@ -16,5 +16,7 @@ namespace Antomi.Core.Services.Interfaces
         void EditUserRoles(int userId, List<int> roleIds);
         List<Role> GetRolesForShowInAdmin();
         List<Permission> GetAllPermissions();
+        int AddRole(Role role);
+        void AddRolePermissions(int roleId, List<int> permissionIds);
     }
 }

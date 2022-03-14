@@ -23,8 +23,14 @@ namespace AntomiShop.Pages.Admin.Roles
         {
             if (!ModelState.IsValid)
             {
-
+                ViewData["Permissions"] = _permissionService.GetAllPermissions();
+                return Page();
             }
+            //Add Role
+            int roleId=_permissionService.AddRole(Role);
+            //Add Permissions To Role
+            _permissionService.AddRolePermissions(roleId, selectedPermissions);
+            return RedirectToPage("Index");
         }
     }
 }

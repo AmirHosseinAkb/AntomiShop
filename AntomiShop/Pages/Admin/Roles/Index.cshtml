@@ -29,7 +29,7 @@
                             <tr>
                                 <td>@role.RoleTitle</td>
                                 <td>
-                                    <ul>
+                                    <ul style="list-style-type:circle;margin-right:10px">
                                         @foreach (var permission in role.RolePermissions.Select(rp => rp.Permission))
                                         {
                                             <li>@permission.PermissionTitle</li>

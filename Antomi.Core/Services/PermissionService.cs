@@ -19,6 +19,26 @@ namespace Antomi.Core.Services
             _context = context;
         }
 
+        public int AddRole(Role role)
+        {
+            _context.Roles.Add(role);
+            _context.SaveChanges();
+            return role.RoleId;
+        }
+
+        public void AddRolePermissions(int roleId, List<int> permissionIds)
+        {
+            foreach (int permissionId in permissionIds)
+            {
+                _context.RolePermissions.Add(new RolePermission()
+                {
+                    RoleId=roleId,
+                    PermissionId=permissionId
+                });
+            }
+            _context.SaveChanges();
+        }
+
         public void AddUserRoles(int userId, List<int> roleIds)
         {
             foreach (int roleId in roleIds)
@@ -50,7 +70,10 @@ namespace Antomi.Core.Services
 
         public List<Role> GetRolesForShowInAdmin()
         {
-            return _context.Roles.Include(r => r.RolePermissions).ToList();
+            return _context.Roles
+                .Include(r => r.RolePermissions)
+                 .ThenInclude(rp=>rp.Permission)
+                .ToList();
         }
 
         public List<int> GetUserRoles(int userId)

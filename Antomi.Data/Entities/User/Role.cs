@@ -19,8 +19,8 @@ namespace Antomi.Data.Entities.User
         public string RoleTitle { get; set; }
 
         #region Relations
-        public List<UserRoles> UserRoles { get; set; }
-        public List<RolePermission> RolePermissions { get; set; }
+        public List<UserRoles>? UserRoles { get; set; }
+        public List<RolePermission>? RolePermissions { get; set; }
 
         #endregion
     }
