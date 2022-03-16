@@ -43,10 +43,6 @@ namespace Antomi.Data.Entities.Product
         public string ProductTags { get; set; }
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
-
-        [Display(Name = "موجودی انبار")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public int ProductInventory { get; set; }
         public bool IsDeleted { get; set; }
 
         #region Relations
@@ -56,6 +52,7 @@ namespace Antomi.Data.Entities.Product
         [ForeignKey("SubId")]
         public ProductGroup SubGroup { get; set; }
         public List<ProductImage> ProductImages { get; set; }
+        public List<ProductInventory> ProductInventories { get; set; }
 
         #endregion
 

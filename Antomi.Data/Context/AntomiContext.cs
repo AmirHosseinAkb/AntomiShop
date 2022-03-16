@@ -28,6 +28,7 @@ namespace Antomi.Data.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductInventory> ProductInventories { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
