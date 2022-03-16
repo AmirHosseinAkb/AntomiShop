@@ -3,6 +3,7 @@
 
 @inject IUserService _userService
 @{
+    Layout = "_DefaultLayout";
     var user = _userService.GetUserPanelInformations(User.Identity.Name);
 }
 

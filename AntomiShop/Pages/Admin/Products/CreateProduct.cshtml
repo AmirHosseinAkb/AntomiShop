@@ -1,0 +1,56 @@
+﻿@page
+@model AntomiShop.Pages.Admin.Products.CreateProductModel
+@{
+}
+
+<div class="row">
+    <form role="form" method="post" enctype="multipart/form-data">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">افزودن محصول جدید</h3></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">نام محصول</label>
+                        <input asp-for="Product.ProductTitle" type="text" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-purple waves-effect waves-light">ثبت محصول در فروشگاه</button>
+                </div><!-- panel-body -->
+            </div> <!-- panel -->
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">تصویر محصول</h3></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <img id="imgAvatar" class="img img-thumbnail" src="/Product/Images/Product.png" />
+                    </div>
+                    <div class="form-group">
+                        <input name="productPic" id="imgInp" type="file" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+<script>
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgAvatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imgInp").change(function () {
+        readURL(this);
+    });
+</script>
+}

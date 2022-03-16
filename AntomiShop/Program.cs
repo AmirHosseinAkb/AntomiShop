@@ -21,6 +21,7 @@ builder.Services.AddDbContext<AntomiContext>(context =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IViewRenderService, RenderViewToString>();
 builder.Services.AddScoped<IPermissionService,PermissionService>();
+builder.Services.AddScoped<IProductService,ProductService>();
 
 #endregion
 
