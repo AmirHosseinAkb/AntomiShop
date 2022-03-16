@@ -11,7 +11,8 @@ namespace Antomi.Data.Entities.User
     {
         [Key]
         public int UserId { get; set; }
-
+        [Required]
+        public int RoleId { get; set; }
         [Display(Name = "نام")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
         [MinLength(3, ErrorMessage = "{0} نمیتواند کمتر از {1} کاراکتر باشد")]
@@ -47,7 +48,7 @@ namespace Antomi.Data.Entities.User
 
         public List<Address> Addresses { get; set; }
         public List<Wallet.Wallet> Wallets { get; set; }
-        public List<UserRole> UserRoles { get; set; }
+        public Role Role { get; set; }
 
         #endregion
     }

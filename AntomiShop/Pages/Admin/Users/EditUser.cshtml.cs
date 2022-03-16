@@ -15,24 +15,21 @@ namespace AntomiShop.Pages.Admin.Users
             _userService = userService;
             _permissionService = permissionService;
         }
-        public void GetInformation(int userId)
-        {
-            ViewData["Roles"] = _permissionService.GetAllRoles();
-            ViewData["UserRoles"] = _permissionService.GetUserRoles(userId);
-        }
+
+            
         [BindProperty]
         public EditUserViewModel EditUserVM { get; set; }
         public void OnGet(int userId)
         {
-            GetInformation(userId);
-            EditUserVM=_userService.GetUserForEdit(userId);
+            ViewData["Roles"] = _permissionService.GetAllRoles();
+            EditUserVM =_userService.GetUserForEdit(userId);
         }
 
-        public IActionResult OnPost(List<int> selectedRoles)
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-                GetInformation(EditUserVM.UserId);
+                ViewData["Roles"] = _permissionService.GetAllRoles();
                 return Page();
             }
             var user = _userService.GetUserById(EditUserVM.UserId);
@@ -40,15 +37,14 @@ namespace AntomiShop.Pages.Admin.Users
             {
                 if (_userService.IsExistEmail(EditUserVM.Email))
                 {
-                    GetInformation(EditUserVM.UserId);
+                    ViewData["Roles"] = _permissionService.GetAllRoles();
                     ViewData["IsExistEmail"] = true;
                     return Page();
                 }
             }
             //Edit User
             _userService.EditUserFormAdmin(EditUserVM);
-            //Edit UserRoles
-            _permissionService.EditUserRoles(EditUserVM.UserId, selectedRoles);
+
             return RedirectToPage("Index");
         }
     }

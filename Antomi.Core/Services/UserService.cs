@@ -197,10 +197,11 @@ namespace Antomi.Core.Services
         {
             var user = new User()
             {
+                RoleId=create.RoleId,
                 Email = EmailConvertor.FixEmail(create.Email),
                 Password = PasswordHasher.HashPasswordMD5(create.Password),
                 ActiveCode = NameGenerator.GenerateUniqName(),
-                IsActive = false,
+                IsActive = true,
                 AvatarName="Default.png"
             };
             if (create.UserAvatar != null)
@@ -221,7 +222,7 @@ namespace Antomi.Core.Services
 
         public ShowUsersInAdminViewModel GetUsersForShowInAdmin(int pageId = 1, string name = "", string email = "")
         {
-            IQueryable<User> result = _context.Users;
+            IQueryable<User> result = _context.Users.Include(ur => ur.Role);
             if (!string.IsNullOrEmpty(name))
             {
                 result = result.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name));
@@ -251,6 +252,7 @@ namespace Antomi.Core.Services
                 .Select(u => new EditUserViewModel()
                 {
                     UserId=u.UserId,
+                    RoleId=u.RoleId,
                     Email = u.Email,
                     AvatarName = u.AvatarName
                 }).Single();
@@ -259,12 +261,12 @@ namespace Antomi.Core.Services
         public void EditUserFormAdmin(EditUserViewModel editUserVM)
         {
             var user = GetUserById(editUserVM.UserId);
+            user.RoleId = editUserVM.RoleId;
             user.Email = EmailConvertor.FixEmail(editUserVM.Email);
             if (!string.IsNullOrEmpty(editUserVM.Password))
             {
                 user.Password = PasswordHasher.HashPasswordMD5(editUserVM.Password);
             }
-            _context.SaveChanges();
             if (editUserVM.UserAvatar != null)
             {
                 string imagePath = "";
@@ -289,6 +291,7 @@ namespace Antomi.Core.Services
                     editUserVM.UserAvatar.CopyTo(stream);
                 }
             }
+            _context.SaveChanges();
         }
 
         public void DeleteUser(int userId)
@@ -330,5 +333,11 @@ namespace Antomi.Core.Services
             user.IsDeleted = false;
             _context.SaveChanges();
         }
+
+        //public void ArrUserRole(UserRole userRole)
+        //{
+        //    _context.UserRoles.Add(userRole);
+        //    _context.SaveChanges();
+        //}
     }
 }

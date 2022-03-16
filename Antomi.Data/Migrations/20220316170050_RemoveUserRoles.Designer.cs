@@ -4,6 +4,7 @@ using Antomi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Antomi.Data.Migrations
 {
     [DbContext(typeof(AntomiContext))]
-    partial class AntomiContextModelSnapshot : ModelSnapshot
+    [Migration("20220316170050_RemoveUserRoles")]
+    partial class RemoveUserRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,12 +179,7 @@ namespace Antomi.Data.Migrations
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -276,17 +273,6 @@ namespace Antomi.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Antomi.Data.Entities.User.User", b =>
-                {
-                    b.HasOne("Antomi.Data.Entities.User.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("Antomi.Data.Entities.Wallet.Wallet", b =>
                 {
                     b.HasOne("Antomi.Data.Entities.Wallet.WalletType", "WalletType")
@@ -316,8 +302,6 @@ namespace Antomi.Data.Migrations
             modelBuilder.Entity("Antomi.Data.Entities.User.Role", b =>
                 {
                     b.Navigation("RolePermissions");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.User", b =>

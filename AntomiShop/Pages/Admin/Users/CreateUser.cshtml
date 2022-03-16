@@ -33,10 +33,7 @@
                             @foreach (var role in roles)
                             {
                                 <div style="margin-right:20px">
-                                    <input id="@role.RoleId" type="checkbox" name="selectedRoles" value="@role.RoleId">
-                                    <label for="@role.RoleId">
-                                        @role.RoleTitle
-                                    </label>
+                                    <input type="radio" value="@role.RoleId" asp-for="CreateUserViewModel.RoleId" > @role.RoleTitle
                                 </div>
                                 <br />
                             }

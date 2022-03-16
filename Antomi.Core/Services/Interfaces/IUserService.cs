@@ -19,6 +19,7 @@ namespace Antomi.Core.Services.Interfaces
         User GetUserByEmail(string email);
         User GetUserById(int userId);
         int GetUserIdByEmail(string email);
+        //void ArrUserRole(UserRole userRole);
         #endregion
 
         #region UserPanel

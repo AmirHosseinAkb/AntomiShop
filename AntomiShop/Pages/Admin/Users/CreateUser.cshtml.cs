@@ -26,7 +26,7 @@ namespace AntomiShop.Pages.Admin.Users
             ViewData["Roles"] = _permissionService.GetAllRoles();
         }
 
-        public IActionResult OnPost(List<int> selectedRoles)
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
@@ -40,9 +40,7 @@ namespace AntomiShop.Pages.Admin.Users
                 return Page();
             }
             //Add User
-            int userId=_userService.AddUserFromAdmin(CreateUserViewModel);
-            //Add User Roles
-            _permissionService.AddUserRoles(userId, selectedRoles);
+            _userService.AddUserFromAdmin(CreateUserViewModel);
 
             return RedirectToPage("Index");
         }

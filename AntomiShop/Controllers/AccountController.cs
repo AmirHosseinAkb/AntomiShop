@@ -49,6 +49,7 @@ namespace AntomiShop.Controllers
             }
             User user = new User()
             {
+                RoleId=7,
                 Email = register.Email,
                 Password = PasswordHasher.HashPasswordMD5(register.Password),
                 ActiveCode = NameGenerator.GenerateUniqName(),
@@ -61,7 +62,8 @@ namespace AntomiShop.Controllers
             SendEmail.Send(user.Email, "فعالسازی حساب کاربری", body);
 
             //Add User
-            _userService.AddUser(user);
+            int userId=_userService.AddUser(user);
+
             return View("_SuccessRegister", user);
         }
         

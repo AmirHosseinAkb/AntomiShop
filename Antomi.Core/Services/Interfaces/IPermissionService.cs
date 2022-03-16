@@ -11,9 +11,6 @@ namespace Antomi.Core.Services.Interfaces
     public interface IPermissionService
     {
         List<Role> GetAllRoles();
-        void AddUserRoles(int userId, List<int> roleIds);
-        List<int> GetUserRoles(int userId);
-        void EditUserRoles(int userId, List<int> roleIds);
         List<Role> GetRolesForShowInAdmin();
         List<Permission> GetAllPermissions();
         int AddRole(Role role);
