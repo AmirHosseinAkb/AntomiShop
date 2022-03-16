@@ -16,6 +16,7 @@ namespace Antomi.Data.Entities.Product
         [Display(Name = "موجودی کالا")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int ProductCount { get; set; }
+        public DateTime ChargeDate { get; set; }=DateTime.Now;
 
         public Product Product { get; set; }
 
