@@ -13,19 +13,32 @@ namespace AntomiShop.Pages.Admin.Products
         {
             _productService = productService;
         }
+        public void GetInformations()
+        {
+            var Groups = _productService.GetGroups();
+            ViewData["Groups"] = new SelectList(Groups, "Value", "Text");
+            var SubGroups = _productService.GetSubGroupsOfGroups(int.Parse(Groups.First().Value));
+            ViewData["SubGroups"] = new SelectList(SubGroups, "Value", "Text");
+            var SecSubGroups = _productService.GetSubGroupsOfGroups(int.Parse(SubGroups.First().Value));
+            ViewData["SecSubGroups"] = new SelectList(SecSubGroups, "Value", "Text");
+        }
         [BindProperty]
         public Product Product { get; set; }
         public void OnGet()
         {
-            var groups = _productService.GetGroupsForSelect();
-            ViewData["Groups"] = new SelectList(groups, "Value", "Text");
-            var subGroups=_productService.GetSubGroupsOfGroups(int.Parse(groups.First().Value));
-            ViewData["SubGroups"]=new SelectList(subGroups, "Value", "Text"); 
+            GetInformations();
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(IFormFile? productPic)
         {
-            return null;
+            if (!ModelState.IsValid)
+            {
+                GetInformations();
+                return Page();
+            }
+            //Add Product
+            _productService.AddProduct(Product, productPic);
+            return RedirectToPage("Index");
         }
     }
 }

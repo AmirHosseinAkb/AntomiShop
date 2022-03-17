@@ -18,6 +18,8 @@ namespace Antomi.Data.Entities.Product
 
         public int? SubId { get; set; }
 
+        public int? SecSubId { get; set; }
+
         [Display(Name = "عنوان محصول")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
@@ -35,7 +37,7 @@ namespace Antomi.Data.Entities.Product
         [Display(Name = "تصویر محصول")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
-        public string ProductImageName { get; set; }
+        public string ProductImageName { get; set; } = "Product.png";
 
         [Display(Name = "کلمات کلیدی محصول")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -48,11 +50,13 @@ namespace Antomi.Data.Entities.Product
         #region Relations
 
         [ForeignKey("GroupId")]
-        public ProductGroup ProductGroup { get; set; }
+        public ProductGroup? ProductGroup { get; set; }
         [ForeignKey("SubId")]
-        public ProductGroup SubGroup { get; set; }
-        public List<ProductImage> ProductImages { get; set; }
-        public List<ProductInventory> ProductInventories { get; set; }
+        public ProductGroup? SubGroup { get; set; }
+        [ForeignKey("SecSubId")]
+        public ProductGroup? SecSubGroup { get; set; }
+        public List<ProductImage>? ProductImages { get; set; }
+        public List<ProductInventory>? ProductInventories { get; set; }
 
         #endregion
 

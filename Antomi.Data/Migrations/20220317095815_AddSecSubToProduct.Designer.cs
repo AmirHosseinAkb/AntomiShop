@@ -4,6 +4,7 @@ using Antomi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Antomi.Data.Migrations
 {
     [DbContext(typeof(AntomiContext))]
-    partial class AntomiContextModelSnapshot : ModelSnapshot
+    [Migration("20220317095815_AddSecSubToProduct")]
+    partial class AddSecSubToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Permission.RolePermission", b =>
@@ -65,7 +67,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions", (string)null);
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Product.Product", b =>
@@ -124,7 +126,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("SubId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Product.ProductGroup", b =>
@@ -150,7 +152,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ProductGroups", (string)null);
+                    b.ToTable("ProductGroups");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Product.ProductImage", b =>
@@ -173,7 +175,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Product.ProductInventory", b =>
@@ -197,7 +199,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductInventories", (string)null);
+                    b.ToTable("ProductInventories");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.Address", b =>
@@ -233,7 +235,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.Role", b =>
@@ -254,7 +256,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.User.User", b =>
@@ -316,7 +318,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Wallet.Wallet", b =>
@@ -353,7 +355,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Wallets", (string)null);
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Wallet.WalletType", b =>
@@ -368,7 +370,7 @@ namespace Antomi.Data.Migrations
 
                     b.HasKey("TypeId");
 
-                    b.ToTable("WalletTypes", (string)null);
+                    b.ToTable("WalletTypes");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Permission.Permission", b =>

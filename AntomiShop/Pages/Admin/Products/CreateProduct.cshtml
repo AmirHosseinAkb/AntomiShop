@@ -5,15 +5,38 @@
 
 <div class="row">
     <form role="form" method="post" enctype="multipart/form-data">
-        <div class="col-md-9">
+        <div class="col-md-9"style="height:650px;overflow-y:scroll">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">افزودن محصول جدید</h3></div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label for="exampleInputPassword1">نام محصول</label>
+                        <label>نام محصول</label>
                         <input asp-for="Product.ProductTitle" type="text" class="form-control" id="exampleInputEmail1">
                     </div>
-                    
+                    <div class="form-group">
+                        <label>گروه اصلی</label>
+                        <select asp-for="Product.GroupId" class="form-control" asp-items="@(ViewData["Groups"] as SelectList)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>گروه فرعی</label>
+                        <select asp-for="Product.SubId" class="form-control" asp-items="@(ViewData["SubGroups"] as SelectList)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>زیر گروه</label>
+                        <select asp-for="Product.SecSubId" class="form-control" asp-items="@(ViewData["SecSubGroups"] as SelectList)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات محصول</label>
+                        <textarea asp-for="Product.ProductDescription" id="Product_ProductDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>قیمت محصول</label>
+                        <input asp-for="Product.ProductPrice" type="number" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div class="form-group">
+                        <label>کلمات کلیدی محصول</label>
+                        <input asp-for="Product.ProductTags" type="text" class="form-control" id="exampleInputEmail1">
+                    </div>
                     <button type="submit" class="btn btn-purple waves-effect waves-light">ثبت محصول در فروشگاه</button>
                 </div><!-- panel-body -->
             </div> <!-- panel -->
@@ -23,7 +46,7 @@
                 <div class="panel-heading"><h3 class="panel-title">تصویر محصول</h3></div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <img id="imgAvatar" class="img img-thumbnail" src="/Product/Images/Product.png" />
+                        <img id="imgAvatar" class="img img-thumbnail" style="width:100%;height:100%" src="/Product/Images/Product.png" />
                     </div>
                     <div class="form-group">
                         <input name="productPic" id="imgInp" type="file" class="form-control" />
@@ -51,6 +74,12 @@
     }
     $("#imgInp").change(function () {
         readURL(this);
+    });
+</script>
+<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('Product_ProductDescription', {
+        customConfig: '/js/Config.js'
     });
 </script>
 }

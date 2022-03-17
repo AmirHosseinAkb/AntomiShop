@@ -29,6 +29,8 @@ namespace Antomi.Data.Entities.Product
         public List<Product> Products { get; set; }
         [InverseProperty("SubGroup")]
         public List<Product> SubProducts { get; set; }
+        [InverseProperty("SecSubGroup")]
+        public List<Product> SecSubProducts { get; set; }
 
         #endregion
     }

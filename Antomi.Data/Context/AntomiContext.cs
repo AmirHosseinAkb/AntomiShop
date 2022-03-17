@@ -37,6 +37,7 @@ namespace Antomi.Data.Context
                 .HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Role>()
                 .HasQueryFilter(r => !r.IsDeleted);
+
             modelBuilder.Entity<Product>()
                 .HasOne<ProductGroup>(p => p.ProductGroup)
                 .WithMany(p => p.Products)
@@ -48,6 +49,11 @@ namespace Antomi.Data.Context
                 .WithMany(p => p.SubProducts)
                 .HasForeignKey(p => p.SubId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Product>()
+                .HasOne<ProductGroup>(p => p.SecSubGroup)
+                .WithMany(g => g.SecSubProducts)
+                .HasForeignKey(p => p.SecSubId);
 
             base.OnModelCreating(modelBuilder);
         }
