@@ -17,5 +17,12 @@ namespace AntomiShop.Pages.Admin.Products
         {
             ShowProductsVM=_productService.GetProductsForShowInAdmin(pageId,filterName);
         }
+        
+        public IActionResult OnPostDeleteProduct(int productId)
+        {
+            //Delete Product
+            _productService.DeleteProduct(productId);
+            return RedirectToPage("Index");
+        }
     }
 }

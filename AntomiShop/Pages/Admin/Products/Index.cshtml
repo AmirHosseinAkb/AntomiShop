@@ -50,8 +50,8 @@
                                     <td class="actions">
                                         <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
                                         <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-                                        <a asp-page="EditUser" asp-route-userId="@product.ProductId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                        <a onclick="GetUserIdForDelete(@product.ProductId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                        <a asp-page="EditProduct" asp-route-productId="@product.ProductId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                        <a onclick="GetProductIdForDelete(@product.ProductId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -79,8 +79,8 @@
         <div class="modal-content">
             <h3 class="modal-header">آیا مطمئنید که میخواهید این محصول را حذف کنید؟</h3>
             <div class="modal-body">
-                <form asp-page="Index" asp-page-handler="DeleteUser" method="post">
-                    <input id="userIdInput" type="hidden" name="userId" />
+                <form asp-page="Index" asp-page-handler="DeleteProduct" method="post">
+                    <input id="productIdInput" type="hidden" name="productId" />
                     <input id="btnSubmit" type="submit" class="btn btn-danger" value="تایید و حذف" />
                     <a id="btnCancell" class="btn btn-success">انصراف</a>
                 </form>
@@ -91,8 +91,8 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 
-    function GetUserIdForDelete(userId){
-            $("#userIdInput").val(userId);
+    function GetProductIdForDelete(productId){
+            $("#productIdInput").val(productId);
             $("#deleteModal").modal('show');
         }
 

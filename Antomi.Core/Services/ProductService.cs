@@ -49,6 +49,81 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteProduct(int productId)
+        {
+            var product = GetProductById(productId);
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "Product",
+                "Images",
+                product.ProductImageName);
+            if (File.Exists(imagePath))
+            {
+                File.Delete(imagePath);
+            }
+            string thumbPath = Path.Combine(Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "Product",
+                "Thumbnails",
+                product.ProductImageName);
+            if (File.Exists(thumbPath))
+            {
+                File.Delete(thumbPath);
+            }
+            product.IsDeleted=true;
+            _context.SaveChanges();
+        }
+
+        public void EditProduct(Product product, IFormFile productPic)
+        {
+            if (productPic != null)
+            {
+                string imagePath = "";
+                string thumbPath = "";
+                if (product.ProductImageName != "Product.png")
+                {
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Product",
+                        "Images",
+                        product.ProductImageName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                    thumbPath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Product",
+                        "Thumbnails",
+                        product.ProductImageName);
+                    if (File.Exists(thumbPath))
+                    {
+                        File.Delete(thumbPath);
+                    }
+                }
+                product.ProductImageName = NameGenerator.GenerateUniqName() + Path.GetExtension(productPic.FileName);
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Product",
+                        "Images",
+                        product.ProductImageName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    productPic.CopyTo(stream);
+                }
+                thumbPath= Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Product",
+                        "Thumbnails",
+                        product.ProductImageName);
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    productPic.CopyTo(stream);
+                }
+            }
+            UpdateProduct(product);
+        }
+
         public List<SelectListItem> GetGroups()
         {
             return _context.ProductGroups.Where(g=>g.ParentId==null)
@@ -57,6 +132,11 @@ namespace Antomi.Core.Services
                     Text = g.GroupTitle,
                     Value = g.GroupId.ToString()
                 }).ToList();
+        }
+
+        public Product GetProductById(int productId)
+        {
+            return _context.Products.Find(productId);
         }
 
         public ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId = 1, string filterName = "")
@@ -89,6 +169,12 @@ namespace Antomi.Core.Services
                     Text = g.GroupTitle,
                     Value = g.GroupId.ToString()
                 }).ToList();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
         }
     }
 }
