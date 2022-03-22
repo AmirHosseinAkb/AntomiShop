@@ -8,9 +8,8 @@ namespace Antomi.Core.DTOs.Product
 {
     public class ShowProductsInAdminViewModel
     {
-        public int ProductId { get; set; }
-        public string ProductTitle { get; set; }
-        public int ProductPrice { get; set; }
-        public DateTime CreateDate { get; set; }
+        public List<Antomi.Data.Entities.Product.Product> Products { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageCount { get; set; }
     }
 }

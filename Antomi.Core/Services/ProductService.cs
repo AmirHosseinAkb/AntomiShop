@@ -59,9 +59,26 @@ namespace Antomi.Core.Services
                 }).ToList();
         }
 
-        public ShowProductsInAdminViewModel GetProductsForShowInAdmin()
+        public ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId = 1, string filterName = "")
         {
-            throw new NotImplementedException();
+            IQueryable<Product> result = _context.Products;
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                result = result.Where(p => p.ProductTitle.Contains(filterName));
+            }
+            int take = 2;
+            int skip = (pageId - 1) * take;
+            var showProductsVM = new ShowProductsInAdminViewModel()
+            {
+                Products = result.Skip(skip).Take(take).ToList(),
+                CurrentPage = pageId,
+                PageCount = result.Count() / take
+            };
+            if (result.Count() % take != 0)
+            {
+                showProductsVM.PageCount++;
+            }
+            return showProductsVM;
         }
 
         public List<SelectListItem> GetSubGroupsOfGroups(int groupId)

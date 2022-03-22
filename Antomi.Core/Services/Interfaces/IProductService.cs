@@ -19,7 +19,7 @@ namespace Antomi.Core.Services.Interfaces
         #endregion
         #region Product
         void AddProduct(Product product,IFormFile productPic);
-        ShowProductsInAdminViewModel GetProductsForShowInAdmin();       
+        ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId=1,string filterName="");       
 
         #endregion
     }
