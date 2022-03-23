@@ -26,6 +26,9 @@ namespace Antomi.Core.Services.Interfaces
         void DeleteProduct(int productId);
         List<ProductGroup> GetAllGroups(string filterGroupName = "");
         void AddGroup(ProductGroup group,IFormFile groupPic);
+        ProductGroup GetGroupById(int groupId);
+        void EditGroup(ProductGroup group,IFormFile groupPic);
+        void UpdateGroup(ProductGroup group);
 
         #endregion
     }

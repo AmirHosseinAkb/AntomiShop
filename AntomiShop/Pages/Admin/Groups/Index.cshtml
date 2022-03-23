@@ -51,7 +51,7 @@
                                                     <li style="margin-top:5px">
                                                         @sub.GroupTitle
                                                         <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-info btn-xs">افزودن زیر گروه</a>
-                                                        <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-warning btn-xs">ویرایش</a>
+                                                        <a href="/Admin/Groups/EditGroup?groupId=@sub.GroupId" class="btn btn-warning btn-xs">ویرایش</a>
                                                         <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-danger btn-xs">حذف</a>
                                                     </li>
                                                     @if (sub.ProductGroups.Any(s => s.ParentId == sub.GroupId))
@@ -71,7 +71,7 @@
                                         <a class="btn btn-info btn-sm" href="/Admin/Groups/CreateGroup?parentId=@group.GroupId"> افزودن زیرگروه فرعی</a>
                                         <br />
                                         <br />
-                                        <a class="btn btn-warning btn-sm" href="">ویرایش گروه اصلی</a>
+                                        <a class="btn btn-warning btn-sm" href="/Admin/Groups/EditGroup?groupId=@group.GroupId">ویرایش گروه اصلی</a>
                                         <br />
                                         <br />
                                         <a class="btn btn-danger btn-sm" href="">حذف گروه اصلی</a>

@@ -25,6 +25,7 @@ namespace Antomi.Core.Services
 
         public void AddGroup(ProductGroup group, IFormFile groupPic)
         {
+            group.GroupImageName = "Group.png";
             if (groupPic != null)
             {
                 group.GroupImageName = NameGenerator.GenerateUniqName() + Path.GetExtension(groupPic.FileName);
@@ -93,6 +94,35 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void EditGroup(ProductGroup group, IFormFile groupPic)
+        {
+            if(groupPic!=null)
+            {
+                string imagePath = "";
+                if (group.GroupImageName != "Group.png")
+                {
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Groups",
+                        group.GroupImageName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                group.GroupImageName = NameGenerator.GenerateUniqName() + Path.GetExtension(groupPic.FileName);
+                imagePath= Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Groups",
+                        group.GroupImageName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    groupPic.CopyTo(stream);
+                }
+            }
+            UpdateGroup(group);
+        }
+
         public void EditProduct(Product product, IFormFile productPic)
         {
             if (productPic != null)
@@ -153,6 +183,11 @@ namespace Antomi.Core.Services
             return result.ToList();
         }
 
+        public ProductGroup GetGroupById(int groupId)
+        {
+            return _context.ProductGroups.Find(groupId);
+        }
+
         public List<SelectListItem> GetGroups()
         {
             return _context.ProductGroups.Where(g=>g.ParentId==null)
@@ -198,6 +233,12 @@ namespace Antomi.Core.Services
                     Text = g.GroupTitle,
                     Value = g.GroupId.ToString()
                 }).ToList();
+        }
+
+        public void UpdateGroup(ProductGroup group)
+        {
+            _context.ProductGroups.Update(group);
+            _context.SaveChanges();
         }
 
         public void UpdateProduct(Product product)
