@@ -334,10 +334,6 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
-        //public void ArrUserRole(UserRole userRole)
-        //{
-        //    _context.UserRoles.Add(userRole);
-        //    _context.SaveChanges();
-        //}
+      
     }
 }

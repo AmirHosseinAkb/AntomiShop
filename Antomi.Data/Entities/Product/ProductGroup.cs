@@ -21,16 +21,18 @@ namespace Antomi.Data.Entities.Product
         public int? ParentId { get; set; }
 
         [ForeignKey("ParentId")]
-        public List<ProductGroup> ProductGroups { get; set; }
+        public List<ProductGroup>? ProductGroups { get; set; }
+        [MaxLength(200)]
+        public string? GroupImageName { get; set; }
         public bool IsDeleted { get; set; }
 
         #region Relations
         [InverseProperty("ProductGroup")]
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
         [InverseProperty("SubGroup")]
-        public List<Product> SubProducts { get; set; }
+        public List<Product>? SubProducts { get; set; }
         [InverseProperty("SecSubGroup")]
-        public List<Product> SecSubProducts { get; set; }
+        public List<Product>? SecSubProducts { get; set; }
 
         #endregion
     }

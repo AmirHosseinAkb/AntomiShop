@@ -1,0 +1,129 @@
+﻿@page
+@model AntomiShop.Pages.Admin.Groups.IndexModel
+@{
+}
+
+<div class="panel" style="height:650px;overflow-y:scroll"
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-b-30">
+                    <a href="/Admin/Groups/CreateGroup" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن گروه اصلی جدید <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+            <div class="row" style="margin-bottom:10px">
+                <form method="get">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="نام گروه " name="filterName" style="width:100%" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="submit" value="جستجو" class="btn btn-success" />
+                        <a class="btn btn-warning" href="/Admin/Groups">پاک کردن فیلدها</a>
+                    </div>
+                </form>
+            </div><div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th>تصویر گروه</th>
+                                <th>عنوان گروه اصلی</th>
+                                <th>زیرگروه ها</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var group in Model.ProductGroups.Where(g => g.ParentId == null))
+                            {
+                                <tr>
+                                    <td>
+                                        <img class="img img-thumbnail" src="/Groups/@group.GroupImageName">
+                                    </td>
+                                    <td>@group.GroupTitle</td>
+                                    <td>
+                                        @if (group.ProductGroups.Any())
+                                        {
+                                            <ul style="list-style-type:none">
+                                                @foreach (var sub in group.ProductGroups.Where(s => s.ParentId == group.GroupId))
+                                                {
+                                                    <li style="margin-top:5px">
+                                                        @sub.GroupTitle
+                                                        <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-info btn-xs">افزودن زیر گروه</a>
+                                                        <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-warning btn-xs">ویرایش</a>
+                                                        <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-danger btn-xs">حذف</a>
+                                                    </li>
+                                                    @if (sub.ProductGroups.Any(s => s.ParentId == sub.GroupId))
+                                                    {
+                                                        <ul style="margin-right:30px">
+                                                            @foreach (var sub2 in sub.ProductGroups.Where(s => s.ParentId == sub.GroupId))
+                                                            {
+                                                                <li style="margin-top:5px">@sub2.GroupTitle <span>  </span><a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-danger btn-xs">حذف</a></li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                }
+                                            </ul>
+                                        }
+                                    </td>
+                                    <td class="actions">
+                                        <a class="btn btn-info btn-sm" href="/Admin/Groups/CreateGroup?parentId=@group.GroupId"> افزودن زیرگروه فرعی</a>
+                                        <br />
+                                        <br />
+                                        <a class="btn btn-warning btn-sm" href="">ویرایش گروه اصلی</a>
+                                        <br />
+                                        <br />
+                                        <a class="btn btn-danger btn-sm" href="">حذف گروه اصلی</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div><div class="row">
+                <div class="col-md-6">
+                    <div class="dataTables_paginate paging_simple_numbers" id="datatable-editable_paginate">
+                        <ul class="pagination">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: page -->
+</div>
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">آیا مطمئنید که میخواهید این کاربر را حذف کنید؟</h3>
+            <div class="modal-body">
+                <form asp-page="Index" asp-page-handler="DeleteUser" method="post">
+                    <input id="userIdInput" type="hidden" name="userId" />
+                    <input id="btnSubmit" type="submit" class="btn btn-danger" value="تایید و حذف" />
+                    <a id="btnCancell" class="btn btn-success">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function GetUserIdForDelete(userId){
+            $("#userIdInput").val(userId);
+            $("#deleteModal").modal('show');
+    }
+
+    $(function(){
+        $("#btnCancell").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+    $(function(){
+        $("#btnSubmit").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+
+</script>

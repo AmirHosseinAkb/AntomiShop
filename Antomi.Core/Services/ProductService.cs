@@ -11,6 +11,7 @@ using Antomi.Data.Context;
 using Antomi.Data.Entities.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Antomi.Core.Services
 {
@@ -20,6 +21,24 @@ namespace Antomi.Core.Services
         public ProductService(AntomiContext context)
         {
             _context = context;
+        }
+
+        public void AddGroup(ProductGroup group, IFormFile groupPic)
+        {
+            if (groupPic != null)
+            {
+                group.GroupImageName = NameGenerator.GenerateUniqName() + Path.GetExtension(groupPic.FileName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "Groups",
+                    group.GroupImageName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    groupPic.CopyTo(stream);
+                }
+            }
+            _context.ProductGroups.Add(group);
+            _context.SaveChanges();
         }
 
         public void AddProduct(Product product,IFormFile productPic)
@@ -122,6 +141,16 @@ namespace Antomi.Core.Services
                 }
             }
             UpdateProduct(product);
+        }
+
+        public List<ProductGroup> GetAllGroups(string filterGroupName = "")
+        {
+            IQueryable<ProductGroup> result = _context.ProductGroups.Include(g=>g.ProductGroups).ThenInclude(g=>g.ProductGroups);
+            if (!string.IsNullOrEmpty(filterGroupName))
+            {
+                result = result.Where(g => g.GroupTitle.Contains(filterGroupName));
+            }
+            return result.ToList();
         }
 
         public List<SelectListItem> GetGroups()
