@@ -52,14 +52,14 @@
                                                         @sub.GroupTitle
                                                         <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-info btn-xs">افزودن زیر گروه</a>
                                                         <a href="/Admin/Groups/EditGroup?groupId=@sub.GroupId" class="btn btn-warning btn-xs">ویرایش</a>
-                                                        <a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-danger btn-xs">حذف</a>
+                                                        <a onclick="GetGroupIdForDelete(@sub.GroupId)"class="btn btn-danger btn-xs">حذف</a>
                                                     </li>
                                                     @if (sub.ProductGroups.Any(s => s.ParentId == sub.GroupId))
                                                     {
                                                         <ul style="margin-right:30px">
                                                             @foreach (var sub2 in sub.ProductGroups.Where(s => s.ParentId == sub.GroupId))
                                                             {
-                                                                <li style="margin-top:5px">@sub2.GroupTitle <span>  </span><a href="/Admin/Groups/CreateGroup?parentId=@sub.GroupId" class="btn btn-danger btn-xs">حذف</a></li>
+                                                                <li style="margin-top:5px">@sub2.GroupTitle <span>  </span><a onclick="GetGroupIdForDelete(@sub2.GroupId)" class="btn btn-danger btn-xs">حذف</a></li>
                                                             }
                                                         </ul>
                                                     }
@@ -74,7 +74,7 @@
                                         <a class="btn btn-warning btn-sm" href="/Admin/Groups/EditGroup?groupId=@group.GroupId">ویرایش گروه اصلی</a>
                                         <br />
                                         <br />
-                                        <a class="btn btn-danger btn-sm" href="">حذف گروه اصلی</a>
+                                        <a onclick="GetGroupIdForDelete(@group.GroupId)" class="btn btn-danger btn-sm">حذف گروه اصلی</a>
                                     </td>
                                 </tr>
                             }
@@ -96,10 +96,10 @@
 <div id="deleteModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <h3 class="modal-header">آیا مطمئنید که میخواهید این کاربر را حذف کنید؟</h3>
+            <h3 class="modal-header">آیا مطمئنید که میخواهید این گروه را حذف کنید؟</h3>
             <div class="modal-body">
-                <form asp-page="Index" asp-page-handler="DeleteUser" method="post">
-                    <input id="userIdInput" type="hidden" name="userId" />
+                <form asp-page="Index" asp-page-handler="DeleteGroup" method="post">
+                    <input id="groupIdInput" type="hidden" name="groupId" />
                     <input id="btnSubmit" type="submit" class="btn btn-danger" value="تایید و حذف" />
                     <a id="btnCancell" class="btn btn-success">انصراف</a>
                 </form>
@@ -110,8 +110,8 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 
-    function GetUserIdForDelete(userId){
-            $("#userIdInput").val(userId);
+    function GetGroupIdForDelete(groupId){
+            $("#groupIdInput").val(groupId);
             $("#deleteModal").modal('show');
     }
 

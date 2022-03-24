@@ -69,6 +69,13 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteGroup(int groupId)
+        {
+            var group = GetGroupById(groupId);
+            group.IsDeleted = true;
+            _context.SaveChanges();
+        }
+
         public void DeleteProduct(int productId)
         {
             var product = GetProductById(productId);

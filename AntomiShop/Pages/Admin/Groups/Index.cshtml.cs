@@ -17,5 +17,11 @@ namespace AntomiShop.Pages.Admin.Groups
         {
             ProductGroups = _productService.GetAllGroups(filterName);
         }
+
+        public IActionResult OnPostDeleteGroup(int groupId)
+        {
+            _productService.DeleteGroup(groupId);
+            return RedirectToPage("Index");
+        }
     }
 }
