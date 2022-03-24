@@ -18,7 +18,7 @@ namespace AntomiShop.Pages.Admin.Groups
         {
             ProductGroup=_productService.GetGroupById(groupId);
         }
-        public IActionResult OnPost(IFormFile groupPic=null)
+        public IActionResult OnPost(IFormFile? groupPic)
         {
             if (!ModelState.IsValid)
             {

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.Product;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Products
 {
@@ -24,5 +25,6 @@ namespace AntomiShop.Pages.Admin.Products
             _productService.DeleteProduct(productId);
             return RedirectToPage("Index");
         }
+
     }
 }

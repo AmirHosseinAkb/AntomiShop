@@ -42,6 +42,26 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void AddImageToProduct(int productId, IFormFile imagePic)
+        {
+            ProductImage productImage = new ProductImage()
+            {
+                ImageName = NameGenerator.GenerateUniqName() + Path.GetExtension(imagePic.FileName),
+                ProductId = productId
+            };
+            if (imagePic != null)
+            {
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "ProductImages",
+                    productImage.ImageName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    imagePic.CopyTo(stream);
+                }
+            }
+        }
+
         public void AddProduct(Product product,IFormFile productPic)
         {
             product.ProductImageName = "Product.png";
@@ -203,6 +223,11 @@ namespace Antomi.Core.Services
                     Text = g.GroupTitle,
                     Value = g.GroupId.ToString()
                 }).ToList();
+        }
+
+        public List<ProductImage> GetImagesOfProduct(int productId)
+        {
+            return _context.ProductImages.Where(i => i.ProductId == productId).ToList();
         }
 
         public Product GetProductById(int productId)

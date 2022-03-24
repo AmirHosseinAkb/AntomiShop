@@ -30,6 +30,8 @@ namespace Antomi.Core.Services.Interfaces
         void EditGroup(ProductGroup group,IFormFile groupPic);
         void UpdateGroup(ProductGroup group);
         void DeleteGroup(int groupId);
+        void AddImageToProduct(int productId,IFormFile imagePic);
+        List<ProductImage> GetImagesOfProduct(int productId);
            
         #endregion
     }
