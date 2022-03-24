@@ -2,3 +2,118 @@
 @model AntomiShop.Pages.Admin.Inventory.IndexModel
 @{
 }
+<div class="panel">
+
+    <div class="panel-body">
+        <h4>سیستم انبار داری Antomi</h4>
+        <hr />
+        <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+            <div class="row" style="margin-bottom:10px">
+                <form method="get">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder=" نام محصول " name="filterProductName" style="width:100%" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="submit" value="جستجو" class="btn btn-success" />
+                        <a class="btn btn-warning" href="/Admin/Inventory">پاک کردن فیلدها</a>
+                    </div>
+                </form>
+            </div><div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th>عنوان محصول</th>
+                                <th>قیمت</th>
+                                <th>موجودی انبار</th>
+                                <th>تاریخ ثبت محصول</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.ProductsInventory.InventoryInformations)
+                            {
+                                <tr>
+                                    <td>@product.ProductTitle</td>
+                                    <td>@product.ProductPrice.ToString("#,0")</td>
+                                    <td>@product.InventoryCount</td>
+                                    <td>@product.CreateDate.ConvertToShamsi()</td>
+                                    <td class="actions">
+                                        <a class="btn btn-info" onclick="GetProductIdForIncrease(@product.ProductId)">افزایش موجودی</a>
+                                        <a class="btn btn-danger" onclick="GetProductIdForDecrease(@product.ProductId)">کاهش موجودی</a>
+                                        <a class="btn btn-warning" asp-page="InventoryHistory">مشاهده گردنش انبار</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div><div class="row">
+                <div class="col-md-6">
+                    <div class="dataTables_paginate paging_simple_numbers" id="datatable-editable_paginate">
+                        <ul class="pagination">
+                            @for (var i = 1; i <= Model.ProductsInventory.PageCount; i++)
+                            {
+                                <li class="paginate_button @((i==Model.ProductsInventory.CurrentPage)?"active":"")" aria-controls="datatable-editable" tabindex="0"><a href="/Admin/Users?pageId=@i">@i</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: page -->
+</div>
+<div id="increaseInventoryModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <p class="modal-header">افزایش موجودی</p>
+            <div class="modal-body">
+                <form method="post" asp-page="Index" asp-page-handler="IncreaseInventory">
+                    <input type="hidden" id="increaseInp" name="productId" />
+                    <label>تعداد موجودی که میخواهید اضافه کنید را وارد کنید:</label>
+                    <input type="number" class="form-control" name="increaseCount" />
+                    <hr />
+                    <input id="btnIncrease" type="submit" class="btn btn-success" value="ثبت" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="decreaseInventoryModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <p class="modal-header">کاهش موجودی</p>
+            <div class="modal-body">
+                <form method="post" asp-page="Index" asp-page-handler="DecreaseInventory">
+                    <input type="hidden" name="productId" id="decreaseInp" />
+                    <label>تعداد موجودی که میخواهید کم کنید را وارد کنید:</label>
+                    <input type="number" class="form-control" name="decreaseCount" />
+                    <hr />
+                    <input id="btnDecrease" type="submit" class="btn btn-success" value="ثبت" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    function GetProductIdForIncrease(productId){
+        $("#increaseInp").val(productId);
+        $("#increaseInventoryModal").modal('show');
+    }
+    $(function(){
+        $("#btnIncrease").click(function(){
+            $("#increaseInventoryModal").modal('toggle');
+        });
+    });
+     function GetProductIdForDecrease(productId){
+        $("#decreaseInp").val(productId);
+        $("#decreaseInventoryModal").modal('show');
+    }
+    $(function(){
+        $("#btnDecrease").click(function(){
+            $("#decreaseInventoryModal").modal('toggle');
+        });
+    });
+</script>

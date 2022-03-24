@@ -62,6 +62,12 @@ namespace Antomi.Core.Services
             }
         }
 
+        public void AddInventory(ProductInventory inventory)
+        {
+            _context.ProductInventories.Add(inventory);
+            _context.SaveChanges();
+        }
+
         public void AddProduct(Product product,IFormFile productPic)
         {
             product.ProductImageName = "Product.png";
@@ -255,6 +261,35 @@ namespace Antomi.Core.Services
                 showProductsVM.PageCount++;
             }
             return showProductsVM;
+        }
+
+        public ShowProductsInventoryViewModel GetProductsForShowInventory(int pageId, string filterProductName = "")
+        {
+            IQueryable<Product> result = _context.Products;
+            if (!string.IsNullOrEmpty(filterProductName))
+            {
+                result = result.Where(p => p.ProductTitle.Contains(filterProductName));
+            }
+            int take = 10;
+            int skip= (pageId - 1) * take;
+            ShowProductsInventoryViewModel showProductsInventory = new ShowProductsInventoryViewModel()
+            {
+                InventoryInformations = result.Include(p => p.ProductInventories).Skip(skip).Take(take).Select(p => new InventoryInformationsViewModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductPrice=p.ProductPrice,
+                    ProductTitle = p.ProductTitle,
+                    InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
+                    CreateDate = p.CreateDate
+                }).ToList(),
+                CurrentPage = pageId,
+                PageCount = result.Count() / take
+            };
+            if (result.Count() % take != 0)
+            {
+                showProductsInventory.PageCount++;
+            }
+            return showProductsInventory;
         }
 
         public List<SelectListItem> GetSubGroupsOfGroups(int groupId)

@@ -32,6 +32,8 @@ namespace Antomi.Core.Services.Interfaces
         void DeleteGroup(int groupId);
         void AddImageToProduct(int productId,IFormFile imagePic);
         List<ProductImage> GetImagesOfProduct(int productId);
+        ShowProductsInventoryViewModel GetProductsForShowInventory(int pageId,string filterProductName="");
+        void AddInventory(ProductInventory inventory);
            
         #endregion
     }
