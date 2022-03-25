@@ -241,6 +241,11 @@ namespace Antomi.Core.Services
             return _context.Products.Find(productId);
         }
 
+        public List<ProductInventory> GetProductInventoryHistory(int productId)
+        {
+            return _context.ProductInventories.Where(i => i.ProductId == productId).ToList();
+        }
+
         public ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId = 1, string filterName = "")
         {
             IQueryable<Product> result = _context.Products;

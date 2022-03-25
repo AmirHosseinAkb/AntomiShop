@@ -1,0 +1,50 @@
+﻿@page "{productId}"
+@model AntomiShop.Pages.Admin.Inventory.InventoryHistoryModel
+@{
+}
+<div class="panel">
+
+    <div class="panel-body">
+        <h4>تاریخچه ورود و خروج کالای (@ViewData["ProductTitle"])</h4>
+        <hr />
+        <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th>تعداد</th>
+                                <th>افزایش/کاهش</th>
+                                <th>تاریخ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var inventory in Model.ProductInventories)
+                            {
+                                <tr>
+                                    <td>@((@inventory.ProductCount>0)?@inventory.ProductCount:-@inventory.ProductCount)</td>
+                                    <td>
+                                        @if (inventory.ProductCount > 0)
+                                        {
+                                            <span class="text-success">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">
+                                                <i class="glyphicon glyphicon-minus"></i>
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>@inventory.ChargeDate.ConvertToShamsi()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: page -->
+</div>

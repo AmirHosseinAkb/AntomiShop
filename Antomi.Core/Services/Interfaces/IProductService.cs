@@ -34,6 +34,7 @@ namespace Antomi.Core.Services.Interfaces
         List<ProductImage> GetImagesOfProduct(int productId);
         ShowProductsInventoryViewModel GetProductsForShowInventory(int pageId,string filterProductName="");
         void AddInventory(ProductInventory inventory);
+        List<ProductInventory> GetProductInventoryHistory(int productId);
            
         #endregion
     }

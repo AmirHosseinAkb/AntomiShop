@@ -41,7 +41,7 @@
                                     <td class="actions">
                                         <a class="btn btn-info" onclick="GetProductIdForIncrease(@product.ProductId)">افزایش موجودی</a>
                                         <a class="btn btn-danger" onclick="GetProductIdForDecrease(@product.ProductId)">کاهش موجودی</a>
-                                        <a class="btn btn-warning" asp-page="InventoryHistory">مشاهده گردنش انبار</a>
+                                        <a class="btn btn-warning" asp-page="InventoryHistory" asp-route-productId="@product.ProductId">مشاهده گردنش انبار</a>
                                     </td>
                                 </tr>
                             }
