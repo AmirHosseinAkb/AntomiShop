@@ -1,0 +1,126 @@
+﻿@model ShowProductItemsViewModel
+@inject IProductService _productService;
+@{
+    ViewData["Title"] = "جستجوی محصولات";
+    var groups = _productService.GetAllGroups();
+    List<int> selectedGroup = ViewData["SelectedGroup"] as List<int>;
+}
+
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li>جستجوی محصولات</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="shop_area shop_reverse">
+
+    <div class="container">
+        <form id="orderTypeForm" method="get" asp-action="Index">
+            <input id="pageIdInp" type="hidden" name="pageId" />
+            <div class="row">
+                <div class="col-lg-3 col-md-12">
+                    <!--sidebar widget start-->
+                    <aside class="sidebar_widget">
+                        <div class="widget_list widget_categories">
+                            <h3>دسته های محصولات</h3>
+                            <ul>
+                                @foreach (var group in groups.Where(g => g.ParentId == null))
+                                {
+                                    <li><input @((selectedGroup.Any(g=>g==group.GroupId)?"checked":"")) name="selectedGroups" value="@group.GroupId" onchange="SubmitForm()" type="checkbox"> @group.GroupTitle</li>
+                                    @foreach (var group2 in groups.Where(g => g.ProductGroups.Any() && g.ParentId == group.GroupId))
+                                    {
+                                        <li class="widget_sub_categories">
+                                            <a href="javascript:void(0)" class="active"><input @((selectedGroup.Any(g=>g==group2.GroupId)?"checked":"")) name="selectedGroups" value="@group2.GroupId" onchange="SubmitForm()" style="margin-left:5px" type="checkbox">@group2.GroupTitle</a>
+                                            <ul class="widget_dropdown_categories" style="display: block;">
+                                                @foreach (var sub in groups.Where(g => g.ParentId == group2.GroupId))
+                                                {
+                                                    <li><input @((selectedGroup.Any(g=>g==sub.GroupId)?"checked":"")) name="selectedGroups" value="@sub.GroupId" onchange="SubmitForm()" style="margin-left:5px" type="checkbox">@sub.GroupTitle</li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="widget_list widget_filter">
+                            <h3>فیلتر با قیمت</h3>
+
+                            <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0%; width: 100%;"></div>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 100%;"></span>
+                            </div>
+                            <input style="width:100%" type="text" id="amount">
+                            <hr />
+                            <label>ترتیب:</label>
+                            <select name="orderType">
+                                <option value="createDate">تاریخ ایجاد</option>
+                                <option value="ascendingPrice">قیمت صعودی</option>
+                                <option value="descendingPrice">قیمت نزولی</option>
+                            </select>
+                            <hr />
+                            <button type="submit" class="btn btn-danger">فیلتر</button>
+                            <input type="hidden" id="price-min" name="minPrice">
+                            <input type="hidden" id="price-max" name="maxPrice">
+                        </div>
+                    </aside>
+                    <!--sidebar widget end-->
+                </div>
+                <div id="orderTypeForm" class="col-lg-9 col-md-12">
+
+                    <div class="shop_toolbar_wrapper">
+                        <div class="shop_toolbar_btn">
+                            <button data-role="grid_4" type="button" class=" btn-grid-4" data-toggle="tooltip" title="4"></button>
+                            <button data-role="grid_list" type="button" class="active btn-list" data-toggle="tooltip" title="List"></button>
+                        </div>
+                    </div>
+
+                    <div class="row no-gutters shop_wrapper grid_list">
+                        @foreach (var product in Model.ProductBoxInformations)
+                        {
+                            <partial name="_ProductBox" model="product"></partial>
+                        }
+                    </div>
+                    @if (Model.PageCount > 1)
+                    {
+                        <div class="shop_toolbar t_bottom">
+                            <div class="pagination">
+                                <ul>
+                                    @for (var i = 1; i <= Model.PageCount; i++)
+                                    {
+                                        <li class="@((i==Model.CurrentPage)?"current":"")"><a onclick="ChangePage(@i)">@i</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+
+<script>
+    function SubmitForm(){
+        $("#orderTypeForm").submit();
+    }
+    function ChangePage(pageId){
+        $("#pageIdInp").val(pageId);
+        $("#orderTypeForm").submit();
+    }
+    $(function(){
+        $("#price-min").val(0);
+        $("#price-max").val(0);
+    })
+</script>
+}

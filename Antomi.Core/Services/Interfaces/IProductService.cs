@@ -24,18 +24,28 @@ namespace Antomi.Core.Services.Interfaces
         void EditProduct(Product product,IFormFile productPic);
         void UpdateProduct(Product product);
         void DeleteProduct(int productId);
+        ShowProductItemsViewModel GetProducts(int pageId=1,string filterProductName="",string orderType="createDate"
+            ,int minPrice=0,int maxPrice=0,List<int> selectedGroups=null,int take=12);
+        #endregion
+
+        #region Groups
         List<ProductGroup> GetAllGroups(string filterGroupName = "");
-        void AddGroup(ProductGroup group,IFormFile groupPic);
+        void AddGroup(ProductGroup group, IFormFile groupPic);
         ProductGroup GetGroupById(int groupId);
-        void EditGroup(ProductGroup group,IFormFile groupPic);
+        void EditGroup(ProductGroup group, IFormFile groupPic);
         void UpdateGroup(ProductGroup group);
         void DeleteGroup(int groupId);
-        void AddImageToProduct(int productId,IFormFile imagePic);
+        #endregion
+
+        #region Images
+        void AddImageToProduct(int productId, IFormFile imagePic);
         List<ProductImage> GetImagesOfProduct(int productId);
-        ShowProductsInventoryViewModel GetProductsForShowInventory(int pageId,string filterProductName="");
+        #endregion
+
+        #region Inventory
+        ShowProductsInventoryViewModel GetProductsForShowInventory(int pageId, string filterProductName = "");
         void AddInventory(ProductInventory inventory);
         List<ProductInventory> GetProductInventoryHistory(int productId);
-           
         #endregion
     }
 }

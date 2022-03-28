@@ -27,7 +27,8 @@ namespace AntomiShop.Pages.Admin.Products.ProductImages
 
         public IActionResult OnPostAddImage(int productId,IFormFile imgPic)
         {
-            return null;
+            _productService.AddImageToProduct(productId, imgPic);
+            return RedirectToPage("Index");
         }
     }
 }

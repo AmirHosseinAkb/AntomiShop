@@ -53,6 +53,7 @@ namespace Antomi.Core.Services
             {
                 string imagePath = Path.Combine(Directory.GetCurrentDirectory(),
                     "wwwroot",
+                    "Product",
                     "ProductImages",
                     productImage.ImageName);
                 using(var stream=new FileStream(imagePath, FileMode.Create))
@@ -60,6 +61,8 @@ namespace Antomi.Core.Services
                     imagePic.CopyTo(stream);
                 }
             }
+            _context.ProductImages.Add(productImage);
+            _context.SaveChanges();
         }
 
         public void AddInventory(ProductInventory inventory)
@@ -244,6 +247,69 @@ namespace Antomi.Core.Services
         public List<ProductInventory> GetProductInventoryHistory(int productId)
         {
             return _context.ProductInventories.Where(i => i.ProductId == productId).ToList();
+        }
+
+        public ShowProductItemsViewModel GetProducts(int pageId = 1, string filterProductName = "", string orderType = "createDate"
+            , int minPrice = 0, int maxPrice = 0, List<int> selectedGroups = null, int take = 12)
+        {
+            IQueryable<Product> result = _context.Products.Include(p=>p.ProductInventories);
+            if (!string.IsNullOrEmpty(filterProductName))
+            {
+                result = result.Where(p => p.ProductTitle.Contains(filterProductName));
+            }
+            switch (orderType)
+            {
+                case "createDate":
+                    {
+                        result = result.OrderByDescending(p => p.CreateDate);
+                        break;
+                    }
+                case "ascendingPrice":
+                    {
+                        result = result.OrderBy(p => p.ProductPrice);
+                        break;
+                    }
+                case "descendingPrice":
+                    {
+                        result = result.OrderByDescending(p => p.ProductPrice);
+                        break;
+                    }
+            }
+            if (minPrice > 0)
+            {
+                result = result.Where(p => p.ProductPrice > minPrice);
+            }
+            if (maxPrice > 0)
+            {
+                result = result.Where(p => p.ProductPrice < maxPrice);
+            }
+            if (selectedGroups != null)
+            {
+                foreach (int groupId in selectedGroups)
+                {
+                    result = result.Where(p=>p.GroupId==groupId || p.SubId==groupId || p.SecSubId==groupId);
+                }
+            }
+            int skip = (pageId - 1) * take;
+            var pageCount = result.Count() / take;
+            if (result.Count() % take != 0)
+            {
+                pageCount++;
+            }
+            ShowProductItemsViewModel productItemsViewModel = new ShowProductItemsViewModel()
+            {
+                ProductBoxInformations = result.Skip(skip).Take(take).Select(p => new ProductBoxInformationsViewModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductTitle = p.ProductTitle,
+                    ProductImageName = p.ProductImageName,
+                    InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
+                    ProductPrice = p.ProductPrice
+                }).ToList(),
+                CurrentPage = pageId,
+                PageCount = pageCount
+            };
+            return productItemsViewModel;
         }
 
         public ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId = 1, string filterName = "")

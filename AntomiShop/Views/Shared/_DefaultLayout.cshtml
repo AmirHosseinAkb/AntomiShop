@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@inject IProductService _productService;
+@{
+    var groups = _productService.GetAllGroups();
+}
+
+<!DOCTYPE html>
 <html class="no-js" lang="fa" dir="rtl">
 
 <head>
@@ -345,7 +350,7 @@
                                 }
                                 else
                                 {
-                                    <div style="width: 100px;height: 50px;width:50px;margin-left:40px;position: relative;overflow: hidden;border-radius: 50%;"  title="حساب کاربری شما">
+                                    <div style="width: 100px;height: 50px;width:50px;margin-left:40px;position: relative;overflow: hidden;border-radius: 50%;" title="حساب کاربری شما">
                                         <a href="/UserPanel">
                                             <img style="display: inline;margin: 0 auto;margin-left: -25%;height: 100%;width: auto;" src="/UserAvatar/@User.GetAvatarName()" />
                                         </a>
@@ -425,135 +430,36 @@
                         <div class="column1 col-lg-3 col-md-6">
                             <div class="categories_menu categories_three">
                                 <div class="categories_title">
-                                    <h2 class="categori_toggle">دسته بندی ها</h2>
+                                    <h2 class="categori_toggle">دسته بندی محصولات</h2>
                                 </div>
                                 <div class="categories_menu_toggle">
                                     <ul>
-                                        <li class="menu_item_children">
-                                            <a href="#">لباس و پوشاک <i class="fa fa-angle-left"></i></a>
-                                            <ul class="categories_mega_menu">
-                                                <li class="menu_item_children">
-                                                    <a href="#">لباس ها</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">زیر پیراهن</a></li>
-                                                        <li><a href="">عصرانه</a></li>
-                                                        <li><a href="">روزانه</a></li>
-                                                        <li><a href="">ورزشی</a></li>
+                                        @foreach (var group in groups.Where(g => g.ParentId == null))
+                                        {
+                                            <li class="menu_item_children">
+                                                <a href="#"> @group.GroupTitle <i class="fa fa-angle-left"></i></a>
+                                                @if (groups.Any(g => g.ParentId == group.GroupId))
+                                                {
+                                                    <ul class="categories_mega_menu">
+                                                        @foreach (var sub in groups.Where(g => g.ParentId == group.GroupId))
+                                                        {
+                                                            <li class="menu_item_children">
+                                                                <a href="#">@sub.GroupTitle</a>
+                                                                @if (groups.Any(g => g.ParentId == sub.GroupId))
+                                                                {
+                                                                    <ul class="categorie_sub_menu">
+                                                                        @foreach (var sub2 in groups.Where(g=>g.ParentId==sub.GroupId))
+                                                                        {
+                                                                            <li><a href="">@sub2.GroupTitle</a></li>
+                                                                        }
+                                                                    </ul>
+                                                                }
+                                                            </li>
+                                                        }
                                                     </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">کیف دستی</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">رودوشی</a></li>
-                                                        <li><a href="">کیف مدرسه</a></li>
-                                                        <li><a href="">کودکانه</a></li>
-                                                        <li><a href="">کت ها</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">کفش ها</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">چکمه های مچ پا</a></li>
-                                                        <li><a href="">صندل ها قفل دار </a></li>
-                                                        <li><a href="">مخصوص دویدن</a></li>
-                                                        <li><a href="">کتاب ها</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">پوشاک</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">ژاکت و کت </a></li>
-                                                        <li><a href="">بارانی ها</a></li>
-                                                        <li><a href="">ژاکت ها</a></li>
-                                                        <li><a href="">تیشرت ها</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu_item_children">
-                                            <a href="#"> دکور و مبلمان <i class="fa fa-angle-left"></i></a>
-                                            <ul class="categories_mega_menu column_3">
-                                                <li class="menu_item_children">
-                                                    <a href="#">صندلی</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">ناهارخوری</a></li>
-                                                        <li><a href="">اتاق خواب</a></li>
-                                                        <li><a href=""> خانه و اداره</a></li>
-                                                        <li><a href="">اتاق نشیمن</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">نورپردازی</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">نورپردازی سقفی</a></li>
-                                                        <li><a href="">نورپردازی دیواری</a></li>
-                                                        <li><a href="">نورپردازی بیرون خانه</a></li>
-                                                        <li><a href="">نورپردازی هوشمند</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">مبل</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">مبل های پارچه ای</a></li>
-                                                        <li><a href="">مبل های چرمی</a></li>
-                                                        <li><a href="">مبل های گوشه ای</a></li>
-                                                        <li><a href="">مبل های تخت خوابی</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu_item_children">
-                                            <a href="#"> قطعات خودرو <i class="fa fa-angle-left"></i></a>
-                                            <ul class="categories_mega_menu column_2">
-                                                <li class="menu_item_children">
-                                                    <a href="#">ابزار ترمز</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">میل لنگ</a></li>
-                                                        <li><a href="">قرقره</a></li>
-                                                        <li><a href="">دیزل </a></li>
-                                                        <li><a href="">بنزین</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">ترمز اضطراری</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">عروسک های دخترانه</a></li>
-                                                        <li><a href="">ابزار آموزشی دخترانه</a></li>
-                                                        <li><a href="">هنر های کودکان</a></li>
-                                                        <li><a href="">بازی های ویدئویی بچگانه</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu_item_children">
-                                            <a href="#"> کامپیوتر و لپ تاپ <i class="fa fa-angle-left"></i></a>
-                                            <ul class="categories_mega_menu column_2">
-                                                <li class="menu_item_children">
-                                                    <a href="#">شلوار جین</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">ساختمان</a></li>
-                                                        <li><a href="">لوازم الکترونیکی</a></li>
-                                                        <li><a href="">اکشن فیگور </a></li>
-                                                        <li><a href="">اسباب بازی های مخصوص</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu_item_children">
-                                                    <a href="#">ماسین حساب ها</a>
-                                                    <ul class="categorie_sub_menu">
-                                                        <li><a href="">عروسک های دخترانه</a></li>
-                                                        <li><a href="">ابزار آموزشی دخترانه</a></li>
-                                                        <li><a href="">هنر های کودکان</a></li>
-                                                        <li><a href="">بازی های ویدئویی بچگانه</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#"> نورپردازی</a></li>
-                                        <li><a href="#"> لوازم جانبی</a></li>
-                                        <li><a href="#">قطعات بدنه</a></li>
-                                        <li><a href="#">ابزار شبکه</a></li>
-                                        <li><a href="#">فیلتر های کارایی</a></li>
-                                        <li><a href="#"> قطعات موتور</a></li>
+                                                }
+                                            </li>
+                                        }
                                         <li id="cat_toggle" class="has-sub">
                                             <a href="#"> دسته های بیشتر</a>
                                             <ul class="categorie_sub">
@@ -571,21 +477,10 @@
                                     <div class="hover_category">
                                         <select class="select_option" name="select" id="categori2">
                                             <option selected value="1">همه دسته ها</option>
-                                            <option value="2">لوازم جانبی</option>
-                                            <option value="3">سایر لوازم جانبی</option>
-                                            <option value="4">لوازم کامپیوتر</option>
-                                            <option value="5">دوربین و ویدیو </option>
-                                            <option value="6">صفحه نمایش</option>
-                                            <option value="7">تبلت ها</option>
-                                            <option value="8">لپ تاپ ها</option>
-                                            <option value="9">کیف دستی</option>
-                                            <option value="10">هدفون و اسپیکر</option>
-                                            <option value="11">گیاهان دارویی</option>
-                                            <option value="12">سبزیجات</option>
-                                            <option value="13">فروشگاه</option>
-                                            <option value="14">لپ تاپ و کامپیوتر</option>
-                                            <option value="15">ساعت ها</option>
-                                            <option value="16">لوازم الکترونیکی</option>
+                                            @foreach(var group in groups.Where(g=>g.ParentId==null))
+                                            {
+                                                <option>@group.GroupTitle</option>
+                                            }
                                         </select>
                                     </div>
                                     <div class="search_box">

@@ -1,0 +1,100 @@
+﻿@model ProductBoxInformationsViewModel
+<div class="col-12 ">
+    <article class="single_product">
+        <figure>
+            <div class="product_thumb">
+                <a class="primary_img" href="product-details.html"><img src="/Product/Thumbnails/@Model.ProductImageName" alt=""></a>
+                <div class="label_product">
+
+                    @if (Model.InventoryCount > 1)
+                    {
+                        <span class="label_sale">
+                            <i>فروش</i>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="label_sale" style="background-color:crimson">
+                            <i>اتمام</i>
+                        </span>
+                    }
+
+                </div>
+            </div>
+
+            <div class="product_content grid_content">
+                <div class="product_content_inner">
+                    <h4 class="product_name"><a href="product-details.html">@Model.ProductTitle</a></h4>
+                    <div class="product_rating">
+                        <ul>
+                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="price_box">
+
+                        @if (Model.InventoryCount == 0)
+                        {
+                            <div class="alert alert-info">این کالا در انبار وجود ندارد</div>
+                        }
+                        else if (Model.InventoryCount < 5)
+                        {
+                            <p class="text-danger">تنها @Model.InventoryCount عدد در انبار موجود است</p>
+                            <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                        }
+                        else if (Model.InventoryCount > 5)
+                        {
+                            <span style="margin-top:50px" class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                        }
+
+                    </div>
+                </div>
+                @if (Model.InventoryCount != 0)
+                {
+                    <div class="add_to_cart">
+                        <a href="cart.html" title="" data-original-title="افزودن به سبد">افزودن به سبد</a>
+                    </div>
+                }
+            </div>
+            <div class="product_content list_content">
+                <h4 class="product_name"><a href="product-details.html">@Model.ProductTitle</a></h4>
+                <div class="product_rating">
+                    <ul>
+                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
+                    </ul>
+                </div>
+                <div class="price_box">
+                    @if (Model.InventoryCount == 0)
+                    {
+                        <div class="alert alert-info">این کالا در انبار وجود ندارد</div>
+                    }
+                    else if (Model.InventoryCount < 5)
+                    {
+                        <p class="text-danger">تنها @Model.InventoryCount عدد در انبار موجود است</p>
+                        <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                    }
+                    else if (Model.InventoryCount > 5)
+                    {
+                        <span class="text-success">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </span>
+                        <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                    }
+                </div>
+                @if (Model.InventoryCount != 0)
+                {
+                    <div class="add_to_cart">
+                        <a href="cart.html" title="" data-original-title="افزودن به سبد">افزودن به سبد</a>
+                    </div>
+                }
+            </div>
+        </figure>
+    </article>
+</div>
