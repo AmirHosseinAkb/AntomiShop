@@ -4,6 +4,7 @@ using Antomi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Antomi.Data.Migrations
 {
     [DbContext(typeof(AntomiContext))]
-    partial class AntomiContextModelSnapshot : ModelSnapshot
+    [Migration("20220328152600_InitProductColors")]
+    partial class InitProductColors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,9 +111,11 @@ namespace Antomi.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("SecSubId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("SubId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
@@ -432,12 +436,15 @@ namespace Antomi.Data.Migrations
 
                     b.HasOne("Antomi.Data.Entities.Product.ProductGroup", "SecSubGroup")
                         .WithMany("SecSubProducts")
-                        .HasForeignKey("SecSubId");
+                        .HasForeignKey("SecSubId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Antomi.Data.Entities.Product.ProductGroup", "SubGroup")
                         .WithMany("SubProducts")
                         .HasForeignKey("SubId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("ProductGroup");
 

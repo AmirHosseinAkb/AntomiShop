@@ -57,6 +57,7 @@ namespace Antomi.Data.Entities.Product
         public ProductGroup? SecSubGroup { get; set; }
         public List<ProductImage>? ProductImages { get; set; }
         public List<ProductInventory>? ProductInventories { get; set; }
+        public List<ProductColor>? ProductColors { get; set; }
 
         #endregion
 
