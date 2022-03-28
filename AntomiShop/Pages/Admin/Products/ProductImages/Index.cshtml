@@ -21,7 +21,7 @@
                         <div class="card-body">
                             <img src="/Product/ProductImages/@image.ImageName" class="card-img-top img-thumbnail">
                             <hr />
-                            <a onclick="GetImageIdForDelete" class="btn btn-danger">حذف تصویر</a>
+                            <a onclick="GetImageIdForDelete(@image.ImageId)" class="btnDelete btn btn-danger">حذف تصویر</a>
                         </div>
                     </div>
                 </div>
@@ -35,8 +35,8 @@
         <div class="modal-content">
             <h3 class="modal-header">آیا مطمئنید که میخواهید این تصویر را حذف کنید؟</h3>
             <div class="modal-body">
-                <form asp-page="Index" asp-page-handler="DeleteProduct" method="post">
-                    <input id="productIdInput" type="hidden" name="productId" />
+                <form asp-page="Index" asp-page-handler="DeleteImage" method="post">
+                    <input id="imageIdInput" type="hidden" name="imageId" />
                     <input id="btnSubmit" type="submit" class="btn btn-danger" value="تایید و حذف" />
                     <a id="btnCancell" class="btn btn-success">انصراف</a>
                 </form>
@@ -53,7 +53,7 @@
                     <input type="hidden" value="@ViewData["ProductId"]" name="productId" />
                     <img id="imgAvatar" style="width:100%;max-height:400px" class="img img-thumbnail" src="~/Groups/Group.png" />
                     <hr />
-                    <input id="imgInp" type="file" name="imgPic" />
+                    <input id="imgInp"  type="file" name="imgPic" />
                     <hr />
                     <hr />
                     <div id="messageAlert" class="alert alert-danger" style="display:none">
@@ -87,7 +87,29 @@
         $("#btnAddImage").click(function(){
             $("#imageModal").modal('show');
         });
+    });   
+    $(function(){
+        $(".btnDelete").click(function(){
+            $("#deleteModal").modal('show');
+        });
     });
+    //$(function(){
+    //    $("#imgAvatar").change(function(){
+    //        $.ajax({
+    //            type="get",
+    //            url="/Admin/Products/ProductImages/Index?handler=ImageChecker?"+$("#imgInp").val()
+    //        }).done(function(res){
+    //            if(res==="True")
+    //            {
+    //                $("#messageAlert").show();
+    //            }
+    //            else
+    //            {
+    //                 $("#messageAlert").hide();
+    //            }
+    //        });
+    //    });
+    //});
 </script>
 <script>
     function readURL(input) {

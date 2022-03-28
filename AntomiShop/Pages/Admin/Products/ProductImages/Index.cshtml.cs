@@ -30,5 +30,11 @@ namespace AntomiShop.Pages.Admin.Products.ProductImages
             _productService.AddImageToProduct(productId, imgPic);
             return RedirectToPage("Index");
         }
+        public IActionResult OnPostDeleteImage(int imageId)
+        {
+            _productService.DeleteImage(imageId);
+            return RedirectToPage(imageId);
+        }
+
     }
 }

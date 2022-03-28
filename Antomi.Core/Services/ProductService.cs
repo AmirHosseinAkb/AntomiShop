@@ -105,6 +105,13 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteImage(int imageId)
+        {
+            var image = _context.ProductImages.Find(imageId);
+            _context.ProductImages.Remove(image);
+            _context.SaveChanges();
+        }
+
         public void DeleteProduct(int productId)
         {
             var product = GetProductById(productId);

@@ -40,6 +40,7 @@ namespace Antomi.Core.Services.Interfaces
         #region Images
         void AddImageToProduct(int productId, IFormFile imagePic);
         List<ProductImage> GetImagesOfProduct(int productId);
+        void DeleteImage(int imageId);
         #endregion
 
         #region Inventory
