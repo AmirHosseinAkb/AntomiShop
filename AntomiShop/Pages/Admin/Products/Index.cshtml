@@ -3,7 +3,7 @@
 @{
 }
 
-<div class="panel" style="height:650px; overflow-y:scroll">
+<div class="panel" style="height:700px; overflow-y:scroll">
 
     <div class="panel-body">
         <div class="row">
@@ -34,6 +34,7 @@
                                 <th>نام محصول</th>
                                 <th>قیمت محصول</th>
                                 <th>تاریخ ایجاد</th>
+                                <th>رنگ های محصول</th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
@@ -47,6 +48,21 @@
                                     <td>@product.ProductTitle</td>
                                     <td>@product.ProductPrice.ToString("#,0") تومان</td>
                                     <td>@product.CreateDate.ConvertToShamsi()</td>
+                                    <td>
+                                        
+                                            @foreach (var color in product.ProductColors)
+                                            {
+                                                <form method="post" asp-page="Index" asp-page-handler="DeleteColor">
+                                                <div style="background-color:@color.ColorCode; margin:0px 42%;border-radius:20px">
+                                                    <br />
+                                                </div>
+                                                <input type="hidden" name="colorId" value="@color.ColorId"/>
+                                                <input type="submit" class="btn btn-xs" style="background-color:@color.ColorCode;color:white" value="حذف رنگ" />
+                                                <br />
+                                                </form>
+                                            }
+                                        
+                                    </td>
                                     <td class="actions">
                                         <a asp-page="EditProduct" asp-route-productId="@product.ProductId" class="btn btn-warning btn-sm">ویرایش</a>
                                         <br />
@@ -55,6 +71,9 @@
                                         <br />
                                         <br />
                                         <a href="/Admin/Products/ProductImages/@product.ProductId" class="btn btn-info btn-sm">عکس های محصول</a>
+                                        <br />
+                                        <br />
+                                        <a id="btnAddColor" onclick="GetProductIdForAddColor(@product.ProductId)" class="btn btn-purple btn-sm">افزودن رنگ های محصول</a>
                                     </td>
                                 </tr>
                             }
@@ -91,22 +110,17 @@
         </div>
     </div>
 </div>
-<div id="imageModal" class="modal fade">
+<div id="colorModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <h4 class="modal-header">افزودن عکس محصول</h4>
+            <h3 class="modal-header">افزودن رنگ محصول</h3>
             <div class="modal-body">
-                <form asp-page="Index" asp-page-handler="AddImage" method="post">
-                    <input id="productIdInp" type="hidden" name="productId" />
-                    <img id="imgAvatar" style="width:100%;max-height:400px" class="img img-thumbnail" src="~/Groups/Group.png" />
+                <form asp-page="Index" asp-page-handler="CreateProductColor" method="post">
+                    <label>لطفا رنگ مورد نظر برای محصول را انتخاب کنید:</label>
+                    <input type="hidden" id="colorProductIdInp" name="productId" />
+                    <input type="color" name="colorCode" />
                     <hr />
-                    <input id="imgInp" type="file" name="imgPic" />
-                    @if (Convert.ToBoolean(ViewData["IsntImage"]) == true)
-                    {
-                        <p class="text-danger"> لطفا فقط تصویر انتخاب کنید</p>
-                    }
-                    <hr />
-                    <input id="btnAddImage" type="submit" class="btn btn-success" value="ثبت تصویر" />
+                    <input id="btnSaveAddColor" type="submit" class="btn btn-success" value="ذخیره" />
                 </form>
             </div>
         </div>
@@ -115,25 +129,31 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 
-        function GetProductIdForDelete(productId){
-                $("#productIdInput").val(productId);
-                $("#deleteModal").modal('show');
-            }
-
-        $(function(){
-            $("#btnCancell").click(function(){
-                $("#deleteModal").modal('toggle');
-            });
-        });
-        $(function(){
-            $("#btnSubmit").click(function(){
-                $("#deleteModal").modal('toggle');
-            });
-        });
-        function GetProductIdForAddImage(productId){
-            $("#productIdInp").val(productId);
-            $("#imageModal").modal('show');
+    function GetProductIdForDelete(productId){
+            $("#productIdInput").val(productId);
+            $("#deleteModal").modal('show');
         }
+
+    $(function(){
+        $("#btnCancell").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+    $(function(){
+        $("#btnSubmit").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+    function GetProductIdForAddColor(productId)
+    {
+            $("#colorProductIdInp").val(productId);
+            $("#colorModal").modal('show');
+    }
+    $(function(){
+        $("#btnSaveAddColor").click(function(){
+            $("#colorModal").modal('toggle');
+        });
+    });
 </script>
 <script>
     function readURL(input) {

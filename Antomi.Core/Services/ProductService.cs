@@ -23,6 +23,12 @@ namespace Antomi.Core.Services
             _context = context;
         }
 
+        public void AddColorToProduct(ProductColor productColor)
+        {
+            _context.ProductColors.Add(productColor);
+            _context.SaveChanges();
+        }
+
         public void AddGroup(ProductGroup group, IFormFile groupPic)
         {
             group.GroupImageName = "Group.png";
@@ -95,6 +101,13 @@ namespace Antomi.Core.Services
                 imageConvertor.Image_resize(imagePath, thumbPath, 400);
             }
             _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
+        public void DeleteColor(int colorId)
+        {
+            var color = _context.ProductColors.Find(colorId);
+            _context.ProductColors.Remove(color);
             _context.SaveChanges();
         }
 
@@ -321,7 +334,7 @@ namespace Antomi.Core.Services
 
         public ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId = 1, string filterName = "")
         {
-            IQueryable<Product> result = _context.Products;
+            IQueryable<Product> result = _context.Products.Include(p=>p.ProductColors);
             if (!string.IsNullOrEmpty(filterName))
             {
                 result = result.Where(p => p.ProductTitle.Contains(filterName));

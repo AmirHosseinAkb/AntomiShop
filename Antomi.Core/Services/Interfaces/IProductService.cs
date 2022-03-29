@@ -48,5 +48,11 @@ namespace Antomi.Core.Services.Interfaces
         void AddInventory(ProductInventory inventory);
         List<ProductInventory> GetProductInventoryHistory(int productId);
         #endregion
+        #region Colors
+
+        void AddColorToProduct(ProductColor productColor);
+        void DeleteColor(int colorId);
+
+        #endregion
     }
 }

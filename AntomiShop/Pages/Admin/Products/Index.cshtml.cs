@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.Product;
 using Antomi.Core.Security;
+using Antomi.Data.Entities.Product;
 
 namespace AntomiShop.Pages.Admin.Products
 {
@@ -23,6 +24,23 @@ namespace AntomiShop.Pages.Admin.Products
         {
             //Delete Product
             _productService.DeleteProduct(productId);
+            return RedirectToPage("Index");
+        }
+
+        public IActionResult OnPostCreateProductColor(int productId,string colorCode)
+        {
+            ProductColor color = new ProductColor()
+            {
+                ProductId = productId,
+                ColorCode = colorCode
+            };
+            _productService.AddColorToProduct(color);
+            return RedirectToPage("Index");
+        }
+
+        public IActionResult OnPostDeleteColor(int colorId)
+        {
+            _productService.DeleteColor(colorId);
             return RedirectToPage("Index");
         }
 
