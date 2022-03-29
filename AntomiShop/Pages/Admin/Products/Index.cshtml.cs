@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.Product;
@@ -26,13 +26,14 @@ namespace AntomiShop.Pages.Admin.Products
             _productService.DeleteProduct(productId);
             return RedirectToPage("Index");
         }
-
-        public IActionResult OnPostCreateProductColor(int productId,string colorCode)
+        
+        public IActionResult OnPostCreateProductColor(int productId,string colorCode,string colorName)
         {
             ProductColor color = new ProductColor()
             {
                 ProductId = productId,
-                ColorCode = colorCode
+                ColorCode = colorCode,
+                ColorName = colorName
             };
             _productService.AddColorToProduct(color);
             return RedirectToPage("Index");

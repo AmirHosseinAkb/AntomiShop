@@ -139,10 +139,11 @@
                                         <option value="16">لوازم الکترونیکی</option>
                                     </select>
                                 </div>
-                                <div class="search_box">
-                                    <input placeholder="جستجوی محصول ..." type="text">
-                                    <button type="submit">جستجو</button>
-                                </div>
+                                    <div class="search_box">
+
+                                        <input name="filterProductName" placeholder="جستجوی محصول ..." type="text">
+                                        <button type="submit">جستجو</button>
+                                    </div>
                             </form>
                         </div>
                         <div id="menu" class="text-left ">
@@ -448,7 +449,7 @@
                                                                 @if (groups.Any(g => g.ParentId == sub.GroupId))
                                                                 {
                                                                     <ul class="categorie_sub_menu">
-                                                                        @foreach (var sub2 in groups.Where(g=>g.ParentId==sub.GroupId))
+                                                                        @foreach (var sub2 in groups.Where(g => g.ParentId == sub.GroupId))
                                                                         {
                                                                             <li><a href="">@sub2.GroupTitle</a></li>
                                                                         }
@@ -473,18 +474,18 @@
                         </div>
                         <div class="column2 col-lg-6 ">
                             <div class="search_container">
-                                <form action="#">
+                                <form asp-action="Index" asp-controller="Product" method="get">
                                     <div class="hover_category">
-                                        <select class="select_option" name="select" id="categori2">
-                                            <option selected value="1">همه دسته ها</option>
-                                            @foreach(var group in groups.Where(g=>g.ParentId==null))
+                                        <select  class="select_option" name="selectedGroups" id="categori2">
+                                            <option selected value="" >همه دسته ها</option>
+                                            @foreach (var group in groups.Where(g => g.ParentId == null))
                                             {
-                                                <option>@group.GroupTitle</option>
+                                                <option value="@group.GroupId">@group.GroupTitle</option>
                                             }
                                         </select>
                                     </div>
                                     <div class="search_box">
-                                        <input placeholder="جستجوی محصول ..." type="text">
+                                        <input name="filterProductName" placeholder="جستجوی محصول ..." type="text">
                                         <button type="submit">جستجو</button>
                                     </div>
                                 </form>

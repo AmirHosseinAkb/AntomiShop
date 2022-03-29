@@ -264,6 +264,16 @@ namespace Antomi.Core.Services
             return _context.Products.Find(productId);
         }
 
+        public Product GetProductForShow(int productId)
+        {
+            return _context.Products
+                .Include(p=>p.ProductGroup)
+                .Include(p=>p.ProductImages)
+                .Include(p=>p.ProductColors)
+                .Include(p=>p.ProductInventories)
+                .SingleOrDefault(p=>p.ProductId==productId);
+        }
+
         public List<ProductInventory> GetProductInventoryHistory(int productId)
         {
             return _context.ProductInventories.Where(i => i.ProductId == productId).ToList();

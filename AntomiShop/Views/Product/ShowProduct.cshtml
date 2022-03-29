@@ -1,4 +1,5 @@
-﻿
+﻿@using Antomi.Data.Entities.Product
+@model Product
 @{
     ViewData["Title"] = "نمایش محصول";
 }
@@ -26,35 +27,19 @@
                         <div class="product-details-tab">
                             <div id="img-1" class="zoomWrapper single-zoom">
                                 <a href="#">
-                                    <img id="zoom1" src="/assets/img/product/productbig5.jpg" data-zoom-image="/assets/img/product/productbig5.jpg" alt="big-1">
+                                    <img id="zoom1" src="/Product/Images/@Model.ProductImageName" data-zoom-image="/Product/Images/@Model.ProductImageName" alt="big-1">
                                 </a>
                             </div>
                             <div class="single-zoom-thumb">
                                 <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
-                                    <li>
-                                        <a href="#" class="elevatezoom-gallery active" data-update="" data-image="/assets/img/product/productbig4.jpg" data-zoom-image="/assets/img/product/productbig4.jpg">
-                                            <img src="/assets/img/product/productbig4.jpg" alt="zo-th-1">
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="#" class="elevatezoom-gallery active" data-update="" data-image="/assets/img/product/productbig1.jpg" data-zoom-image="/assets/img/product/productbig1.jpg">
-                                            <img src="/assets/img/product/productbig1.jpg" alt="zo-th-1">
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="#" class="elevatezoom-gallery active" data-update="" data-image="/assets/img/product/productbig2.jpg" data-zoom-image="/assets/img/product/productbig2.jpg">
-                                            <img src="/assets/img/product/productbig2.jpg" alt="zo-th-1">
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="#" class="elevatezoom-gallery active" data-update="" data-image="/assets/img/product/productbig3.jpg" data-zoom-image="/assets/img/product/productbig3.jpg">
-                                            <img src="/assets/img/product/productbig3.jpg" alt="zo-th-1">
-                                        </a>
-
-                                    </li>
+                                    @foreach (var image in Model.ProductImages)
+                                    {
+                                        <li>
+                                            <a href="#" class="elevatezoom-gallery active" data-update="" data-image="/Product/ProductImages/@image.ImageName" data-zoom-image="/Product/ProductImages/@image.ImageName">
+                                                <img src="/Product/ProductImages/@image.ImageName" alt="zo-th-1">
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -63,7 +48,7 @@
                         <div class="product_d_right">
                             <form action="#">
 
-                                <h3><a href="#">ماشین ظرف شویی سامسونگ DM2019</a></h3>
+                                <h3><a href="#"> @Model.ProductTitle </a></h3>
                                 <div class="product_rating">
                                     <ul>
                                         <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
@@ -76,20 +61,17 @@
                                 </div>
                                 <div class="price_box">
                                     <span class="old_price">80,000 تومان</span>
-                                    <span class="current_price">70,000 تومان</span>
-                                </div>
-                                <div class="product_desc">
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده </p>
+                                    <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
                                 </div>
                                 <div class="product_variant color">
                                     <h3>گزینه های در دسترس</h3>
                                     <label>رنگ</label>
-                                    <ul>
-                                        <li class="color1"><a href="#"></a></li>
-                                        <li class="color2"><a href="#"></a></li>
-                                        <li class="color3"><a href="#"></a></li>
-                                        <li class="color4"><a href="#"></a></li>
-                                    </ul>
+                                    @foreach (var color in Model.ProductColors)
+                                    {
+                                        <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px"> 
+                                            <input type="radio" name="colorRadio" value="">
+                                        </div>
+                                    }
                                 </div>
                                 <div class="product_variant quantity">
                                     <label>تعداد</label>

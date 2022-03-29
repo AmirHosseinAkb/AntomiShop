@@ -16,9 +16,10 @@ namespace AntomiShop.Controllers
             ViewData["SelectedGroup"] = selectedGroups;
             return View(_productService.GetProducts(pageId,filterProductName,orderType,minPrice,maxPrice,selectedGroups,take));
         }
+        [Route("ShowProduct/{productId}")]
         public IActionResult ShowProduct(int productId)
         {
-            return View(_productService.GetProductById(productId));
+            return View(_productService.GetProductForShow(productId));
         }
     }
 }

@@ -115,13 +115,18 @@
         <div class="modal-content">
             <h3 class="modal-header">افزودن رنگ محصول</h3>
             <div class="modal-body">
-                <form asp-page="Index" asp-page-handler="CreateProductColor" method="post">
+                <form id="colorForm" asp-page="Index" asp-page-handler="CreateProductColor" method="post">
                     <label>لطفا رنگ مورد نظر برای محصول را انتخاب کنید:</label>
                     <input type="hidden" id="colorProductIdInp" name="productId" />
-                    <input type="color" name="colorCode" />
+                    <input type="color"  name="colorCode" style="display:inline"/>
+                    <input type="text" id="colorNameInp" class="form-control" placeholder="نام رنگ را وارد کنید" name="colorName" />
+                    <div id="messageEmpty" class="alert alert-danger" style="display:none;margin-top:10px">
+                        لطفا نام رنگ را وارد کنید
+                    </div>
                     <hr />
-                    <input id="btnSaveAddColor" type="submit" class="btn btn-success" value="ذخیره" />
                 </form>
+                <input id="btnSaveAddColor" type="submit" class="btn btn-success" value="ذخیره" />
+                @*this button is write outside of form tag because of if condition*@
             </div>
         </div>
     </div>
@@ -151,7 +156,13 @@
     }
     $(function(){
         $("#btnSaveAddColor").click(function(){
-            $("#colorModal").modal('toggle');
+            if($("#colorNameInp").val().length===0){
+                $("#messageEmpty").show();
+            }
+            else{
+                $("#messageEmpty").hide();
+                $("#colorForm").submit();
+            }
         });
     });
 </script>
