@@ -1,4 +1,5 @@
-﻿@using Antomi.Data.Entities.Product
+﻿@using Antomi.Core.DTOs.Product
+@using Antomi.Data.Entities.Product
 @model Product
 @{
     ViewData["Title"] = "نمایش محصول";
@@ -65,30 +66,25 @@
                                 </div>
                                 <div class="product_variant color">
                                     <h3>گزینه های در دسترس</h3>
-                                    <label>رنگ</label>
+                                    <label>رنگ: <b id="colorName"></b></label>
+                                    <br />
                                     @foreach (var color in Model.ProductColors)
                                     {
-                                        <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px"> 
-                                            <input type="radio" name="colorRadio" value="">
+                                        <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px">
+                                            <input class="color_Radio" type="radio" name="colorRadio" value="@color.ColorId">
                                         </div>
                                     }
                                 </div>
                                 <div class="product_variant quantity">
                                     <label>تعداد</label>
-                                    <input min="1" max="100" value="1" type="number">
+                                    <input min="1" max="100" value="1"  type="number">
                                     <button class="button" type="submit">افزودن به سبد</button>
                                 </div>
                                 <div class="product_timing">
-                                    <div data-countdown="2045/05/15"></div>
-                                </div>
-                                <div class=" product_d_action">
-                                    <ul>
-                                        <li><a href="#" title="افزودن به علاقه‌مندی‌ها">+ افزودن به علاقه‌مندی‌ها</a></li>
-                                        <li><a href="#" title="افزودن به علاقه‌مندی‌ها">+ مقایسه</a></li>
-                                    </ul>
+                                    <div data-countdown="2023/05/15"></div>
                                 </div>
                                 <div class="product_meta">
-                                    <span>دسته: <a href="#">پوشاک</a></span>
+                                    <span>دسته: <a href="/Product?selectedGroups=@Model.GroupId">@Model.ProductGroup.GroupTitle</a></span>
                                 </div>
 
                             </form>
@@ -118,9 +114,6 @@
                                         <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">توضیحات</a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">مشخصات فنی</a>
-                                    </li>
-                                    <li>
                                         <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">نقد و برررسی (1)</a>
                                     </li>
                                 </ul>
@@ -128,36 +121,9 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="info" role="tabpanel">
                                     <div class="product_info_content">
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای</p>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ</p>
+                                        <p>@Html.Raw(Model.ProductDescription)</p>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="sheet" role="tabpanel">
-                                    <div class="product_d_table">
-                                        <form action="#">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="first_child">جنس</td>
-                                                        <td>پلی استر</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="first_child">سبک ها</td>
-                                                        <td>دخترانه</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="first_child">خصوصیات</td>
-                                                        <td>پیراهن کوتاه</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </form>
-                                    </div>
-                                    <div class="product_info_content">
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و</p>
-                                    </div>
-                                </div>
-
                                 <div class="tab-pane fade" id="reviews" role="tabpanel">
                                     <div class="reviews_wrapper">
                                         <h2>1 نقد و بررسی برای این محصول</h2>
@@ -225,7 +191,9 @@
             </div>
             <!--product info end-->
         </div>
-
+        @{
+            List<ProductBoxInformationsViewModel> relatedProducts = ViewData["RelatedProducts"] as List<ProductBoxInformationsViewModel>;
+        }
         <!--product area start-->
         <section class="product_area related_products">
             <div class="row">
@@ -236,200 +204,14 @@
                 </div>
             </div>
             <div class="product_carousel product_style product_column5 owl-carousel">
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product14.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product13.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">80,000 تومان</span>
-                                    <span class="current_price">70,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product17.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product18.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">76,000 تومان</span>
-                                    <span class="current_price">75,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product19.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product20.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">86,000 تومان</span>
-                                    <span class="current_price">79,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product22.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product23.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">ساعت هوشمند سامسونگ مدل Gear Watch</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">82,000 تومان</span>
-                                    <span class="current_price">75,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product24.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product25.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">72,000 تومان</span>
-                                    <span class="current_price">70,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product26.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product27.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">65,000 تومان</span>
-                                    <span class="current_price">60,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
+                @if (relatedProducts.Count() > 1)
+                {
+                    @foreach (var product in relatedProducts)
+                    {
+                        <partial name="_ProductBox" model="@product" />
+                    }
+                }
             </div>
-
         </section>
         <!--product area end-->
         <!--product area start-->
@@ -470,167 +252,6 @@
                             <div class="add_to_cart">
                                 <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
                             </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product7.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product8.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">76,000 تومان</span>
-                                    <span class="current_price">75,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product9.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product10.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">72,000 تومان</span>
-                                    <span class="current_price">70,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product11.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product12.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">65,000 تومان</span>
-                                    <span class="current_price">60,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product13.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product4.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">86,000 تومان</span>
-                                    <span class="current_price">79,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
-                        </div>
-                    </figure>
-                </article>
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product15.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product16.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">ساعت هوشمند سامسونگ مدل Gear Watch</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">82,000 تومان</span>
-                                    <span class="current_price">75,000 تومان</span>
-                                </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
-                            </div>
-
                         </div>
                     </figure>
                 </article>
@@ -639,3 +260,19 @@
         <!--product area end-->
     </div>
 </div>
+@section Scripts{
+<script>
+
+    $(function(){
+        $(".color_Radio").change(function(){
+           $.ajax({
+                type:"get",
+                url:"/GetColorName/"+$(this).val()
+           }).done(function(res){
+               $("#colorName").text(res);
+           });
+        });
+    });
+</script>
+
+}

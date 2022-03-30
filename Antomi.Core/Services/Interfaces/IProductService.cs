@@ -53,6 +53,8 @@ namespace Antomi.Core.Services.Interfaces
 
         void AddColorToProduct(ProductColor productColor);
         void DeleteColor(int colorId);
+        ProductColor GetProductColorById(int colorId);
+        List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId);
 
         #endregion
     }

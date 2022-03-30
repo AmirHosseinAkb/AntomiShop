@@ -85,10 +85,12 @@
                     </div>
 
                     <div class="row no-gutters shop_wrapper grid_list">
-                        @foreach (var product in Model.ProductBoxInformations)
-                        {
-                            <partial name="_ProductBox" model="product"></partial>
-                        }
+                            @foreach (var product in Model.ProductBoxInformations)
+                            {
+                                <div class="col-12 ">
+                                <partial name="_ProductBox" model="product"></partial>
+                                </div>
+                            }
                     </div>
                     @if (Model.PageCount > 1)
                     {

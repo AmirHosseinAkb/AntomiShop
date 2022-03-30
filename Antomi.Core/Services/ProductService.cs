@@ -39,7 +39,7 @@ namespace Antomi.Core.Services
                     "wwwroot",
                     "Groups",
                     group.GroupImageName);
-                using(var stream=new FileStream(imagePath, FileMode.Create))
+                using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     groupPic.CopyTo(stream);
                 }
@@ -62,7 +62,7 @@ namespace Antomi.Core.Services
                     "Product",
                     "ProductImages",
                     productImage.ImageName);
-                using(var stream=new FileStream(imagePath, FileMode.Create))
+                using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     imagePic.CopyTo(stream);
                 }
@@ -77,7 +77,7 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
-        public void AddProduct(Product product,IFormFile productPic)
+        public void AddProduct(Product product, IFormFile productPic)
         {
             product.ProductImageName = "Product.png";
             if (productPic != null)
@@ -92,7 +92,7 @@ namespace Antomi.Core.Services
                 {
                     productPic.CopyTo(stream);
                 }
-                string thumbPath= Path.Combine(Directory.GetCurrentDirectory(),
+                string thumbPath = Path.Combine(Directory.GetCurrentDirectory(),
                     "wwwroot",
                     "Product",
                     "Thumbnails",
@@ -146,13 +146,13 @@ namespace Antomi.Core.Services
             {
                 File.Delete(thumbPath);
             }
-            product.IsDeleted=true;
+            product.IsDeleted = true;
             _context.SaveChanges();
         }
 
         public void EditGroup(ProductGroup group, IFormFile groupPic)
         {
-            if(groupPic!=null)
+            if (groupPic != null)
             {
                 string imagePath = "";
                 if (group.GroupImageName != "Group.png")
@@ -167,11 +167,11 @@ namespace Antomi.Core.Services
                     }
                 }
                 group.GroupImageName = NameGenerator.GenerateUniqName() + Path.GetExtension(groupPic.FileName);
-                imagePath= Path.Combine(Directory.GetCurrentDirectory(),
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot",
                         "Groups",
                         group.GroupImageName);
-                using(var stream=new FileStream(imagePath, FileMode.Create))
+                using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     groupPic.CopyTo(stream);
                 }
@@ -212,11 +212,11 @@ namespace Antomi.Core.Services
                         "Product",
                         "Images",
                         product.ProductImageName);
-                using(var stream=new FileStream(imagePath, FileMode.Create))
+                using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     productPic.CopyTo(stream);
                 }
-                thumbPath= Path.Combine(Directory.GetCurrentDirectory(),
+                thumbPath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot",
                         "Product",
                         "Thumbnails",
@@ -231,7 +231,7 @@ namespace Antomi.Core.Services
 
         public List<ProductGroup> GetAllGroups(string filterGroupName = "")
         {
-            IQueryable<ProductGroup> result = _context.ProductGroups.Include(g=>g.ProductGroups).ThenInclude(g=>g.ProductGroups);
+            IQueryable<ProductGroup> result = _context.ProductGroups.Include(g => g.ProductGroups).ThenInclude(g => g.ProductGroups);
             if (!string.IsNullOrEmpty(filterGroupName))
             {
                 result = result.Where(g => g.GroupTitle.Contains(filterGroupName));
@@ -246,7 +246,7 @@ namespace Antomi.Core.Services
 
         public List<SelectListItem> GetGroups()
         {
-            return _context.ProductGroups.Where(g=>g.ParentId==null)
+            return _context.ProductGroups.Where(g => g.ParentId == null)
                 .Select(g => new SelectListItem()
                 {
                     Text = g.GroupTitle,
@@ -264,14 +264,19 @@ namespace Antomi.Core.Services
             return _context.Products.Find(productId);
         }
 
+        public ProductColor GetProductColorById(int colorId)
+        {
+            return _context.ProductColors.Find(colorId);
+        }
+
         public Product GetProductForShow(int productId)
         {
             return _context.Products
-                .Include(p=>p.ProductGroup)
-                .Include(p=>p.ProductImages)
-                .Include(p=>p.ProductColors)
-                .Include(p=>p.ProductInventories)
-                .SingleOrDefault(p=>p.ProductId==productId);
+                .Include(p => p.ProductGroup)
+                .Include(p => p.ProductImages)
+                .Include(p => p.ProductColors)
+                .Include(p => p.ProductInventories)
+                .SingleOrDefault(p => p.ProductId == productId);
         }
 
         public List<ProductInventory> GetProductInventoryHistory(int productId)
@@ -282,7 +287,7 @@ namespace Antomi.Core.Services
         public ShowProductItemsViewModel GetProducts(int pageId = 1, string filterProductName = "", string orderType = "createDate"
             , int minPrice = 0, int maxPrice = 0, List<int> selectedGroups = null, int take = 12)
         {
-            IQueryable<Product> result = _context.Products.Include(p=>p.ProductInventories);
+            IQueryable<Product> result = _context.Products.Include(p => p.ProductInventories);
             if (!string.IsNullOrEmpty(filterProductName))
             {
                 result = result.Where(p => p.ProductTitle.Contains(filterProductName));
@@ -317,7 +322,7 @@ namespace Antomi.Core.Services
             {
                 foreach (int groupId in selectedGroups)
                 {
-                    result = result.Where(p=>p.GroupId==groupId || p.SubId==groupId || p.SecSubId==groupId);
+                    result = result.Where(p => p.GroupId == groupId || p.SubId == groupId || p.SecSubId == groupId);
                 }
             }
             int skip = (pageId - 1) * take;
@@ -344,7 +349,7 @@ namespace Antomi.Core.Services
 
         public ShowProductsInAdminViewModel GetProductsForShowInAdmin(int pageId = 1, string filterName = "")
         {
-            IQueryable<Product> result = _context.Products.Include(p=>p.ProductColors);
+            IQueryable<Product> result = _context.Products.Include(p => p.ProductColors);
             if (!string.IsNullOrEmpty(filterName))
             {
                 result = result.Where(p => p.ProductTitle.Contains(filterName));
@@ -372,13 +377,13 @@ namespace Antomi.Core.Services
                 result = result.Where(p => p.ProductTitle.Contains(filterProductName));
             }
             int take = 10;
-            int skip= (pageId - 1) * take;
+            int skip = (pageId - 1) * take;
             ShowProductsInventoryViewModel showProductsInventory = new ShowProductsInventoryViewModel()
             {
                 InventoryInformations = result.Include(p => p.ProductInventories).Skip(skip).Take(take).Select(p => new InventoryInformationsViewModel()
                 {
                     ProductId = p.ProductId,
-                    ProductPrice=p.ProductPrice,
+                    ProductPrice = p.ProductPrice,
                     ProductTitle = p.ProductTitle,
                     InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
                     CreateDate = p.CreateDate
@@ -393,9 +398,29 @@ namespace Antomi.Core.Services
             return showProductsInventory;
         }
 
+        public List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId)
+        {
+            var product = GetProductById(productId);
+            List<string> ProductTags = product.ProductTags.Split('-', StringSplitOptions.RemoveEmptyEntries).ToList();
+            IQueryable<Product> result = _context.Products;
+            foreach (var tag in ProductTags)
+            {
+                var currentTag = tag;
+                result = result.Where(p => p.ProductTags.Contains(tag));
+            }
+            return result.Take(10).Select(p => new ProductBoxInformationsViewModel()
+            {
+                ProductId = p.ProductId,
+                ProductTitle = p.ProductTitle,
+                ProductPrice = p.ProductPrice,
+                ProductImageName = p.ProductImageName,
+                InventoryCount = p.ProductInventories.Sum(i => i.ProductCount)
+            }).ToList();
+        }
+
         public List<SelectListItem> GetSubGroupsOfGroups(int groupId)
         {
-            return _context.ProductGroups.Where(g => g.ParentId==groupId)
+            return _context.ProductGroups.Where(g => g.ParentId == groupId)
                 .Select(g => new SelectListItem()
                 {
                     Text = g.GroupTitle,
