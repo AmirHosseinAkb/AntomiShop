@@ -22,6 +22,7 @@ namespace Antomi.Data.Entities.Order
         public int UnitPrice { get; set; }
         [Required]
         public int Count { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Relations
 

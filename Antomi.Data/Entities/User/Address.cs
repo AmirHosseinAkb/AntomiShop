@@ -34,6 +34,7 @@ namespace Antomi.Data.Entities.User
         #region Relation
 
         public User? User { get; set; }
+        public List<Order.Order> Orders { get; set; }
 
         #endregion
     }

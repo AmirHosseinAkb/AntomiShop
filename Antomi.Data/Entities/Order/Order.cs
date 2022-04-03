@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antomi.Data.Entities.User;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Antomi.Data.Entities.Order
 
         [Required]
         public int UserId { get; set; }
+        public int? AddressId { get; set; }
 
         [Required]
         public int OrderSum { get; set; } = 0;
@@ -35,11 +37,13 @@ namespace Antomi.Data.Entities.Order
         public string PaymentStatus { get; set; } = "در حال انتظار";
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public bool IsFinally { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Relations
 
         public List<OrderDetail> OrderDetails { get; set; }
         public User.User User { get; set; }
+        public Address Address { get; set; }
 
         #endregion
     }

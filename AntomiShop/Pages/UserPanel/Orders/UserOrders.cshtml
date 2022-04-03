@@ -1,0 +1,123 @@
+﻿@page
+@using Antomi.Core.Extensions;
+@model AntomiShop.Pages.UserPanel.Orders.UserOrdersModel
+@{
+    Layout = "_DefaultLayout";
+}
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">خانه</a></li>
+                        <li>سفارشات</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="account_page_bg">
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <section class="main_content_area">
+                <div class="account_dashboard">
+                    <div class="row">
+                        <partial name="_SideBar" />
+                        <div class="col-md-9" style="background-color:white">
+                            <div class="tab-content dashboard_content">
+                                <div class="tab-pane fade active show" id="account-details">
+                                    <h3> لیست سفارشات شما </h3>
+                                    <hr />
+                                    <table class="table table-striped">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>مبلغ کل</th>
+                                                <th>تخفیف</th>
+                                                <th>مبلغ پرداختی</th>
+                                                <th>پرداخت شده</th>
+                                                <th>تاریخ</th>
+                                                <th>عملیات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var order in Model.Orders)
+                                            {
+                                                <tr>
+                                                    <td>@order.OrderSum.ToString("#,0") تومان</td>
+                                                    <td>@order.DiscountPrice تومان</td>
+                                                    <td>@order.PaidPrice تومان</td>
+                                                    <td>
+                                                        @if (order.IsFinally)
+                                                        {
+                                                            <span class="text-success">
+                                                                <i class="ion ion-ok"></i>
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-danger">
+                                                                <i class="ion ion-android-remove-circle"></i>
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                    <td>@order.CreateDate.ConvertToShamsi()</td>
+                                                    <td>
+                                                        <span class="text-danger">
+                                                            <a class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
+                                                            <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetId(@order.OrderId)"><b style="color:white">حذف سفارش</b></a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>
+
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>آیا مطمئنید که می خواهید این سفارش را حذف کنید؟</h5>
+            </div>
+            <form method="post" asp-page="UserAddresses" asp-page-handler="DeleteAddress">
+                <div class="modal-body">
+                    <p>
+                        <input id="addressId" type="hidden" name="addressId" />
+                        <input id="btnDeleteAddress" type="submit" class="btn btn-danger" value="حذف آدرس" />
+                        <a id="btnCancell" class="btn btn-success">انصراف</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    function GetId(addressId){
+        $("#deleteModal").modal('show');
+        $("#addressId").val(addressId);
+    };
+
+    $(function(){
+        $("#btnCancell").click(function(){
+            $("#deleteModal").modal('toggle');
+        })
+    });
+    $(function(){
+        $("#btnDeleteAddress").click(function(){
+            $("#deleteModal").modal('toggle');
+        })
+    });
+</script>
