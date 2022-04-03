@@ -33,6 +33,7 @@ namespace Antomi.Data.Context
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<InventoryHistory> InventoryHistories { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
