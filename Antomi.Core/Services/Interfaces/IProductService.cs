@@ -47,8 +47,8 @@ namespace Antomi.Core.Services.Interfaces
 
         #region Inventory
         ShowProductsInventoryViewModel GetProductsForShowInventory(int pageId, string filterProductName = "");
-        void AddInventory(ProductInventory inventory);
-        List<ProductInventory> GetProductInventoryHistory(int productId);
+        List<InventoryHistory> GetProductInventoryHistory(int productId);
+        void ChangeProductInventory(int productId, int count);
         #endregion
         #region Colors
 
@@ -56,6 +56,11 @@ namespace Antomi.Core.Services.Interfaces
         void DeleteColor(int colorId);
         ProductColor GetProductColorById(int colorId);
         List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId);
+
+        #endregion
+        #region InventoryHistory
+
+        void AddInventoryHistory(InventoryHistory history);
 
         #endregion
     }

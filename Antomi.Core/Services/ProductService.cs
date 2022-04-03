@@ -49,6 +49,12 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void AddInventoryHistory(InventoryHistory history)
+        {
+            _context.InventoryHistories.Add(history);
+            _context.SaveChanges();
+        }
+
         public void AddImageToProduct(int productId, IFormFile imagePic)
         {
             ProductImage productImage = new ProductImage()
@@ -69,12 +75,6 @@ namespace Antomi.Core.Services
                 }
             }
             _context.ProductImages.Add(productImage);
-            _context.SaveChanges();
-        }
-
-        public void AddInventory(ProductInventory inventory)
-        {
-            _context.ProductInventories.Add(inventory);
             _context.SaveChanges();
         }
 
@@ -102,6 +102,12 @@ namespace Antomi.Core.Services
                 imageConvertor.Image_resize(imagePath, thumbPath, 400);
             }
             _context.Products.Add(product);
+            ProductInventory productInventory = new ProductInventory()
+            {
+                ProductId = product.ProductId,
+                ProductCount = 0,
+            };
+            _context.ProductInventories.Add(productInventory);
             _context.SaveChanges();
         }
 
@@ -151,12 +157,7 @@ namespace Antomi.Core.Services
                 }
                 order.OrderSum += product.ProductPrice * count;
             }
-            var inventory = _context.ProductInventories.Where(i => i.ProductCount >= count && i.ProductId == product.ProductId).FirstOrDefault();
-            if (inventory!=null)
-            {
-                inventory.ProductCount -= count;
-            }
-
+            _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
             _context.SaveChanges();
         }
 
@@ -331,19 +332,19 @@ namespace Antomi.Core.Services
                 .Include(p => p.ProductGroup)
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductColors)
-                //.Include(p => p.ProductInventories)
+                .Include(p => p.ProductInventory)
                 .SingleOrDefault(p => p.ProductId == productId);
         }
 
-        public List<ProductInventory> GetProductInventoryHistory(int productId)
+        public List<InventoryHistory> GetProductInventoryHistory(int productId)
         {
-            return _context.ProductInventories.Where(i => i.ProductId == productId).ToList();
+            return _context.InventoryHistories.Where(i => i.ProductId == productId).ToList();
         }
 
         public ShowProductItemsViewModel GetProducts(int pageId = 1, string filterProductName = "", string orderType = "createDate"
             , int minPrice = 0, int maxPrice = 0, List<int> selectedGroups = null, int take = 12)
         {
-            IQueryable<Product> result = _context.Products/*.Include(p => p.ProductInventories)*/;
+            IQueryable<Product> result = _context.Products.Include(p => p.ProductInventory);
             if (!string.IsNullOrEmpty(filterProductName))
             {
                 result = result.Where(p => p.ProductTitle.Contains(filterProductName));
@@ -394,7 +395,7 @@ namespace Antomi.Core.Services
                     ProductId = p.ProductId,
                     ProductTitle = p.ProductTitle,
                     ProductImageName = p.ProductImageName,
-                    //InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
+                    InventoryCount = p.ProductInventory.ProductCount,
                     ProductPrice = p.ProductPrice
                 }).ToList(),
                 CurrentPage = pageId,
@@ -436,12 +437,12 @@ namespace Antomi.Core.Services
             int skip = (pageId - 1) * take;
             ShowProductsInventoryViewModel showProductsInventory = new ShowProductsInventoryViewModel()
             {
-                InventoryInformations = result/*.Include(p => p.ProductInventories)*/.Skip(skip).Take(take).Select(p => new InventoryInformationsViewModel()
+                InventoryInformations = result.Include(p => p.ProductInventory).Skip(skip).Take(take).Select(p => new InventoryInformationsViewModel()
                 {
                     ProductId = p.ProductId,
                     ProductPrice = p.ProductPrice,
                     ProductTitle = p.ProductTitle,
-                    //InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
+                    InventoryCount = p.ProductInventory.ProductCount,
                     CreateDate = p.CreateDate
                 }).ToList(),
                 CurrentPage = pageId,
@@ -470,7 +471,7 @@ namespace Antomi.Core.Services
                 ProductTitle = p.ProductTitle,
                 ProductPrice = p.ProductPrice,
                 ProductImageName = p.ProductImageName,
-                //InventoryCount = p.ProductInventories.Sum(i => i.ProductCount)
+                InventoryCount = p.ProductInventory.ProductCount
             }).ToList();
         }
 
@@ -493,6 +494,12 @@ namespace Antomi.Core.Services
         public void UpdateProduct(Product product)
         {
             _context.Products.Update(product);
+            _context.SaveChanges();
+        }
+
+        public void ChangeProductInventory(int productId, int count)
+        {
+            _context.ProductInventories.SingleOrDefault(i => i.ProductId == productId).ProductCount += count;
             _context.SaveChanges();
         }
     }
