@@ -24,6 +24,7 @@ namespace Antomi.Data.Entities.Product
         #region Relation
 
         public Product? Product { get; set; }
+        public List<Order.OrderDetail> OrderDetails { get; set; }
 
         #endregion
     }

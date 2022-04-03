@@ -52,12 +52,7 @@
 
                 </div>
             </div>
-            @if (Model.InventoryCount != 0)
-            {
-                <div class="add_to_cart">
-                    <a href="cart.html" title="" data-original-title="افزودن به سبد">افزودن به سبد</a>
-                </div>
-            }
+           
         </div>
         <div class="product_content list_content">
             <h4 class="product_name"><a href="/ShowProduct/@Model.ProductId">@Model.ProductTitle</a></h4>
@@ -88,12 +83,6 @@
                     <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
                 }
             </div>
-            @if (Model.InventoryCount != 0)
-            {
-                <div class="add_to_cart">
-                    <a href="cart.html" title="" data-original-title="افزودن به سبد">افزودن به سبد</a>
-                </div>
-            }
         </div>
     </figure>
 </article>

@@ -4,6 +4,7 @@ using Antomi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Antomi.Data.Migrations
 {
     [DbContext(typeof(AntomiContext))]
-    partial class AntomiContextModelSnapshot : ModelSnapshot
+    [Migration("20220403152958_AddRelationBetweenColorAndOrderDetail")]
+    partial class AddRelationBetweenColorAndOrderDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,13 +287,24 @@ namespace Antomi.Data.Migrations
 
             modelBuilder.Entity("Antomi.Data.Entities.Product.ProductInventory", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("InventoryId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InventoryId"), 1L, 1);
+
+                    b.Property<DateTime>("ChargeDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProductCount")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InventoryId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductInventories");
                 });
@@ -587,8 +600,8 @@ namespace Antomi.Data.Migrations
             modelBuilder.Entity("Antomi.Data.Entities.Product.ProductInventory", b =>
                 {
                     b.HasOne("Antomi.Data.Entities.Product.Product", "Product")
-                        .WithOne("ProductInventory")
-                        .HasForeignKey("Antomi.Data.Entities.Product.ProductInventory", "ProductId")
+                        .WithMany("ProductInventories")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -656,8 +669,7 @@ namespace Antomi.Data.Migrations
 
                     b.Navigation("ProductImages");
 
-                    b.Navigation("ProductInventory")
-                        .IsRequired();
+                    b.Navigation("ProductInventories");
                 });
 
             modelBuilder.Entity("Antomi.Data.Entities.Product.ProductColor", b =>

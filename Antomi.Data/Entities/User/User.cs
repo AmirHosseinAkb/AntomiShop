@@ -49,6 +49,7 @@ namespace Antomi.Data.Entities.User
         public List<Address> Addresses { get; set; }
         public List<Wallet.Wallet> Wallets { get; set; }
         public Role Role { get; set; }
+        public List<Order.Order> Orders { get; set; }
 
         #endregion
     }

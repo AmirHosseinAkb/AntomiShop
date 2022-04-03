@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antomi.Data.Entities.Order;
 using Antomi.Data.Entities.Permission;
 using Antomi.Data.Entities.Product;
 using Antomi.Data.Entities.User;
@@ -30,6 +31,8 @@ namespace Antomi.Data.Context
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductInventory> ProductInventories { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +45,12 @@ namespace Antomi.Data.Context
                 .HasQueryFilter(p => !p.IsDeleted);
             modelBuilder.Entity<ProductGroup>()
                 .HasQueryFilter(g => !g.IsDeleted);
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne<ProductColor>(d => d.ProductColor)
+                .WithMany(c => c.OrderDetails)
+                .HasForeignKey(d => d.ColorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Product>()
                 .HasOne<ProductGroup>(p => p.ProductGroup)

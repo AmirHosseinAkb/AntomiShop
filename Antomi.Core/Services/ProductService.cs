@@ -8,6 +8,7 @@ using Antomi.Core.DTOs.Product;
 using Antomi.Core.Generators;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Context;
+using Antomi.Data.Entities.Order;
 using Antomi.Data.Entities.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -101,6 +102,61 @@ namespace Antomi.Core.Services
                 imageConvertor.Image_resize(imagePath, thumbPath, 400);
             }
             _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
+        public void BuyProduct(int productId, string email, int colorId, int count)
+        {
+            var product = GetProductById(productId);
+            var userId = _context.Users.SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email)).UserId;
+            var order = _context.Orders.SingleOrDefault(o => o.UserId == userId && !o.IsFinally);
+            if (order == null)
+            {
+                order = new Order()
+                {
+                    UserId = userId,
+                    IsFinally = false,
+                    PaymentStatus = "در حال انتظار",
+                    OrderSum=product.ProductPrice*count,
+                };
+                _context.Orders.Add(order);
+                OrderDetail orderDetail = new OrderDetail()
+                {
+                    OrderId = order.OrderId,
+                    ProductId = product.ProductId,
+                    ColorId=colorId,
+                    Count = count,
+                    UnitPrice = product.ProductPrice
+                };
+                _context.OrderDetails.Add(orderDetail);
+            }
+            else
+            {
+                var orderDetail = _context.OrderDetails.SingleOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId);
+                if (orderDetail == null)
+                {
+                    orderDetail = new OrderDetail()
+                    {
+                        OrderId = order.OrderId,
+                        ProductId = product.ProductId,
+                        ColorId=colorId,
+                        Count = count,
+                        UnitPrice = product.ProductPrice
+                    };
+                    _context.OrderDetails.Add(orderDetail);
+                }
+                else
+                {
+                    orderDetail.Count+=count;
+                }
+                order.OrderSum += product.ProductPrice * count;
+            }
+            var inventory = _context.ProductInventories.Where(i => i.ProductCount >= count && i.ProductId == product.ProductId).FirstOrDefault();
+            if (inventory!=null)
+            {
+                inventory.ProductCount -= count;
+            }
+
             _context.SaveChanges();
         }
 
@@ -275,7 +331,7 @@ namespace Antomi.Core.Services
                 .Include(p => p.ProductGroup)
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductColors)
-                .Include(p => p.ProductInventories)
+                //.Include(p => p.ProductInventories)
                 .SingleOrDefault(p => p.ProductId == productId);
         }
 
@@ -287,7 +343,7 @@ namespace Antomi.Core.Services
         public ShowProductItemsViewModel GetProducts(int pageId = 1, string filterProductName = "", string orderType = "createDate"
             , int minPrice = 0, int maxPrice = 0, List<int> selectedGroups = null, int take = 12)
         {
-            IQueryable<Product> result = _context.Products.Include(p => p.ProductInventories);
+            IQueryable<Product> result = _context.Products/*.Include(p => p.ProductInventories)*/;
             if (!string.IsNullOrEmpty(filterProductName))
             {
                 result = result.Where(p => p.ProductTitle.Contains(filterProductName));
@@ -338,7 +394,7 @@ namespace Antomi.Core.Services
                     ProductId = p.ProductId,
                     ProductTitle = p.ProductTitle,
                     ProductImageName = p.ProductImageName,
-                    InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
+                    //InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
                     ProductPrice = p.ProductPrice
                 }).ToList(),
                 CurrentPage = pageId,
@@ -380,12 +436,12 @@ namespace Antomi.Core.Services
             int skip = (pageId - 1) * take;
             ShowProductsInventoryViewModel showProductsInventory = new ShowProductsInventoryViewModel()
             {
-                InventoryInformations = result.Include(p => p.ProductInventories).Skip(skip).Take(take).Select(p => new InventoryInformationsViewModel()
+                InventoryInformations = result/*.Include(p => p.ProductInventories)*/.Skip(skip).Take(take).Select(p => new InventoryInformationsViewModel()
                 {
                     ProductId = p.ProductId,
                     ProductPrice = p.ProductPrice,
                     ProductTitle = p.ProductTitle,
-                    InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
+                    //InventoryCount = p.ProductInventories.Sum(i => i.ProductCount),
                     CreateDate = p.CreateDate
                 }).ToList(),
                 CurrentPage = pageId,
@@ -414,7 +470,7 @@ namespace Antomi.Core.Services
                 ProductTitle = p.ProductTitle,
                 ProductPrice = p.ProductPrice,
                 ProductImageName = p.ProductImageName,
-                InventoryCount = p.ProductInventories.Sum(i => i.ProductCount)
+                //InventoryCount = p.ProductInventories.Sum(i => i.ProductCount)
             }).ToList();
         }
 

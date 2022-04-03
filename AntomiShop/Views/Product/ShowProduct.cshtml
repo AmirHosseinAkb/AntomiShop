@@ -47,8 +47,8 @@
                     </div>
                     <div class="col-lg-7 col-md-6">
                         <div class="product_d_right">
-                            <form action="#">
-
+                            <form asp-action="BuyProduct" asp-controller="Product" method="post">
+                                <input type="hidden" asp-for="ProductId" />
                                 <h3><a href="#"> @Model.ProductTitle </a></h3>
                                 <div class="product_rating">
                                     <ul>
@@ -71,13 +71,13 @@
                                     @foreach (var color in Model.ProductColors)
                                     {
                                         <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px">
-                                            <input class="color_Radio" type="radio" name="colorRadio" value="@color.ColorId">
+                                            <input class="color_Radio" type="radio"  name="colorId" value="@color.ColorId">
                                         </div>
                                     }
                                 </div>
                                 <div class="product_variant quantity">
                                     <label>تعداد</label>
-                                    <input min="1" max="100" value="1"  type="number">
+                                    <input min="1" max="100" value="1" name="count"  type="number">
                                     <button class="button" type="submit">افزودن به سبد</button>
                                 </div>
                                 <div class="product_timing">
@@ -248,9 +248,6 @@
                                     <span class="old_price">80,000 تومان</span>
                                     <span class="current_price">70,000 تومان</span>
                                 </div>
-                            </div>
-                            <div class="add_to_cart">
-                                <a href="cart.html" title="افزودن به سبد">افزودن به سبد</a>
                             </div>
                         </div>
                     </figure>

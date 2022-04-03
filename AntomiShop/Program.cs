@@ -22,6 +22,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IViewRenderService, RenderViewToString>();
 builder.Services.AddScoped<IPermissionService,PermissionService>();
 builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 #endregion
 

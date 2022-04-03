@@ -27,5 +27,10 @@ namespace AntomiShop.Controllers
         {
             return Content(_productService.GetProductColorById(colorId).ColorName);
         }
+
+        public IActionResult BuyProduct(int productId,int colorId,int count)
+        {
+            return null;
+        }
     }
 }
