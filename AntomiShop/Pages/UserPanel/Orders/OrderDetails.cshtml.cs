@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Authorization;
 namespace AntomiShop.Pages.UserPanel.Orders
 {
     [Authorize]
-    public class UserOrdersModel : PageModel
+    public class OrderDetailsModel : PageModel
     {
         private IOrderService _orderService;
-        public UserOrdersModel(IOrderService orderService)
+        public OrderDetailsModel(IOrderService orderService)
         {
-            _orderService=orderService;
+            _orderService = orderService;
         }
-        public List<Order> Orders { get; set; }
-        public void OnGet()
+        public Order Order { get; set; }
+        public void OnGet(int orderId)
         {
-            Orders = _orderService.GetUserOrders(User.Identity.Name);
+            Order=_orderService.GetOrder(User.Identity.Name, orderId);
         }
     }
 }

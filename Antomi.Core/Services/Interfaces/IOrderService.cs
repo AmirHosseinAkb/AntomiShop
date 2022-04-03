@@ -10,5 +10,6 @@ namespace Antomi.Core.Services.Interfaces
     public interface IOrderService
     {
         List<Order> GetUserOrders(string email);
+        Order GetOrder(string email,int orderId);
     }
 }

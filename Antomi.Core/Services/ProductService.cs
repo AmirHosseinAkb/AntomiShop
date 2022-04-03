@@ -124,6 +124,7 @@ namespace Antomi.Core.Services
                     IsFinally = false,
                     PaymentStatus = "در حال انتظار",
                     OrderSum=product.ProductPrice*count,
+                    PaidPrice=product.ProductPrice*count
                 };
                 _context.Orders.Add(order);
                 _context.SaveChanges();
@@ -159,6 +160,7 @@ namespace Antomi.Core.Services
                     orderDetail.Count+=count;
                 }
                 order.OrderSum += product.ProductPrice * count;
+                order.PaidPrice+=product.ProductPrice * count;
                 _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
                 _context.SaveChanges();
             }

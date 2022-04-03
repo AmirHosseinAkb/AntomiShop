@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.User;
 using Antomi.Data.Entities.Wallet;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.UserPanel
 {
+    [Authorize]
     public class WalletModel : PageModel
     {
         private IUserService _userService;

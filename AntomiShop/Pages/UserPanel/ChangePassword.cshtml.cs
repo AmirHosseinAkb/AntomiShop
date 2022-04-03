@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.User;
 using Antomi.Core.Security;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.UserPanel
 {
+    [Authorize]
     public class ChangePasswordModel : PageModel
     {
         private IUserService _userService;

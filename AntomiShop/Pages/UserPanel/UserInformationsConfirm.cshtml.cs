@@ -2,12 +2,14 @@ using Antomi.Core.DTOs.User;
 using Antomi.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 
 namespace AntomiShop.Pages.UserPanel
 {
+    [Authorize]
     public class UserInformationsConfirmModel : PageModel
     {
         private IUserService _userService;
