@@ -64,25 +64,40 @@
                                     <span class="old_price">80,000 تومان</span>
                                     <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
                                 </div>
-                                <div class="product_variant color">
-                                    <h3>گزینه های در دسترس</h3>
-                                    <label>رنگ: <b id="colorName"></b></label>
-                                    <br />
-                                    @foreach (var color in Model.ProductColors)
+                                @if (Model.ProductInventory.ProductCount >= 1)
+                                {
+                                    if (User.Identity.IsAuthenticated)
                                     {
-                                        <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px">
-                                            <input class="color_Radio" type="radio"  name="colorId" value="@color.ColorId">
-                                        </div>
+                                        <div class="product_variant color">
+                                        <h3>گزینه های در دسترس</h3>
+                                        <label>رنگ: <b id="colorName"></b></label>
+                                        <br />
+                                        @foreach (var color in Model.ProductColors)
+                                        {
+                                            <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px">
+                                                <input class="color_Radio" type="radio" name="colorId" value="@color.ColorId">
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="product_variant quantity">
+                                        <label>تعداد</label>
+                                        <input min="1" max="100" value="1" name="count" type="number">
+                                        <button class="button" type="submit">افزودن به سبد</button>
+                                    </div>
+                                    <div class="product_timing">
+                                        <div data-countdown="2023/05/15"></div>
+                                    </div>
                                     }
-                                </div>
-                                <div class="product_variant quantity">
-                                    <label>تعداد</label>
-                                    <input min="1" max="100" value="1" name="count"  type="number">
-                                    <button class="button" type="submit">افزودن به سبد</button>
-                                </div>
-                                <div class="product_timing">
-                                    <div data-countdown="2023/05/15"></div>
-                                </div>
+                                    else
+                                    {
+                                        <div class="alert alert-warning">لطفا برای افزودن محصول به سبد خرید ابتدا وارد حسابتان شوید</div>
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info">این کالا در انبار وجود ندارد</div>
+                                }
                                 <div class="product_meta">
                                     <span>دسته: <a href="/Product?selectedGroups=@Model.GroupId">@Model.ProductGroup.GroupTitle</a></span>
                                 </div>

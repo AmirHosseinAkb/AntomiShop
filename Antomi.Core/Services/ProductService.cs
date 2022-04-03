@@ -126,6 +126,7 @@ namespace Antomi.Core.Services
                     OrderSum=product.ProductPrice*count,
                 };
                 _context.Orders.Add(order);
+                _context.SaveChanges();
                 OrderDetail orderDetail = new OrderDetail()
                 {
                     OrderId = order.OrderId,
@@ -134,11 +135,13 @@ namespace Antomi.Core.Services
                     Count = count,
                     UnitPrice = product.ProductPrice
                 };
+                _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
                 _context.OrderDetails.Add(orderDetail);
+                _context.SaveChanges();
             }
             else
             {
-                var orderDetail = _context.OrderDetails.SingleOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId);
+                var orderDetail = _context.OrderDetails.SingleOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId&&d.ColorId==colorId);
                 if (orderDetail == null)
                 {
                     orderDetail = new OrderDetail()
@@ -156,9 +159,10 @@ namespace Antomi.Core.Services
                     orderDetail.Count+=count;
                 }
                 order.OrderSum += product.ProductPrice * count;
+                _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
+                _context.SaveChanges();
             }
-            _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
-            _context.SaveChanges();
+            
         }
 
         public void DeleteColor(int colorId)
