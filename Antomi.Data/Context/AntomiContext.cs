@@ -36,6 +36,7 @@ namespace Antomi.Data.Context
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<InventoryHistory> InventoryHistories { get; set; }
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<UserDiscount> UserDiscounts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

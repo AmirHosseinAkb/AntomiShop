@@ -8,6 +8,7 @@ using Antomi.Data.Context;
 using Antomi.Data.Entities.Order;
 using Microsoft.EntityFrameworkCore;
 using Antomi.Core.DTOs.Discount;
+using Antomi.Data.Entities.User;
 
 namespace Antomi.Core.Services
 {
@@ -19,6 +20,12 @@ namespace Antomi.Core.Services
         {
             _context = context;
             _userService = userService;
+        }
+
+        public void AddUserDiscount(UserDiscount userDiscount)
+        {
+            _context.UserDiscounts.Add(userDiscount);
+            _context.SaveChanges();
         }
 
         public Order GetOrder(string email, int orderId)
@@ -43,6 +50,12 @@ namespace Antomi.Core.Services
             return _context.Orders.Where(o => o.UserId == userId).ToList();
         }
 
+        public void UpdateOrder(Order order)
+        {
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+        }
+
         public DiscountUseType UseDiscount(int orderId, string code)
         {
             var order = GetOrderById(orderId);
@@ -55,8 +68,18 @@ namespace Antomi.Core.Services
                 return DiscountUseType.ExpireTime;
             if (discount.UsableCount < 1)
                 return DiscountUseType.Finished;
-            return DiscountUseType.Success;
-            
+            if (_context.UserDiscounts.Any(ud => ud.DiscountId == discount.DiscountId && ud.UserId == order.UserId))
+                return DiscountUseType.UserUsed;
+            var discountPrice = order.OrderSum * discount.DiscountPercent/100;
+            order.DiscountPrice = discountPrice;
+            order.PaidPrice -= discountPrice;
+            UpdateOrder(order);
+            UserDiscount userDiscount = new UserDiscount()
+            {
+                UserId = order.UserId,
+                DiscountId = discount.DiscountId
+            };
+            AddUserDiscount(userDiscount);
             return DiscountUseType.Success;
         }
     }

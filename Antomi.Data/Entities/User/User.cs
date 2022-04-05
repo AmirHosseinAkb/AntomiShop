@@ -50,6 +50,7 @@ namespace Antomi.Data.Entities.User
         public List<Wallet.Wallet> Wallets { get; set; }
         public Role Role { get; set; }
         public List<Order.Order> Orders { get; set; }
+        public List<UserDiscount> UserDiscounts { get; set; }
 
         #endregion
     }

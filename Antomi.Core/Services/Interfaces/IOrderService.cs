@@ -1,5 +1,6 @@
 ﻿using Antomi.Core.DTOs.Discount;
 using Antomi.Data.Entities.Order;
+using Antomi.Data.Entities.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace Antomi.Core.Services.Interfaces
         Order GetOrder(string email,int orderId);
         DiscountUseType UseDiscount(int orderId, string code);
         Order GetOrderById(int orderId);
+        void UpdateOrder(Order order);
+        void AddUserDiscount(UserDiscount userDiscount);
     }
 }

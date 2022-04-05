@@ -15,13 +15,20 @@ namespace AntomiShop.Pages.UserPanel.Orders
             _orderService = orderService;
         }
         public Order Order { get; set; }
-        public void OnGet(int orderId)
+        public void OnGet(int orderId, string discountStatus = "")
         {
+            ViewData["DiscountStatus"] = discountStatus;
             Order=_orderService.GetOrder(User.Identity.Name, orderId);
         }
         public IActionResult OnPost(string code)
         {
             return null;
+        }
+
+        public IActionResult OnPostUseDiscount(string code,int orderId)
+        {
+            _orderService.UseDiscount(orderId, code);
+            return Redirect("/UserPanel/Orders/OrderDetails/" + orderId);
         }
     }
 }
