@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antomi.Data.Entities.Discount;
 using Antomi.Data.Entities.Order;
 using Antomi.Data.Entities.Permission;
 using Antomi.Data.Entities.Product;
@@ -34,6 +35,7 @@ namespace Antomi.Data.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<InventoryHistory> InventoryHistories { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

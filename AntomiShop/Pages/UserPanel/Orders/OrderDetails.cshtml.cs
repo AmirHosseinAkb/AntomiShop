@@ -19,5 +19,9 @@ namespace AntomiShop.Pages.UserPanel.Orders
         {
             Order=_orderService.GetOrder(User.Identity.Name, orderId);
         }
+        public IActionResult OnPost(string code)
+        {
+            return null;
+        }
     }
 }

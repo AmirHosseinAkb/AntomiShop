@@ -46,7 +46,7 @@
                                             <p>شماره همراه : @user.PhoneNumber</p>
                                         }
                                         <p>تاریخ ثبت نام : @user.RegisterDate.ConvertToShamsi()</p>
-                                        <p>موجودی کیف پول : @user.WalletBalance تومان</p>
+                                        <p>موجودی کیف پول : @user.WalletBalance.ToString("#,0") تومان</p>
                                         @if (user.FullName.Trim().Length == 0)
                                         {
                                             <hr />
