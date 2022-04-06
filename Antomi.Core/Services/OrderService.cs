@@ -9,6 +9,7 @@ using Antomi.Data.Entities.Order;
 using Microsoft.EntityFrameworkCore;
 using Antomi.Core.DTOs.Discount;
 using Antomi.Data.Entities.User;
+using Antomi.Data.Entities.Wallet;
 
 namespace Antomi.Core.Services
 {
@@ -28,6 +29,8 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+       
+
         public Order GetOrder(string email, int orderId)
         {
             var userId = _userService.GetUserIdByEmail(email);
@@ -42,6 +45,12 @@ namespace Antomi.Core.Services
         public Order GetOrderById(int orderId)
         {
             return _context.Orders.Find(orderId);
+        }
+
+        public Order GetUserOrder(string email, int orderId)
+        {
+            var userId = _userService.GetUserIdByEmail(email);
+            return _context.Orders.SingleOrDefault(o => o.OrderId == orderId && o.UserId == userId);
         }
 
         public List<Order> GetUserOrders(string email)
@@ -73,6 +82,10 @@ namespace Antomi.Core.Services
             var discountPrice = order.OrderSum * discount.DiscountPercent/100;
             order.DiscountPrice = discountPrice;
             order.PaidPrice -= discountPrice;
+            if (discount.UsableCount != null)
+            {
+                discount.UsableCount--;
+            }
             UpdateOrder(order);
             UserDiscount userDiscount = new UserDiscount()
             {

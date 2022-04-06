@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Order;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Data.Entities.Wallet;
 
 namespace AntomiShop.Pages.UserPanel.Orders
 {
@@ -10,9 +11,11 @@ namespace AntomiShop.Pages.UserPanel.Orders
     public class OrderDetailsModel : PageModel
     {
         private IOrderService _orderService;
-        public OrderDetailsModel(IOrderService orderService)
+        private IUserService _userService;
+        public OrderDetailsModel(IOrderService orderService,IUserService userService)
         {
             _orderService = orderService;
+            _userService = userService;
         }
         public Order Order { get; set; }
         public void OnGet(int orderId, string discountStatus = "")
@@ -20,15 +23,51 @@ namespace AntomiShop.Pages.UserPanel.Orders
             ViewData["DiscountStatus"] = discountStatus;
             Order=_orderService.GetOrder(User.Identity.Name, orderId);
         }
-        public IActionResult OnPost(string code)
+        public IActionResult OnPost(int orderId,string paymentType)
         {
-            return null;
+            var userId = _userService.GetUserIdByEmail(User.Identity.Name);
+            var order = _orderService.GetUserOrder(User.Identity.Name,orderId);
+            if (order == null || order.IsFinally)
+            {
+                return NotFound();
+            }
+            if (paymentType == "OnlinePayment")
+            {
+                Wallet wallet = new Wallet()
+                {
+                    UserId = userId,
+                    TypeId = 2,
+                    Amount = order.PaidPrice,
+                    CreateDate = DateTime.Now,
+                    Description = "پرداخت فاکتور خرید شماره " + order.OrderId,
+                    IsFinalled = false
+                };
+                int walletId = _userService.AddWallet(wallet);
+                var payment = new ZarinpalSandbox.Payment(order.PaidPrice);
+                var response = payment.PaymentRequest("پرداخت فاکتور خرید شماره " + order.OrderId, "http://localhost:5059/PayOnlineOrder/" + walletId+"?orderId="+orderId);
+                if (response.Result.Status == 100)
+                {
+                    return Redirect("https://SandBox.ZarinPal.com/pg/StartPay/" + response.Result.Authority);
+                }
+            }
+            else
+            {
+                if (_userService.BalanceUserWallet(User.Identity.Name) < order.PaidPrice)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+
+                }
+            }
+            return RedirectToPage("UserOrders");
         }
 
         public IActionResult OnPostUseDiscount(string code,int orderId)
         {
-            _orderService.UseDiscount(orderId, code);
-            return Redirect("/UserPanel/Orders/OrderDetails/" + orderId);
+            var status=_orderService.UseDiscount(orderId, code);
+            return Redirect("/UserPanel/Orders/OrderDetails/" + orderId+"?discountStatus="+status);
         }
     }
 }

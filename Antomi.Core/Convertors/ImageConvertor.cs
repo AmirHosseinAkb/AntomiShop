@@ -17,7 +17,7 @@ namespace Antomi.Core.Convertors
             const long quality = 50L;
 
             Bitmap source_Bitmap = new Bitmap(input_Image_Path);
-
+           
 
 
             double dblWidth_origial = source_Bitmap.Width;

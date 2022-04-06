@@ -1,7 +1,10 @@
 ﻿@page "{orderId}"
 @model AntomiShop.Pages.UserPanel.Orders.OrderDetailsModel
+@inject IUserService _userService;
 @{
     Layout = "_DefaultLayout";
+    string status = ViewData["DiscountStatus"].ToString();
+    var userBalance = _userService.BalanceUserWallet(User.Identity.Name);
 }
 
 <div class="breadcrumbs_area">
@@ -48,28 +51,34 @@
                                                 <td>@detail.UnitPrice.ToString("#,0") تومان</td>
                                                 <td>@detail.Count</td>
                                                 <td>
-                                                    <span class="text-danger">
-                                                        <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetId(@detail.OrderId)"><b style="color:white">حذف آیتم</b></a>
-                                                    </span>
+                                                    @if (!Model.Order.IsFinally)
+                                                    {
+                                                        <span class="text-danger">
+                                                            <a class="fa fa-minus" title="کاهش موجودی" onclick="GetId(@detail.OrderId)"></a>
+                                                        </span>
+                                                        <span class="text-success">
+                                                            <a class="fa fa-plus" title="افزایش موجودی" onclick="GetId(@detail.OrderId)"></a>
+                                                        </span>
+                                                    }
                                                 </td>
                                             </tr>
                                         }
                                         <tr>
                                             <td colspan="3">جمع کل</td>
                                             <td colspan="2">
-                                                @Model.Order.OrderSum.ToString("#,0")
+                                                @Model.Order.OrderSum.ToString("#,0") تومان
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3">مبلغ تخفیف</td>
                                             <td colspan="2">
-                                                @Model.Order.DiscountPrice.ToString("#,0")
+                                                @Model.Order.DiscountPrice.ToString("#,0") تومان
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3">مبلغ پرداختی</td>
                                             <td colspan="2">
-                                                @Model.Order.PaidPrice.ToString("#,0")
+                                                @Model.Order.PaidPrice.ToString("#,0") تومان
                                             </td>
                                         </tr>
                                         @if (!Model.Order.IsFinally)
@@ -81,14 +90,69 @@
                                                         <input type="text" class="form-control" name="code" />
                                                         <input type="hidden" name="orderId" value="@Model.Order.OrderId">
                                                         <input type="submit" class="btn btn-info btn-block" value="اعمال کد تخفیف" style="margin-top:10px" />
+                                                        <hr />
+                                                        @switch (status)
+                                                        {
+                                                            case "Finished":
+                                                                {
+                                                                    <div class="alert alert-danger">
+                                                                        <p>مهلت استفاده از این کد تخفیف به پایان رسیده است</p>
+                                                                    </div>
+                                                                    break;
+                                                                }
+                                                            case "ExpireTime":
+                                                                {
+                                                                    <div class="alert alert-info">
+                                                                        <p>در حال حاضر این کد تخفیف در دسترس نمی باشد</p>
+                                                                    </div>
+                                                                    break;
+                                                                }
+                                                            case "UserUsed":
+                                                                {
+                                                                    <div class="alert alert-warning">
+                                                                        <p>شما قبلا از این کد تخفیف استفاده کرده اید</p>
+                                                                    </div>
+                                                                    break;
+                                                                }
+                                                            case "Success":
+                                                                {
+                                                                    <div class="alert alert-success">
+                                                                        <p>کد تخفیف با موفقیت اعمال شد</p>
+                                                                    </div>
+                                                                    break;
+                                                                }
+                                                            case "WrongCode":
+                                                                {
+                                                                    <div class="alert alert-danger">
+                                                                        <p>کد تخفیف وارد شده صحیح نمی باشد</p>
+                                                                    </div>
+                                                                    break;
+                                                                }
+                                                        }
                                                     </form>
+                                                </td>
+                                            </tr>
+                                            <form method="post">
+                                            <tr>
+                                                <td colspan="5">
+                                                    <input type="hidden" name="orderId" value="@Model.Order.OrderId">
+                                                    <h5 style="color:crimson">شیوه پرداخت:</h5>
+                                                    <input id="onlinePay" type="radio" name="paymentType" value="OnlinePayment" checked>&nbsp پرداخت از طریق درگاه پرداخت
+                                                    <br>
+                                                    <br>
+                                                    <input onclick="IsUserCanBuy(@userBalance,@Model.Order.PaidPrice)" type="radio" name="paymentType" value="WalletPayment">&nbsp پرداخت از طریق کیف پول
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="5">
-                                                    <input type="submit" class="btn btn-success btn-block" value="پرداخت فاکتور" />
+                                                    <input id="submitButton" type="submit" class="btn btn-success btn-block" value="پرداخت فاکتور" />
+                                                    <hr>
+                                                    <div id="messageDiv" class="alert alert-warning hidden">
+                                                        <p>موجودی حساب شما کافی نمی باشدلطفا برای شارژ کیف پول خود از طریق این <a href="/UserPanel/Wallet">لینک</a> اقدام نمایید</p>
+                                                    </div>
                                                 </td>
                                             </tr>
+                                            </form>
                                         }
                                     </tbody>
                                 </table>
@@ -137,4 +201,20 @@
             $("#deleteModal").modal('toggle');
         })
     });
+    function IsUserCanBuy(userBalance,payPrice){
+        if(userBalance<payPrice){
+            $("#messageDiv").show();
+            $("#submitButton").prop('disabled','true');
+        }
+        else{
+            $("#messageDiv").hide();
+            $("#submitButton").removeAttr('disabled');
+        }
+    }
+    $(function(){
+        $("#onlinePay").click(function(){
+            $("#messageDiv").hide();
+            $("#submitButton").removeAttr('disabled');
+        })
+    })
 </script>

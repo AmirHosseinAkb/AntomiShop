@@ -6,9 +6,11 @@ namespace AntomiShop.Controllers
     public class HomeController : Controller
     {
         private IUserService _userService;
-        public HomeController(IUserService userService)
+        private IOrderService _orderService;
+        public HomeController(IUserService userService,IOrderService orderService)
         {
             _userService = userService;
+            _orderService = orderService; 
         }
 
         public IActionResult Index()
@@ -57,6 +59,28 @@ namespace AntomiShop.Controllers
             var url = $"{"/MyImages/"}{fileName}";
 
             return Json(new { uploaded = true, url });
+        }
+        [Route("PayOnlineOrder/{orderId}")]
+        public IActionResult PayOnlineOrder(int orderId)
+        {
+            if (HttpContext.Request.Query["Status"] != ""
+                && HttpContext.Request.Query["Status"].ToString().ToLower() == "ok"
+                && HttpContext.Request.Query["Authority"] != "")
+            {
+                var authority = HttpContext.Request.Query["Authority"];
+                var order = _orderService.GetOrderById(orderId);
+                var payment = new ZarinpalSandbox.Payment(order.PaidPrice);
+                var response = payment.Verification(authority).Result;
+                if (response.Status == 100)
+                {
+                    order.IsFinally = true;
+                    ViewBag.IsSucceed = true;
+                    ViewBag.Code = response.RefId;
+                    _orderService.UpdateOrder(order);
+                    return View("OnlinePayment");
+                }
+            }
+            return View("OnlinePayment");
         }
     }
 }

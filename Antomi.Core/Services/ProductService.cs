@@ -170,7 +170,7 @@ namespace Antomi.Core.Services
         public void DeleteColor(int colorId)
         {
             var color = _context.ProductColors.Find(colorId);
-            _context.ProductColors.Remove(color);
+            color.IsDeleted = true;
             _context.SaveChanges();
         }
 

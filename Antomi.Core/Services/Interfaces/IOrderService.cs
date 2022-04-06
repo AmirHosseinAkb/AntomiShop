@@ -11,8 +11,9 @@ namespace Antomi.Core.Services.Interfaces
 {
     public interface IOrderService
     {
-        List<Order> GetUserOrders(string email);
-        Order GetOrder(string email,int orderId);
+        List<Order> GetUserOrders(string email); //For Show User Orders In UserPanel
+        Order GetOrder(string email,int orderId);//For Show OrderDetails In OrderDetails Page
+        Order GetUserOrder(string email,int orderId);
         DiscountUseType UseDiscount(int orderId, string code);
         Order GetOrderById(int orderId);
         void UpdateOrder(Order order);
