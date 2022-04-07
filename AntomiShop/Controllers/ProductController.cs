@@ -31,7 +31,7 @@ namespace AntomiShop.Controllers
         public IActionResult BuyProduct(int productId,int colorId,int count)
         {
             int orderId=_productService.BuyProduct(productId,User.Identity.Name,colorId, count);
-            return Redirect("/UserPanel/Orders/OrderDetails"+orderId);
+            return Redirect("/UserPanel/Orders/OrderDetails/"+orderId);
         }
     }
 }

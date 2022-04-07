@@ -38,7 +38,7 @@
                                                 <th>مبلغ کل</th>
                                                 <th>تخفیف</th>
                                                 <th>مبلغ پرداختی</th>
-                                                <th>پرداخت شده</th>
+                                                <th>وضعیت</th>
                                                 <th>تاریخ</th>
                                                 <th>عملیات</th>
                                             </tr>
@@ -52,15 +52,17 @@
                                                     <td>@order.DiscountPrice.ToString("#,0") تومان</td>
                                                     <td>@order.PaidPrice.ToString("#,0") تومان</td>
                                                     <td>
-                                                        @if (order.IsFinally)
+                                                        @if (!order.IsFinally)
                                                         {
-                                                            <p class="text-success">بله</p>
+                                                            <p class="text-danger">پرداخت نشده</p>
                                                         }
-                                                        else
+                                                        else if(order.IsFinally && order.PaymentStatus=="در انتظار")
                                                         {
-                                                            <span class="text-danger">
-                                                                <i class="ion ion-android-remove-circle"></i>
-                                                            </span>
+                                                            <p class="text-warning">در انتظار</p>
+                                                        }
+                                                        else if(order.IsFinally && order.PaymentStatus=="ارسال شده")
+                                                        {
+                                                            <p class="text-success">ارسال شده</p>
                                                         }
                                                     </td>
                                                     <td>@order.CreateDate.ConvertToShamsi()</td>

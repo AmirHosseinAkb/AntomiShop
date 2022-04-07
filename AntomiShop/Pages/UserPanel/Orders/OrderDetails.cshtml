@@ -3,7 +3,11 @@
 @inject IUserService _userService;
 @{
     Layout = "_DefaultLayout";
-    string status = ViewData["DiscountStatus"].ToString();
+    string status = "";
+    if (ViewData["DiscountStatus"] != null)
+    {
+         status= ViewData["DiscountStatus"].ToString();
+    }
     var userBalance = _userService.BalanceUserWallet(User.Identity.Name);
 }
 
@@ -29,6 +33,12 @@
                     <partial name="_SideBar" />
                     <div class="col-md-9" style="background-color:white">
                         <div class="tab-content dashboard_content">
+                            @if (Convert.ToBoolean(ViewData["SuccessPay"]) == true)
+                            {
+                                <div class="alert alert-success">
+                                    سفارش شما با موفقیت پرداخت و ثبت شد
+                                </div>
+                            }
                             <div class="tab-pane fade active show" id="account-details">
                                 <h3> جزئیات سفارش </h3>
                                 <hr />

@@ -18,10 +18,11 @@ namespace AntomiShop.Pages.UserPanel.Orders
             _userService = userService;
         }
         public Order Order { get; set; }
-        public void OnGet(int orderId, string discountStatus = "")
+        public void OnGet(int orderId, string discountStatus = "",bool IsSucceededPay=false)
         {
             ViewData["DiscountStatus"] = discountStatus;
-            Order=_orderService.GetOrder(User.Identity.Name, orderId);
+            ViewData["SuccessPay"] = IsSucceededPay;
+            Order =_orderService.GetOrder(User.Identity.Name, orderId);
         }
         public IActionResult OnPost(int orderId,string paymentType)
         {
@@ -33,16 +34,6 @@ namespace AntomiShop.Pages.UserPanel.Orders
             }
             if (paymentType == "OnlinePayment")
             {
-                Wallet wallet = new Wallet()
-                {
-                    UserId = userId,
-                    TypeId = 2,
-                    Amount = order.PaidPrice,
-                    CreateDate = DateTime.Now,
-                    Description = "پرداخت فاکتور خرید شماره " + order.OrderId,
-                    IsFinalled = false
-                };
-                int walletId = _userService.AddWallet(wallet);
                 var payment = new ZarinpalSandbox.Payment(order.PaidPrice);
                 var response = payment.PaymentRequest("پرداخت فاکتور خرید شماره " + order.OrderId, "http://localhost:5059/PayOnlineOrder/"+orderId);
                 if (response.Result.Status == 100)
@@ -58,7 +49,22 @@ namespace AntomiShop.Pages.UserPanel.Orders
                 }
                 else
                 {
-
+                    Wallet wallet = new Wallet()
+                    {
+                        TypeId = 2,
+                        UserId = userId,
+                        Amount = order.PaidPrice,
+                        CreateDate = DateTime.Now,
+                        Description = "پرداخت فاکتور شماره " + orderId,
+                        IsFinalled = true
+                    };
+                    _userService.AddWallet(wallet);
+                    order.IsFinally = true;
+                    order.PaymentKind = "پرداخت از طریق کیف پول";
+                    order.PaymentStatus = "در انتظار";
+                    _orderService.UpdateOrder(order);
+                    
+                    return Redirect("/UserPanel/Orders/OrderDetails/"+orderId+"?IsSucceededPay=true");
                 }
             }
             return RedirectToPage("UserOrders");

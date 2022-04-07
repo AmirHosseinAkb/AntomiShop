@@ -74,6 +74,8 @@ namespace AntomiShop.Controllers
                 if (response.Status == 100)
                 {
                     order.IsFinally = true;
+                    order.PaymentKind = "پرداخت انلاین";
+                    order.PaymentStatus = "در انتظار";
                     ViewBag.IsSucceed = true;
                     ViewBag.Code = response.RefId;
                     _orderService.UpdateOrder(order);
