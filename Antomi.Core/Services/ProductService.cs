@@ -111,7 +111,7 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
-        public void BuyProduct(int productId, string email, int colorId, int count)
+        public int BuyProduct(int productId, string email, int colorId, int count)
         {
             var product = GetProductById(productId);
             var userId = _context.Users.SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email)).UserId;
@@ -164,7 +164,7 @@ namespace Antomi.Core.Services
                 _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
                 _context.SaveChanges();
             }
-            
+            return order.OrderId;
         }
 
         public void DeleteColor(int colorId)
@@ -417,7 +417,7 @@ namespace Antomi.Core.Services
             {
                 result = result.Where(p => p.ProductTitle.Contains(filterName));
             }
-            int take = 2;
+            int take = 10;
             int skip = (pageId - 1) * take;
             var showProductsVM = new ShowProductsInAdminViewModel()
             {

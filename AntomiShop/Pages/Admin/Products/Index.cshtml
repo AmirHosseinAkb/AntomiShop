@@ -49,19 +49,19 @@
                                     <td>@product.ProductPrice.ToString("#,0") تومان</td>
                                     <td>@product.CreateDate.ConvertToShamsi()</td>
                                     <td>
-                                        
-                                            @foreach (var color in product.ProductColors)
-                                            {
-                                                <form method="post" asp-page="Index" asp-page-handler="DeleteColor">
+
+                                        @foreach (var color in product.ProductColors)
+                                        {
+                                            <form method="post" asp-page="Index" asp-page-handler="DeleteColor">
                                                 <div style="background-color:@color.ColorCode; margin:0px 42%;border-radius:20px">
                                                     <br />
                                                 </div>
-                                                <input type="hidden" name="colorId" value="@color.ColorId"/>
+                                                <input type="hidden" name="colorId" value="@color.ColorId" />
                                                 <input type="submit" class="btn btn-xs" style="background-color:@color.ColorCode;color:white" value="حذف رنگ" />
                                                 <br />
-                                                </form>
-                                            }
-                                        
+                                            </form>
+                                        }
+
                                     </td>
                                     <td class="actions">
                                         <a asp-page="EditProduct" asp-route-productId="@product.ProductId" class="btn btn-warning btn-sm">ویرایش</a>
@@ -83,12 +83,12 @@
             </div><div class="row">
                 <div class="col-md-6">
                     <div class="dataTables_paginate paging_simple_numbers" id="datatable-editable_paginate">
-                        <ul class="pagination">
-                            @for (var i = 1; i <= Model.ShowProductsVM.PageCount; i++)
-                            {
-                                <li class="paginate_button @((i==Model.ShowProductsVM.CurrentPage)?"active":"")" aria-controls="datatable-editable" tabindex="0"><a href="/Admin/Products?pageId=@i">@i</a></li>
-                            }
-                        </ul>
+                            <ul class="pagination">
+                                @for (var i = 1; i <= Model.ShowProductsVM.PageCount; i++)
+                                {
+                                    <li class="paginate_button @((i==Model.ShowProductsVM.CurrentPage)?"active":"")" aria-controls="datatable-editable" tabindex="0"><a href="/Admin/Products?pageId=@i">@i</a></li>
+                                }
+                            </ul>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                 <form id="colorForm" asp-page="Index" asp-page-handler="CreateProductColor" method="post">
                     <label>لطفا رنگ مورد نظر برای محصول را انتخاب کنید:</label>
                     <input type="hidden" id="colorProductIdInp" name="productId" />
-                    <input type="color"  name="colorCode" style="display:inline"/>
+                    <input type="color" name="colorCode" style="display:inline" />
                     <input type="text" id="colorNameInp" class="form-control" placeholder="نام رنگ را وارد کنید" name="colorName" />
                     <div id="messageEmpty" class="alert alert-danger" style="display:none;margin-top:10px">
                         لطفا نام رنگ را وارد کنید

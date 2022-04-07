@@ -27,7 +27,7 @@ namespace Antomi.Core.Services.Interfaces
         ShowProductItemsViewModel GetProducts(int pageId=1,string filterProductName="",string orderType="createDate"
             ,int minPrice=0,int maxPrice=0,List<int> selectedGroups=null,int take=12);
         Product GetProductForShow(int productId);
-        void BuyProduct(int productId, string email, int colorId, int count);
+        int BuyProduct(int productId, string email, int colorId, int count);
         #endregion
 
         #region Groups

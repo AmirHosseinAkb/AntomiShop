@@ -34,6 +34,7 @@
                                     <table class="table table-striped">
                                         <thead class="thead-dark">
                                             <tr>
+                                                <th>شماره فاکتور</th>
                                                 <th>مبلغ کل</th>
                                                 <th>تخفیف</th>
                                                 <th>مبلغ پرداختی</th>
@@ -46,6 +47,7 @@
                                             @foreach (var order in Model.Orders)
                                             {
                                                 <tr>
+                                                    <td>@order.OrderId</td>
                                                     <td>@order.OrderSum.ToString("#,0") تومان</td>
                                                     <td>@order.DiscountPrice.ToString("#,0") تومان</td>
                                                     <td>@order.PaidPrice.ToString("#,0") تومان</td>

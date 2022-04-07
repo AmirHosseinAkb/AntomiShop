@@ -44,7 +44,7 @@ namespace AntomiShop.Pages.UserPanel.Orders
                 };
                 int walletId = _userService.AddWallet(wallet);
                 var payment = new ZarinpalSandbox.Payment(order.PaidPrice);
-                var response = payment.PaymentRequest("پرداخت فاکتور خرید شماره " + order.OrderId, "http://localhost:5059/PayOnlineOrder/" + walletId+"?orderId="+orderId);
+                var response = payment.PaymentRequest("پرداخت فاکتور خرید شماره " + order.OrderId, "http://localhost:5059/PayOnlineOrder/"+orderId);
                 if (response.Result.Status == 100)
                 {
                     return Redirect("https://SandBox.ZarinPal.com/pg/StartPay/" + response.Result.Authority);
