@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Antomi.Core.DTOs.Discount;
 using Antomi.Data.Entities.User;
 using Antomi.Data.Entities.Wallet;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Antomi.Core.Services
 {
@@ -45,6 +46,17 @@ namespace Antomi.Core.Services
         public Order GetOrderById(int orderId)
         {
             return _context.Orders.Find(orderId);
+        }
+
+        public List<SelectListItem> GetUserAddressesForSelectInOrder(string email)
+        {
+            var userId=_userService.GetUserIdByEmail(email);
+            return _context.Addresses.Where(a => a.UserId == userId)
+                .Select(a => new SelectListItem()
+                {
+                    Text = a.State + " " + a.City + " " + a.Neighborhood + " پلاک " + a.Number,
+                    Value = a.AddressId.ToString()
+                }).ToList();
         }
 
         public Order GetUserOrder(string email, int orderId)

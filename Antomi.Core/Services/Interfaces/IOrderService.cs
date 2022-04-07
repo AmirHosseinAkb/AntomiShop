@@ -1,6 +1,7 @@
 ﻿using Antomi.Core.DTOs.Discount;
 using Antomi.Data.Entities.Order;
 using Antomi.Data.Entities.User;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,6 @@ namespace Antomi.Core.Services.Interfaces
         Order GetOrderById(int orderId);
         void UpdateOrder(Order order);
         void AddUserDiscount(UserDiscount userDiscount);
+        List<SelectListItem> GetUserAddressesForSelectInOrder(string email);
     }
 }

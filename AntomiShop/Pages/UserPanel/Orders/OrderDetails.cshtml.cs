@@ -4,6 +4,7 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Order;
 using Microsoft.AspNetCore.Authorization;
 using Antomi.Data.Entities.Wallet;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AntomiShop.Pages.UserPanel.Orders
 {
@@ -22,9 +23,11 @@ namespace AntomiShop.Pages.UserPanel.Orders
         {
             ViewData["DiscountStatus"] = discountStatus;
             ViewData["SuccessPay"] = IsSucceededPay;
+            var addresses= _orderService.GetUserAddressesForSelectInOrder(User.Identity.Name);
+            ViewData["UserAddresses"] = new SelectList(addresses, "Value", "Text");
             Order =_orderService.GetOrder(User.Identity.Name, orderId);
         }
-        public IActionResult OnPost(int orderId,string paymentType)
+        public IActionResult OnPost(int orderId,string paymentType,int addressId)
         {
             var userId = _userService.GetUserIdByEmail(User.Identity.Name);
             var order = _orderService.GetUserOrder(User.Identity.Name,orderId);
@@ -34,6 +37,8 @@ namespace AntomiShop.Pages.UserPanel.Orders
             }
             if (paymentType == "OnlinePayment")
             {
+                order.AddressId = addressId;
+                _orderService.UpdateOrder(order);
                 var payment = new ZarinpalSandbox.Payment(order.PaidPrice);
                 var response = payment.PaymentRequest("پرداخت فاکتور خرید شماره " + order.OrderId, "http://localhost:5059/PayOnlineOrder/"+orderId);
                 if (response.Result.Status == 100)
@@ -63,6 +68,7 @@ namespace AntomiShop.Pages.UserPanel.Orders
                     order.CreateDate = DateTime.Now;
                     order.PaymentKind = "پرداخت از طریق کیف پول";
                     order.PaymentStatus = "در انتظار";
+                    order.AddressId = addressId;
                     _orderService.UpdateOrder(order);
                     
                     return Redirect("/UserPanel/Orders/OrderDetails/"+orderId+"?IsSucceededPay=true");

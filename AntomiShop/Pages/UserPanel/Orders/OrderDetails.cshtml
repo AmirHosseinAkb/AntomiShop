@@ -6,7 +6,7 @@
     string status = "";
     if (ViewData["DiscountStatus"] != null)
     {
-         status= ViewData["DiscountStatus"].ToString();
+        status = ViewData["DiscountStatus"].ToString();
     }
     var userBalance = _userService.BalanceUserWallet(User.Identity.Name);
 }
@@ -143,6 +143,12 @@
                                                 </td>
                                             </tr>
                                             <form method="post">
+                                            <tr>
+                                                <td colspan="5">
+                                                    <h5>لطفا ادرس  خود را انتخاب کنید:</h5>
+                                                    <select name="addressId" class="form-control" asp-items="@ViewData["UserAddresses"] as SelectList"></select>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td colspan="5">
                                                     <input type="hidden" name="orderId" value="@Model.Order.OrderId">
