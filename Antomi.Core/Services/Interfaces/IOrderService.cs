@@ -20,5 +20,8 @@ namespace Antomi.Core.Services.Interfaces
         void UpdateOrder(Order order);
         void AddUserDiscount(UserDiscount userDiscount);
         List<SelectListItem> GetUserAddressesForSelectInOrder(string email);
+        Tuple<List<Order>,int,int> GetOrdersForShowInAdmin(int pageId = 1, string filterName = "");
+        void AcceptOrder(int orderId);
+        List<OrderDetail> GetOrderDetails(int orderId);
     }
 }

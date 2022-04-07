@@ -66,7 +66,7 @@ namespace AntomiShop.Pages.UserPanel.Orders
                     _userService.AddWallet(wallet);
                     order.IsFinally = true;
                     order.CreateDate = DateTime.Now;
-                    order.PaymentKind = "پرداخت از طریق کیف پول";
+                    order.PaymentKind = "کیف پول";
                     order.PaymentStatus = "در انتظار";
                     order.AddressId = addressId;
                     _orderService.UpdateOrder(order);

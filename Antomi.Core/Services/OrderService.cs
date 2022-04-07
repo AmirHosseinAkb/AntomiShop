@@ -24,6 +24,13 @@ namespace Antomi.Core.Services
             _userService = userService;
         }
 
+        public void AcceptOrder(int orderId)
+        {
+            var order = GetOrderById(orderId);
+            order.PaymentStatus = "ارسال شده";
+            _context.SaveChanges();
+        }
+
         public void AddUserDiscount(UserDiscount userDiscount)
         {
             _context.UserDiscounts.Add(userDiscount);
@@ -46,6 +53,32 @@ namespace Antomi.Core.Services
         public Order GetOrderById(int orderId)
         {
             return _context.Orders.Find(orderId);
+        }
+
+        public List<OrderDetail> GetOrderDetails(int orderId)
+        {
+            return _context.OrderDetails
+                .Include(d=>d.Product)
+                .Include(d=>d.ProductColor)
+                .Where(d => d.OrderId == orderId).ToList();
+        }
+
+        public Tuple<List<Order>,int,int> GetOrdersForShowInAdmin(int pageId=1,string filterName="")
+        {
+            IQueryable<Order> result = _context.Orders.Include(o => o.User).Include(o=>o.Address);
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                result = result.Where(o => o.User.FirstName.Contains(filterName) || o.User.LastName.Contains(filterName));
+            }
+            int take = 10;
+            int skip = (pageId - 1) * take;
+            int pageCount = result.Count() / take;
+            if (result.Count() % take != 0)
+            {
+                pageCount++;
+            }
+            var query = result.Skip(skip).Take(take).ToList();
+            return Tuple.Create(query,pageId,pageCount);
         }
 
         public List<SelectListItem> GetUserAddressesForSelectInOrder(string email)

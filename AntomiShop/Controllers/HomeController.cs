@@ -75,7 +75,7 @@ namespace AntomiShop.Controllers
                 {
                     order.IsFinally = true;
                     order.CreateDate = DateTime.Now;
-                    order.PaymentKind = "پرداخت انلاین";
+                    order.PaymentKind = "انلاین";
                     order.PaymentStatus = "در انتظار";
                     ViewBag.IsSucceed = true;
                     ViewBag.Code = response.RefId;

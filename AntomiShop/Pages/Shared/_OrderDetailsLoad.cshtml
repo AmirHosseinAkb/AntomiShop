@@ -1,0 +1,25 @@
+﻿@model List<OrderDetail>
+@{
+    Layout = null;
+}
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>نام محصول</th>
+            <th>رنگ</th>
+            <th>قیمت</th>
+            <th>تعداد</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model)
+        {
+            <tr>
+                <td>@detail.Product.ProductTitle</td>
+                <td>@detail.ProductColor.ColorName</td>
+                <td>@detail.UnitPrice.ToString("#,0") تومان</td>
+                <td>@detail.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
