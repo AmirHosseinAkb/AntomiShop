@@ -35,7 +35,7 @@ namespace Antomi.Data.Entities.Order
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
         public string PaymentStatus { get; set; } = "پرداخت نشده";
-        public DateTime CreateDate { get; set; } = DateTime.Now;
+        public DateTime? CreateDate { get; set; } 
         public bool IsFinally { get; set; }
         public bool IsDeleted { get; set; }
 

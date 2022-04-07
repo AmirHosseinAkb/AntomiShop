@@ -1,0 +1,128 @@
+﻿@page
+@model AntomiShop.Pages.Admin.Orders.IndexModel
+@{
+}
+
+@*<div class="panel">
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-b-30">
+                    <a href="/Admin/Users/CreateUser" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن کاربر جدید <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+            <div class="row" style="margin-bottom:10px">
+                <form method="get">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="نام " name="filterName" style="width:100%" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="ایمیل" name="filterEmail" style="width:100%" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="submit" value="جستجو" class="btn btn-success" />
+                        <a class="btn btn-warning" href="/Admin/Users">پاک کردن فیلدها</a>
+                    </div>
+                </form>
+            </div><div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th>نام</th>
+                                <th>ایمیل</th>
+                                <th>فعال</th>
+                                <th>تاریخ عضویت</th>
+                                <th>نقش کاربر</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.ShowUsersInAdminViewModel.Users)
+                            {
+                                <tr>
+                                    <td>@(user.FirstName+" "+user.LastName)</td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        @if (user.IsActive)
+                                        {
+                                            <span class="text-success">
+                                                <i class="glyphicon glyphicon-ok"></i>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>@user.RegisterDate.ConvertToShamsi()</td>
+                                    <td>@user.Role.RoleTitle</td>
+                                    @{
+                                        var nameUser = user.FirstName;
+                                    }
+                                    <td class="actions">
+                                        <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
+                                        <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
+                                        <a asp-page="EditUser" asp-route-userId="@user.UserId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                        <a onclick="GetUserIdForDelete(@user.UserId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div><div class="row">
+                <div class="col-md-6">
+                    <div class="dataTables_paginate paging_simple_numbers" id="datatable-editable_paginate">
+                        <ul class="pagination">
+                            @for (var i = 1; i <= Model.ShowUsersInAdminViewModel.PageCount; i++)
+                            {
+                                <li class="paginate_button @((i==Model.ShowUsersInAdminViewModel.CurrentPage)?"active":"")" aria-controls="datatable-editable" tabindex="0"><a href="/Admin/Users?pageId=@i">@i</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: page -->
+</div>
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">آیا مطمئنید که میخواهید این کاربر را حذف کنید؟</h3>
+            <div class="modal-body">
+                <form asp-page="Index" asp-page-handler="DeleteUser" method="post">
+                    <input id="userIdInput" type="hidden" name="userId" />
+                    <input id="btnSubmit" type="submit" class="btn btn-danger" value="تایید و حذف" />
+                    <a id="btnCancell" class="btn btn-success">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function GetUserIdForDelete(userId){
+            $("#userIdInput").val(userId);
+            $("#deleteModal").modal('show');
+        }
+
+    $(function(){
+        $("#btnCancell").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+    $(function(){
+        $("#btnSubmit").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+
+</script>*@

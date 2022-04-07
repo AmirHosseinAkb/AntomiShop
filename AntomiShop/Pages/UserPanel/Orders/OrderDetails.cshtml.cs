@@ -60,6 +60,7 @@ namespace AntomiShop.Pages.UserPanel.Orders
                     };
                     _userService.AddWallet(wallet);
                     order.IsFinally = true;
+                    order.CreateDate = DateTime.Now;
                     order.PaymentKind = "پرداخت از طریق کیف پول";
                     order.PaymentStatus = "در انتظار";
                     _orderService.UpdateOrder(order);

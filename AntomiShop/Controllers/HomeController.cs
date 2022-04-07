@@ -74,6 +74,7 @@ namespace AntomiShop.Controllers
                 if (response.Status == 100)
                 {
                     order.IsFinally = true;
+                    order.CreateDate = DateTime.Now;
                     order.PaymentKind = "پرداخت انلاین";
                     order.PaymentStatus = "در انتظار";
                     ViewBag.IsSucceed = true;
