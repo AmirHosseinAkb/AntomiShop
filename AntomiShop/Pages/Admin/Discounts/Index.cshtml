@@ -1,0 +1,277 @@
+﻿@page "{handler?}"
+@model AntomiShop.Pages.Admin.Discounts.IndexModel
+@{
+}
+
+<div class="panel">
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-b-30">
+                    <a id="addDiscount" class="btn btn-primary waves-effect waves-light">افزودن کد تخفیف جدید <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th>کد تخفیف</th>
+                                <th>درصد تخفیف</th>
+                                <th>تعداد استفاده</th>
+                                <th>تاریخ شروع</th>
+                                <th>تاریخ پایان</th>
+                                <th>مناسبت تخفیف</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var discount in Model.Discounts)
+                            {
+                                <tr>
+                                    <td>@discount.DiscountCode</td>
+                                    <td>@discount.DiscountPercent%</td>
+                                    <td>@discount.UsableCount</td>
+                                    <td>@discount.StartDate?.ConvertToShamsi()</td>
+                                    <td>@discount.EndDate?.ConvertToShamsi()</td>
+                                    <td>@discount.Description</td>
+                                    <td class="actions">
+                                        <a onclick="GetDiscountForEdit(@discount.DiscountId,'@discount.DiscountCode',@discount.DiscountPercent,@((discount.UsableCount!=null)?discount.UsableCount:0),'@discount.StartDate?.ConvertToShamsi()','@discount.EndDate?.ConvertToShamsi()','@discount.Description')" class="btn btn-info btn-sm">ویرایش</a>
+                                        <a onclick="GetDiscountForDelete(@discount.DiscountId,'@discount.DiscountCode')" class="btn btn-danger btn-sm">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end: page -->
+<div id="createDiscountModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">افزودن کد تخفیف جدید</h3>
+            <div class="modal-body">
+                <form id="frmCreateDiscount" asp-page="Index" asp-page-handler="CreateDiscount" method="post">
+                    <label>کد تخفیف</label>
+                    <input id="discountCodeInp" asp-for="Discount.DiscountCode" type="text" class="form-control" />
+                    <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
+                    <br />
+                    <div id="ExistAlert" class="alert alert-warning" style="display:none;margin-top:5px">
+                        این کد تخفیف از قبل وجود دارد
+                    </div>
+
+                    <label>درصد تخفیف</label>
+                    <input asp-for="Discount.DiscountPercent" type="number" class="form-control" />
+                    <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
+                    <br />
+
+                    <label>تعداد استفاده</label>
+                    <input asp-for="Discount.UsableCount" type="number" class="form-control" />
+
+                    <label>تاریخ شروع</label>
+                    <br />
+                    <input name="stDate" class="stDate" />
+
+                    <br />
+                    <label>تاریخ پایان</label>
+                    <br />
+                    <input name="edDate" class="edDate" />
+                    <br />
+
+                    <label>مناسبت تخفیف</label>
+                    <input asp-for="Discount.Description" type="text" class="form-control" />
+                    <span asp-validation-for="Discount.Description" class="text-danger"></span>
+                    <hr />
+                </form>
+                <input id="btnSubmitCreateDiscount" type="submit" class="btn btn-success" value="ذخیره" />
+                <a id="btnCancellCreateDiscount" class="btn btn-danger">انصراف</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editDiscountModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">ویرایش کد تخفیف</h3>
+            <div class="modal-body">
+                <form id="frmEditDiscount" asp-page="Index" asp-page-handler="EditDiscount" method="post">
+                    <input id="discountIdInp" type="hidden" name="discountId" />
+
+                    <label>کد تخفیف</label>
+                    <input id="discountCodeInpEdit" asp-for="Discount.DiscountCode" type="text" class="form-control" />
+                    <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
+                    <br />
+                    <div id="ExistAlertEdit" class="alert alert-warning" style="display:none;margin-top:5px">
+                        این کد تخفیف از قبل وجود دارد
+                    </div>
+
+                    <label>درصد تخفیف</label>
+                    <input id="discountPercentInp" asp-for="Discount.DiscountPercent" type="number" class="form-control" />
+                    <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
+                    <br />
+
+                    <label>تعداد استفاده</label>
+                    <input id="usableCountInp" asp-for="Discount.UsableCount" type="number" class="form-control" />
+
+                    <label>تاریخ شروع</label>
+                    <br />
+                    <input name="stDate" id="stDateEdit" />
+
+                    <br />
+                    <label>تاریخ پایان</label>
+                    <br />
+                    <input name="edDate" id="edDateEdit" />
+                    <br />
+
+                    <label>مناسبت تخفیف</label>
+                    <input id="descriptionInp" asp-for="Discount.Description" type="text" class="form-control" />
+                    <span asp-validation-for="Discount.Description" class="text-danger"></span>
+                    <hr />
+                </form>
+                <input id="btnSubmitEditDiscount" type="submit" class="btn btn-success" value="ذخیره" />
+                <a id="btnCancellEditDiscount" class="btn btn-danger">انصراف</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteDiscountModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">آیا مطمئنید که میخواهید کد تخفیف <i id="discountName"></i> را حذف کنید؟</h3>
+            <div class="modal-body">
+                <form id="frmDeleteDiscount" asp-page="Index" asp-page-handler="DeleteDiscount" method="post">
+                    <input id="discountIdInpDelete" type="hidden" name="discountId" />
+                    <input id="btnSubmitDeleteDiscount" type="submit" class="btn btn-danger" value="حذف" />
+                    <a id="btnCancellDeleteDiscount" class="btn btn-success">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+        $("#addDiscount").click(function(){
+            $("#createDiscountModal").modal('show');
+        });
+    });
+
+    $(function(){
+        $("#btnCancellCreateDiscount").click(function(){
+            $("#createDiscountModal").modal('toggle');
+        });
+    });
+
+    $(function(){
+        $("#btnSubmitCreateDiscount").click(function(){
+            if($("#ExistAlert").is(":hidden")){
+                $("#frmCreateDiscount").submit();
+            }
+        });
+    });
+
+    $(function(){
+        $("#btnCancellEditDiscount").click(function(){
+            $("#EditDiscountModal").modal('toggle');
+        });
+    });
+
+    $(function(){
+        $("#btnSubmitEditDiscount").click(function(){
+            if($("#ExistAlertEdit").is(":hidden")){
+                $("#frmEditDiscount").submit();
+            }
+        });
+    });
+
+    function GetDiscountForEdit(discountId,code,percent,usableCount=0,startDate='',endDate='',description){
+        $("#discountIdInp").val(discountId);
+        $("#discountCodeInpEdit").val(code);
+        $("#discountPercentInp").val(percent);
+        if(usableCount==0){
+            $("#usableCountInp").val("");
+        }
+        else{
+            $("#usableCountInp").val(usableCount);
+        }
+        $("#stDateEdit").val(startDate);
+        $("#edDateEdit").val(endDate);
+        $("#descriptionInp").val(description);
+        $("#editDiscountModal").modal('show');
+    }
+    function GetDiscountForDelete(discountId,discountName){
+        $("#discountIdInpDelete").val(discountId);
+        $("#discountName").text(discountName);
+        $("#deleteDiscountModal").modal('show');
+    }
+
+
+</script>
+@section Scripts{
+<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+<script src="/js/kendo.all.min.js"></script>
+
+<script>
+     $(document).ready(function() {
+    // create DatePicker from input HTML element
+    $("#stDate").kendoDatePicker();
+    });
+    $(document).ready(function() {
+    // create DatePicker from input HTML element
+    $("#edDate").kendoDatePicker();
+    });
+    $(document).ready(function() {
+    // create DatePicker from input HTML element
+    $("#stDateEdit").kendoDatePicker();
+    });
+    $(document).ready(function() {
+    // create DatePicker from input HTML element
+    $("#edDateEdit").kendoDatePicker();
+    });
+</script>
+<script>
+    $(function(){
+        $("#discountCodeInp").blur(function(){
+            $.ajax({
+                type:"get",
+                url:"/Admin/Discounts/CheckDiscountExistance?code="+$("#discountCodeInp").val()
+            }).done(function(res){
+                if(res=== 'True'){
+                    $("#ExistAlert").show();
+                }
+                else{
+                    $("#ExistAlert").hide();
+                }
+            });
+        });
+    });
+     $(function(){
+        $("#discountCodeInpEdit").blur(function(){
+            $.ajax({
+                type:"get",
+                url:"/Admin/Discounts/CheckDiscountExistance?code="+$("#discountCodeInp").val()
+            }).done(function(res){
+                if(res=== 'True'){
+                    $("#ExistAlert").show();
+                }
+                else{
+                    $("#ExistAlert").hide();
+                }
+            });
+        });
+    });
+
+</script>
+}
+
+

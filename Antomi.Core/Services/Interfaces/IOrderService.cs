@@ -1,4 +1,5 @@
 ﻿using Antomi.Core.DTOs.Discount;
+using Antomi.Data.Entities.Discount;
 using Antomi.Data.Entities.Order;
 using Antomi.Data.Entities.User;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,5 +24,10 @@ namespace Antomi.Core.Services.Interfaces
         Tuple<List<Order>,int,int> GetOrdersForShowInAdmin(int pageId = 1, string filterName = "");
         void AcceptOrder(int orderId);
         List<OrderDetail> GetOrderDetails(int orderId);
+        List<Discount> GetAllDiscountsForShowInAdmin();
+        bool IsExistDiscount(string code);
+        void AddDiscount(Discount discount);
+        void UpdateDiscount(Discount discount);
+        void DeleteDiscount(int discountId);
     }
 }

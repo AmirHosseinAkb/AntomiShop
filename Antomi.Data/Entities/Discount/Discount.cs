@@ -22,9 +22,10 @@ namespace Antomi.Data.Entities.Discount
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
         public string Description { get; set; }
-        public int? UsableCount { get; set; }
+        public int? UsableCount { get; set; } 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Relations
 

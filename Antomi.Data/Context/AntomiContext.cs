@@ -55,6 +55,8 @@ namespace Antomi.Data.Context
                 .HasQueryFilter(d => !d.IsDeleted);
             modelBuilder.Entity<ProductColor>()
                 .HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<Discount>()
+                .HasQueryFilter(d => !d.IsDeleted);
 
             modelBuilder.Entity<OrderDetail>()
                 .HasOne<ProductColor>(d => d.ProductColor)

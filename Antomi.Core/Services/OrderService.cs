@@ -9,6 +9,7 @@ using Antomi.Data.Entities.Order;
 using Microsoft.EntityFrameworkCore;
 using Antomi.Core.DTOs.Discount;
 using Antomi.Data.Entities.User;
+using Antomi.Data.Entities.Discount;
 using Antomi.Data.Entities.Wallet;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -31,13 +32,29 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void AddDiscount(Discount discount)
+        {
+            _context.Discounts.Add(discount);
+            _context.SaveChanges();
+        }
+
         public void AddUserDiscount(UserDiscount userDiscount)
         {
             _context.UserDiscounts.Add(userDiscount);
             _context.SaveChanges();
         }
 
-       
+        public void DeleteDiscount(int discountId)
+        {
+            var discount = _context.Discounts.Find(discountId);
+            discount.IsDeleted = true;
+            _context.SaveChanges();
+        }
+
+        public List<Data.Entities.Discount.Discount> GetAllDiscountsForShowInAdmin()
+        {
+            return _context.Discounts.ToList();
+        }
 
         public Order GetOrder(string email, int orderId)
         {
@@ -104,6 +121,17 @@ namespace Antomi.Core.Services
             return _context.Orders.Where(o => o.UserId == userId).ToList();
         }
 
+        public bool IsExistDiscount(string code)
+        {
+            return _context.Discounts.Any(d => d.DiscountCode == code);
+        }
+
+        public void UpdateDiscount(Discount discount)
+        {
+            _context.Discounts.Update(discount);
+            _context.SaveChanges();
+        }
+
         public void UpdateOrder(Order order)
         {
             _context.Orders.Update(order);
@@ -116,11 +144,11 @@ namespace Antomi.Core.Services
             var discount = _context.Discounts.SingleOrDefault(d => d.DiscountCode == code);
             if (discount == null)
                 return DiscountUseType.WrongCode;
-            if (discount.StartDate > DateTime.Now)
+            if (discount.StartDate!=null && discount.StartDate > DateTime.Now)
                 return DiscountUseType.ExpireTime;
-            if (discount.EndDate < DateTime.Now)
+            if (discount.EndDate!=null && discount.EndDate< DateTime.Now)
                 return DiscountUseType.ExpireTime;
-            if (discount.UsableCount < 1)
+            if (discount.UsableCount!=null && discount.UsableCount < 1)
                 return DiscountUseType.Finished;
             if (_context.UserDiscounts.Any(ud => ud.DiscountId == discount.DiscountId && ud.UserId == order.UserId))
                 return DiscountUseType.UserUsed;
