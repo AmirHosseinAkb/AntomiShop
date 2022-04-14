@@ -82,7 +82,7 @@ namespace Antomi.Core.Services
 
         public Tuple<List<Order>,int,int> GetOrdersForShowInAdmin(int pageId=1,string filterName="")
         {
-            IQueryable<Order> result = _context.Orders.Include(o => o.User).Include(o=>o.Address);
+            IQueryable<Order> result = _context.Orders.Include(o => o.User).Include(o=>o.Address).Where(o=>o.IsFinally);
             if (!string.IsNullOrEmpty(filterName))
             {
                 result = result.Where(o => o.User.FirstName.Contains(filterName) || o.User.LastName.Contains(filterName));

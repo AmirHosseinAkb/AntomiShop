@@ -1,4 +1,5 @@
 ﻿using Antomi.Core.Services.Interfaces;
+using Antomi.Data.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntomiShop.Controllers
@@ -6,9 +7,11 @@ namespace AntomiShop.Controllers
     public class ProductController : Controller
     {
         private IProductService _productService;
-        public ProductController(IProductService productService)
+        private IUserService _userService;
+        public ProductController(IProductService productService,IUserService userService)
         {
             _productService = productService;
+            _userService = userService;
         }
         public IActionResult Index(int pageId = 1, string filterProductName = "", string orderType = "createDate"
             ,int minPrice = 0, int maxPrice = 0, List<int> selectedGroups = null, int take = 12)
@@ -32,6 +35,13 @@ namespace AntomiShop.Controllers
         {
             int orderId=_productService.BuyProduct(productId,User.Identity.Name,colorId, count);
             return Redirect("/UserPanel/Orders/OrderDetails/"+orderId);
+        }
+
+        public IActionResult AddComment(ProductComment comment)
+        {
+            comment.UserId = _userService.GetUserIdByEmail(User.Identity.Name);
+            comment.CreateDate = DateTime.Now;
+
         }
     }
 }

@@ -60,6 +60,7 @@ namespace Antomi.Data.Entities.Product
         public List<ProductColor>? ProductColors { get; set; }
         public List<Order.OrderDetail> OrderDetails { get; set; }
         public List<InventoryHistory> InventoryHistories { get; set; }
+        public List<ProductComment> ProductComments { get; set; }
 
         #endregion
 

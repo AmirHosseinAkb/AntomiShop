@@ -51,6 +51,7 @@ namespace Antomi.Data.Entities.User
         public Role Role { get; set; }
         public List<Order.Order> Orders { get; set; }
         public List<UserDiscount> UserDiscounts { get; set; }
+        public List<Product.ProductComment> ProductComments { get; set; }
 
         #endregion
     }

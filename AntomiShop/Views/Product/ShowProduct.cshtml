@@ -69,30 +69,30 @@
                                     if (User.Identity.IsAuthenticated)
                                     {
                                         <div class="product_variant color">
-                                        <h3>گزینه های در دسترس</h3>
-                                        <label>رنگ: <b id="colorName"></b></label>
-                                        <br />
-                                        @foreach (var color in Model.ProductColors)
-                                        {
-                                            <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px">
-                                                <input class="color_Radio" type="radio" name="colorId" value="@color.ColorId">
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class="product_variant quantity">
-                                        <label>تعداد</label>
-                                        <input min="1" max="100" value="1" name="count" type="number">
-                                        <button class="button" type="submit">افزودن به سبد</button>
-                                    </div>
-                                    <div class="product_timing">
-                                        <div data-countdown="2023/05/15"></div>
-                                    </div>
+                                            <h3>گزینه های در دسترس</h3>
+                                            <label>رنگ: <b id="colorName"></b></label>
+                                            <br />
+                                            @foreach (var color in Model.ProductColors)
+                                            {
+                                                <div style="background-color:@color.ColorCode; display:inline ;margin-right:10px;padding:5px; border-radius:5px">
+                                                    <input class="color_Radio" type="radio" name="colorId" value="@color.ColorId">
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="product_variant quantity">
+                                            <label>تعداد</label>
+                                            <input min="1" max="100" value="1" name="count" type="number">
+                                            <button class="button" type="submit">افزودن به سبد</button>
+                                        </div>
+                                        <div class="product_timing">
+                                            <div data-countdown="2023/05/15"></div>
+                                        </div>
                                     }
                                     else
                                     {
                                         <div class="alert alert-warning">لطفا برای افزودن محصول به سبد خرید ابتدا وارد حسابتان شوید</div>
                                     }
-                                    
+
                                 }
                                 else
                                 {
@@ -148,55 +148,36 @@
                                             </div>
                                             <div class="comment_text">
                                                 <div class="reviews_meta">
-                                                    <div class="product_rating">
-                                                        <ul>
-                                                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                        </ul>
-                                                    </div>
                                                     <p><strong>مدیر </strong>- 12 آذر 1398</p>
                                                 </div>
                                                 <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
                                             </div>
+                                        </div>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <div class="comment_title">
+                                                <h2>یک نقد و بررسی بنویسید </h2>
+                                            </div>
 
-                                        </div>
-                                        <div class="comment_title">
-                                            <h2>یک نقد و بررسی بنویسید </h2>
-                                            <p>ایمیل شما منتشر نخواهد شد. فیلد های الزامی مشخص شده اند</p>
-                                        </div>
-                                        <div class="product_rating mb-10">
-                                            <h3>امتیاز شما</h3>
-                                            <ul>
-                                                <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="product_review_form">
-                                            <form action="#">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <label for="review_comment">نقد و بررسی شما </label>
-                                                        <textarea name="comment" id="review_comment"></textarea>
+                                            <div class="product_review_form">
+                                                <form asp-action="AddComment">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input type="hidden" name="comment.ProductId" value="@Model.ProductId">
+                                                            <label for="review_comment">نقد و بررسی شما </label>
+                                                            <textarea name="comment.Comment" id="review_comment"></textarea>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <label for="author">نام</label>
-                                                        <input id="author" type="text">
-
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <label for="email">ایمیل </label>
-                                                        <input id="email" type="email" dir="ltr">
-                                                    </div>
-                                                </div>
-                                                <button type="submit">ثبت</button>
-                                            </form>
-                                        </div>
+                                                    <button type="submit">ثبت</button>
+                                                </form>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-warning">
+                                                برای ثبت نظرات خود ابتدا وارد سایت شوید
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

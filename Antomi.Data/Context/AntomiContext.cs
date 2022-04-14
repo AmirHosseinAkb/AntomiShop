@@ -37,6 +37,7 @@ namespace Antomi.Data.Context
         public DbSet<InventoryHistory> InventoryHistories { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<UserDiscount> UserDiscounts { get; set; }
+        public DbSet<ProductComment> ProductComments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,6 +58,8 @@ namespace Antomi.Data.Context
                 .HasQueryFilter(c => !c.IsDeleted);
             modelBuilder.Entity<Discount>()
                 .HasQueryFilter(d => !d.IsDeleted);
+            modelBuilder.Entity<ProductComment>()
+                .HasQueryFilter(c => !c.IsDeleted);
 
             modelBuilder.Entity<OrderDetail>()
                 .HasOne<ProductColor>(d => d.ProductColor)
