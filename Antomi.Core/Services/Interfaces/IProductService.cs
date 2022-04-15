@@ -63,5 +63,11 @@ namespace Antomi.Core.Services.Interfaces
         void AddInventoryHistory(InventoryHistory history);
 
         #endregion
+        #region ProductComments
+
+        void AddProductComment(ProductComment productComment);
+        List<ProductComment> GetProductComments(int productId);
+
+        #endregion
     }
 }

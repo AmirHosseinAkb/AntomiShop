@@ -37,11 +37,21 @@ namespace AntomiShop.Controllers
             return Redirect("/UserPanel/Orders/OrderDetails/"+orderId);
         }
 
-        public IActionResult AddComment(ProductComment comment)
+        [Route("AddComment/{commentText}/{productId}")]
+        public IActionResult AddComment(string commentText,int productId)
         {
+            var comment = new ProductComment();
             comment.UserId = _userService.GetUserIdByEmail(User.Identity.Name);
             comment.CreateDate = DateTime.Now;
-
+            comment.Comment = commentText;
+            comment.ProductId = productId;
+            _productService.AddProductComment(comment);
+            return View("ShowProductComments",_productService.GetProductComments(comment.ProductId));
+        }
+        [Route("ShowProductComments/{productId}")]
+        public IActionResult ShowProductComments(int productId)
+        {
+            return View(_productService.GetProductComments(productId));
         }
     }
 }

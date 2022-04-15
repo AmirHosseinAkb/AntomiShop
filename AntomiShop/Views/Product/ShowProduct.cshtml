@@ -141,35 +141,23 @@
                                 </div>
                                 <div class="tab-pane fade" id="reviews" role="tabpanel">
                                     <div class="reviews_wrapper">
-                                        <h2>1 نقد و بررسی برای این محصول</h2>
-                                        <div class="reviews_comment_box">
-                                            <div class="comment_thmb">
-                                                <img src="/assets/img/blog/comment2.jpg" alt="">
-                                            </div>
-                                            <div class="comment_text">
-                                                <div class="reviews_meta">
-                                                    <p><strong>مدیر </strong>- 12 آذر 1398</p>
-                                                </div>
-                                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
-                                            </div>
+                                        <h2>@Model.ProductComments.Count() نقد و بررسی برای این محصول</h2>
+                                        <div id="commentsList" class="reviews_comment_box">
                                         </div>
                                         @if (User.Identity.IsAuthenticated)
                                         {
                                             <div class="comment_title">
                                                 <h2>یک نقد و بررسی بنویسید </h2>
                                             </div>
-
                                             <div class="product_review_form">
-                                                <form asp-action="AddComment">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input type="hidden" name="comment.ProductId" value="@Model.ProductId">
+                                                            <input id="productIdInp" type="hidden" name="productId" value="@Model.ProductId">
                                                             <label for="review_comment">نقد و بررسی شما </label>
-                                                            <textarea name="comment.Comment" id="review_comment"></textarea>
+                                                            <textarea name="commentText" id="review_comment"></textarea>
                                                         </div>
                                                     </div>
-                                                    <button type="submit">ثبت</button>
-                                                </form>
+                                                    <button id="btnAddComment" type="submit">ثبت</button>
                                             </div>
                                         }
                                         else
@@ -265,6 +253,22 @@
                $("#colorName").text(res);
            });
         });
+    });
+    $(function(){
+        $("#btnAddComment").click(function(){
+            $.ajax({
+                type:"get",
+                url:"/AddComment/"+$("#review_comment").val()+"/"+@Model.ProductId
+            }).done(function(){
+                $("#commentsList").load("/ShowProductComments/"+@Model.ProductId);
+            });
+        });
+    });
+    function Success(){
+        $("#review_comment").val("");
+    }
+    $(function(){
+        $("#commentsList").load("/ShowProductComments/"+@Model.ProductId);
     });
 </script>
 

@@ -6548,7 +6548,7 @@ textarea:-ms-input-placeholder {
 	margin-bottom: 7px;
 }
 .reviews_comment_box {
-	display: flex;
+	display: block;
 	margin-bottom: 22px;
 }
 .reviews_comment_box .comment_text {

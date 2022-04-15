@@ -339,6 +339,7 @@ namespace Antomi.Core.Services
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductColors)
                 .Include(p => p.ProductInventory)
+                .Include(p=>p.ProductComments)
                 .SingleOrDefault(p => p.ProductId == productId);
         }
 
@@ -507,6 +508,17 @@ namespace Antomi.Core.Services
         {
             _context.ProductInventories.SingleOrDefault(i => i.ProductId == productId).ProductCount += count;
             _context.SaveChanges();
+        }
+
+        public void AddProductComment(ProductComment productComment)
+        {
+            _context.ProductComments.Add(productComment);
+            _context.SaveChanges();
+        }
+
+        public List<ProductComment> GetProductComments(int productId)
+        {
+            return _context.ProductComments.Include(c=>c.User).ThenInclude(u=>u.Role).Where(c => c.ProductId == productId).ToList();
         }
     }
 }

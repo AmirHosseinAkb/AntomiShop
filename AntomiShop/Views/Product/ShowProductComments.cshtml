@@ -1,0 +1,19 @@
+﻿
+@model List<ProductComment>
+@{
+    Layout = null;
+}
+
+@foreach (var comment in Model)
+{
+    <div class="comment_thmb" style="display:inline">
+        <img src="/UserAvatar/@comment.User.AvatarName" style="width:80px;height:70px" alt="">
+    </div>
+    <div class="comment_text">
+        <div class="reviews_meta">
+            <p><strong>@comment.User.Role.RoleTitle </strong>@comment.CreateDate.ConvertToShamsi()</p>
+        </div>
+        <p>@comment.Comment</p>
+    </div>
+    <br />
+}

@@ -139,11 +139,11 @@
                                         <option value="16">لوازم الکترونیکی</option>
                                     </select>
                                 </div>
-                                    <div class="search_box">
+                                <div class="search_box">
 
-                                        <input name="filterProductName" placeholder="جستجوی محصول ..." type="text">
-                                        <button type="submit">جستجو</button>
-                                    </div>
+                                    <input name="filterProductName" placeholder="جستجوی محصول ..." type="text">
+                                    <button type="submit">جستجو</button>
+                                </div>
                             </form>
                         </div>
                         <div id="menu" class="text-left ">
@@ -476,8 +476,8 @@
                             <div class="search_container">
                                 <form asp-action="Index" asp-controller="Product" method="get">
                                     <div class="hover_category">
-                                        <select  class="select_option" name="selectedGroups" id="categori2">
-                                            <option selected value="" >همه دسته ها</option>
+                                        <select class="select_option" name="selectedGroups" id="categori2">
+                                            <option selected value="">همه دسته ها</option>
                                             @foreach (var group in groups.Where(g => g.ParentId == null))
                                             {
                                                 <option value="@group.GroupId">@group.GroupTitle</option>
@@ -732,9 +732,9 @@
 
     <script src="/assets/js/plugins.js"></script>
     <script src="/assets/js/main.js"></script>
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
     <script src="/js/jquery.validate.min.js"></script>
     <script src="/js/jquery.validate.unobtrusive.min.js"></script>
-    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
 
     @RenderSection("Scripts",false)
 </body>
