@@ -520,5 +520,21 @@ namespace Antomi.Core.Services
         {
             return _context.ProductComments.Include(c=>c.User).ThenInclude(u=>u.Role).Where(c => c.ProductId == productId).ToList();
         }
+
+        public List<ProductBoxInformationsViewModel> GetBestSellerProducts()
+        {
+            return _context.Products.Include(p => p.OrderDetails).Include(p=>p.ProductInventory)
+                .Where(p => p.OrderDetails.Any())
+                .OrderBy(p => p.OrderDetails.Count())
+                .Take(5)
+                .Select(p => new ProductBoxInformationsViewModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductTitle=p.ProductTitle,
+                    ProductPrice=p.ProductPrice,
+                    InventoryCount=p.ProductInventory.ProductCount,
+                    ProductImageName=p.ProductImageName
+                }).ToList();
+        }
     }
 }

@@ -57,7 +57,7 @@
                                         <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
                                         <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
                                         <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                        <li class="review"><a href="#">( 1 نقد و بررسی )</a></li>
+                                        <li class="review"><a href="#">( @Model.ProductComments.Count() نقد و بررسی )</a></li>
                                     </ul>
                                 </div>
                                 <div class="price_box">
@@ -129,7 +129,7 @@
                                         <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">توضیحات</a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">نقد و برررسی (1)</a>
+                                        <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">نقد و برررسی (@Model.ProductComments.Count())</a>
                                     </li>
                                 </ul>
                             </div>
@@ -177,6 +177,7 @@
         </div>
         @{
             List<ProductBoxInformationsViewModel> relatedProducts = ViewData["RelatedProducts"] as List<ProductBoxInformationsViewModel>;
+            List<ProductBoxInformationsViewModel> bestSellerProducts = ViewData["BestSellerProducts"] as List<ProductBoxInformationsViewModel>;
         }
         <!--product area start-->
         <section class="product_area related_products">
@@ -208,34 +209,10 @@
                 </div>
             </div>
             <div class="product_carousel product_style product_column5 owl-carousel">
-                <article class="single_product">
-                    <figure>
-
-                        <div class="product_thumb">
-                            <a class="primary_img" href="product-details.html"><img src="/assets/img/product/product28.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.html"><img src="/assets/img/product/product29.jpg" alt=""></a>
-                            <div class="label_product">
-                                <span class="label_sale">فروش</span>
-                            </div>
-                            <div class="action_links">
-                                <ul>
-                                    <li class="wishlist"><a href="wishlist.html" title="افزودن به علاقه‌مندی‌ها"><i class="ion-android-favorite-outline"></i></a></li>
-                                    <li class="compare"><a href="#" title="افزودن به مقایسه"><i class="ion-ios-settings-strong"></i></a></li>
-                                    <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="مشاهده سریع"><i class="ion-ios-search-strong"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product_content">
-                            <div class="product_content_inner">
-                                <h4 class="product_name"><a href="product-details.html">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت</a></h4>
-                                <div class="price_box">
-                                    <span class="old_price">80,000 تومان</span>
-                                    <span class="current_price">70,000 تومان</span>
-                                </div>
-                            </div>
-                        </div>
-                    </figure>
-                </article>
+               @foreach (var item in bestSellerProducts)
+               {
+                   <partial name="_ProductBox" model="@item"></partial>
+               }
             </div>
         </section>
         <!--product area end-->
@@ -243,7 +220,15 @@
 </div>
 @section Scripts{
 <script>
-
+    $(function(){
+        $(".color_Radio").first().attr('checked','true');
+        $.ajax({
+                type:"get",
+                url:"/GetColorName/"+$(".color_Radio").first().val()
+           }).done(function(res){
+               $("#colorName").text(res);
+           });
+    });
     $(function(){
         $(".color_Radio").change(function(){
            $.ajax({
@@ -261,6 +246,7 @@
                 url:"/AddComment/"+$("#review_comment").val()+"/"+@Model.ProductId
             }).done(function(){
                 $("#commentsList").load("/ShowProductComments/"+@Model.ProductId);
+                $(".commentCount").val(@Model.ProductComments.Count);
             });
         });
     });

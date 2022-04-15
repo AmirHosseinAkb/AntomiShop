@@ -23,6 +23,7 @@ namespace AntomiShop.Controllers
         public IActionResult ShowProduct(int productId)
         {
             ViewData["RelatedProducts"]=_productService.GetRelatedProducts(productId);
+            ViewData["BestSellerProducts"] = _productService.GetBestSellerProducts();
             return View(_productService.GetProductForShow(productId));
         }
         [Route("GetColorName/{colorId}")]

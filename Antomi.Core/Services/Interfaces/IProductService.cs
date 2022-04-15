@@ -28,6 +28,8 @@ namespace Antomi.Core.Services.Interfaces
             ,int minPrice=0,int maxPrice=0,List<int> selectedGroups=null,int take=12);
         Product GetProductForShow(int productId);
         int BuyProduct(int productId, string email, int colorId, int count);
+        List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId);
+        List<ProductBoxInformationsViewModel> GetBestSellerProducts();
         #endregion
 
         #region Groups
@@ -55,7 +57,7 @@ namespace Antomi.Core.Services.Interfaces
         void AddColorToProduct(ProductColor productColor);
         void DeleteColor(int colorId);
         ProductColor GetProductColorById(int colorId);
-        List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId);
+        
 
         #endregion
         #region InventoryHistory
