@@ -31,6 +31,7 @@ namespace Antomi.Data.Context
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductInventory> ProductInventories { get; set; }
+        public DbSet<ProductDiscount> ProductDiscounts { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }

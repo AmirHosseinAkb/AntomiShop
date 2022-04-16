@@ -61,6 +61,7 @@ namespace Antomi.Data.Entities.Product
         public List<Order.OrderDetail> OrderDetails { get; set; }
         public List<InventoryHistory> InventoryHistories { get; set; }
         public List<ProductComment> ProductComments { get; set; }
+        public List<ProductDiscount> ProductDiscounts { get; set; }
 
         #endregion
 
