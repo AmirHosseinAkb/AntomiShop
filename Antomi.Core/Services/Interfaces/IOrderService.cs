@@ -29,6 +29,6 @@ namespace Antomi.Core.Services.Interfaces
         void AddDiscount(Discount discount);
         void UpdateDiscount(Discount discount);
         void DeleteDiscount(int discountId);
-
+        Order GetUserCard(string email);
     }
 }

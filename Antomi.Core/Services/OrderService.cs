@@ -109,10 +109,19 @@ namespace Antomi.Core.Services
                 }).ToList();
         }
 
+        public Order GetUserCard(string email)
+        {
+            var userId = _userService.GetUserIdByEmail(email);
+            return _context.Orders.Include(o => o.OrderDetails)
+                .ThenInclude(d=>d.Product)
+                .SingleOrDefault(o => o.UserId == userId && !o.IsFinally);
+        }
+
         public Order GetUserOrder(string email, int orderId)
         {
             var userId = _userService.GetUserIdByEmail(email);
-            return _context.Orders.SingleOrDefault(o => o.OrderId == orderId && o.UserId == userId);
+            return _context.Orders.Where(o=>!o.IsFinally)
+                .FirstOrDefault(o => o.OrderId == orderId && o.UserId == userId);
         }
 
         public List<Order> GetUserOrders(string email)
@@ -152,7 +161,7 @@ namespace Antomi.Core.Services
                 return DiscountUseType.Finished;
             if (_context.UserDiscounts.Any(ud => ud.DiscountId == discount.DiscountId && ud.UserId == order.UserId))
                 return DiscountUseType.UserUsed;
-            var discountPrice = order.OrderSum * discount.DiscountPercent/100;
+            var discountPrice = (int)(((long)order.OrderSum * (long)discount.DiscountPercent)/100);
             order.DiscountPrice = discountPrice;
             order.PaidPrice -= discountPrice;
             if (discount.UsableCount != null)
