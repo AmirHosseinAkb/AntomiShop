@@ -76,14 +76,12 @@
                     <!--sidebar widget end-->
                 </div>
                 <div id="orderTypeForm" class="col-lg-9 col-md-12">
-
                     <div class="shop_toolbar_wrapper">
                         <div class="shop_toolbar_btn">
-                            <button data-role="grid_4" type="button" class=" btn-grid-4" data-toggle="tooltip" title="4"></button>
-                            <button data-role="grid_list" type="button" class="active btn-list" data-toggle="tooltip" title="List"></button>
+                            <button id="btnGridView" data-role="grid_4" type="button" class="active btn-grid-4"  data-toggle="tooltip" title="4"></button>
+                            <button data-role="grid_list" type="button" class=" btn-list" data-toggle="tooltip" title="List"></button>
                         </div>
                     </div>
-
                     <div class="row no-gutters shop_wrapper grid_list">
                             @foreach (var product in Model.ProductBoxInformations)
                             {
@@ -123,6 +121,9 @@
     $(function(){
         $("#price-min").val(0);
         $("#price-max").val(0);
+    }) 
+    $(function(){
+        $("#btnGridView").click();
     })
 </script>
 }

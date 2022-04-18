@@ -1,8 +1,10 @@
 ﻿@using Antomi.Core.DTOs.Product
 @using Antomi.Data.Entities.Product
+@inject IProductService _productService;
 @model Product
 @{
     ViewData["Title"] = "نمایش محصول";
+    var productDiscount = _productService.IsProductHasDiscount(Model.ProductId);
 }
 <div class="breadcrumbs_area mt-45">
     <div class="container">
@@ -52,17 +54,20 @@
                                 <h3><a href="#"> @Model.ProductTitle </a></h3>
                                 <div class="product_rating">
                                     <ul>
-                                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
                                         <li class="review"><a href="#">( @Model.ProductComments.Count() نقد و بررسی )</a></li>
                                     </ul>
                                 </div>
                                 <div class="price_box">
-                                    <span class="old_price">80,000 تومان</span>
-                                    <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                                    @if (productDiscount != null)
+                                    {
+                                        <span class="old_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                                        <span class="current_price">@((Model.ProductPrice-(Model.ProductPrice*productDiscount.DiscountPercent/100)).ToString("#,0")) تومان</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="current_price">@Model.ProductPrice.ToString("#,0") تومان</span>
+                                    }
+
                                 </div>
                                 @if (Model.ProductInventory.ProductCount >= 1)
                                 {
@@ -81,11 +86,15 @@
                                         </div>
                                         <div class="product_variant quantity">
                                             <label>تعداد</label>
-                                            <input min="1" max="100" value="1" name="count" type="number">
+                                            <input id="productCountInp" min="1" max="5" value="1" name="count" type="number">
                                             <button class="button" type="submit">افزودن به سبد</button>
                                         </div>
+
+                                    }
+                                    @if (productDiscount != null)
+                                    {
                                         <div class="product_timing">
-                                            <div data-countdown="2023/05/15"></div>
+                                            <div data-countdown="@productDiscount.EndDate"></div>
                                         </div>
                                     }
                                     else
@@ -150,14 +159,14 @@
                                                 <h2>یک نقد و بررسی بنویسید </h2>
                                             </div>
                                             <div class="product_review_form">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <input id="productIdInp" type="hidden" name="productId" value="@Model.ProductId">
-                                                            <label for="review_comment">نقد و بررسی شما </label>
-                                                            <textarea name="commentText" id="review_comment"></textarea>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input id="productIdInp" type="hidden" name="productId" value="@Model.ProductId">
+                                                        <label for="review_comment">نقد و بررسی شما </label>
+                                                        <textarea name="commentText" id="review_comment"></textarea>
                                                     </div>
-                                                    <button id="btnAddComment" type="submit">ثبت</button>
+                                                </div>
+                                                <button id="btnAddComment" type="submit">ثبت</button>
                                             </div>
                                         }
                                         else
@@ -209,10 +218,10 @@
                 </div>
             </div>
             <div class="product_carousel product_style product_column5 owl-carousel">
-               @foreach (var item in bestSellerProducts)
-               {
-                   <partial name="_ProductBox" model="@item"></partial>
-               }
+                @foreach (var item in bestSellerProducts)
+                {
+                    <partial name="_ProductBox" model="@item"></partial>
+                }
             </div>
         </section>
         <!--product area end-->
@@ -247,6 +256,7 @@
             }).done(function(){
                 $("#commentsList").load("/ShowProductComments/"+@Model.ProductId);
                 $(".commentCount").val(@Model.ProductComments.Count);
+                $("#review_comment").val("");
             });
         });
     });
@@ -255,6 +265,20 @@
     }
     $(function(){
         $("#commentsList").load("/ShowProductComments/"+@Model.ProductId);
+    });
+    $(function(){
+        $("#productCountInp").change(function(){
+            if($("#productCountInp").val()==0){
+                $("#productCountInp").val(1);
+            }
+            if($("#productCountInp").val()<0){
+                 $("#productCountInp").val(1);
+            }
+            if( $("#productCountInp").val()>5){
+                alert("حداکثر 5 عدد از این محصول را می توانید سفارش دهید");
+                 $("#productCountInp").val(5);
+            }
+        });
     });
 </script>
 

@@ -13,12 +13,14 @@ namespace AntomiShop.Controllers
             _productService = productService;
             _userService = userService;
         }
+
         public IActionResult Index(int pageId = 1, string filterProductName = "", string orderType = "createDate"
             ,int minPrice = 0, int maxPrice = 0, List<int> selectedGroups = null, int take = 12)
         {
             ViewData["SelectedGroup"] = selectedGroups;
             return View(_productService.GetProducts(pageId,filterProductName,orderType,minPrice,maxPrice,selectedGroups,take));
         }
+
         [Route("ShowProduct/{productId}")]
         public IActionResult ShowProduct(int productId)
         {
@@ -26,6 +28,7 @@ namespace AntomiShop.Controllers
             ViewData["BestSellerProducts"] = _productService.GetBestSellerProducts();
             return View(_productService.GetProductForShow(productId));
         }
+
         [Route("GetColorName/{colorId}")]
         public IActionResult GetColorName(int colorId)
         {
