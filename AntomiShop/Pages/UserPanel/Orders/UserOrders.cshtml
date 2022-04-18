@@ -56,11 +56,11 @@
                                                         {
                                                             <p class="text-danger">پرداخت نشده</p>
                                                         }
-                                                        else if(order.IsFinally && order.PaymentStatus=="در انتظار")
+                                                        else if (order.IsFinally && order.PaymentStatus == "در انتظار")
                                                         {
                                                             <p class="text-warning">در انتظار</p>
                                                         }
-                                                        else if(order.IsFinally && order.PaymentStatus=="ارسال شده")
+                                                        else if (order.IsFinally && order.PaymentStatus == "ارسال شده")
                                                         {
                                                             <p class="text-success">ارسال شده</p>
                                                         }
@@ -73,8 +73,15 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-danger">
-                                                            <a asp-page="OrderDetails" asp-route-orderId="@order.OrderId" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
-                                                            <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetId(@order.OrderId)"><b style="color:white">حذف سفارش</b></a>
+                                                            @if (order.IsFinally)
+                                                            {
+                                                                <a asp-page="OrderDetails" asp-route-orderId="@order.OrderId" class="btn btn-info btn-sm btn-block"><b style="color:white">جزئیات سفارش</b></a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a asp-page="OrderDetails" asp-route-orderId="@order.OrderId" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
+                                                                <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetId(@order.OrderId)"><b style="color:white">حذف سفارش</b></a>
+                                                            }
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -111,7 +118,7 @@
 </div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
-    
+
     function GetId(addressId){
         $("#deleteModal").modal('show');
         $("#addressId").val(addressId);

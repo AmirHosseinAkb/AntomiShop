@@ -91,16 +91,17 @@
                                         </div>
 
                                     }
+                                    else
+                                    {
+                                        <div class="alert alert-warning">لطفا برای افزودن محصول به سبد خرید ابتدا وارد حسابتان شوید</div>
+                                    }
                                     @if (productDiscount != null)
                                     {
                                         <div class="product_timing">
                                             <div data-countdown="@productDiscount.EndDate"></div>
                                         </div>
                                     }
-                                    else
-                                    {
-                                        <div class="alert alert-warning">لطفا برای افزودن محصول به سبد خرید ابتدا وارد حسابتان شوید</div>
-                                    }
+                                    
 
                                 }
                                 else

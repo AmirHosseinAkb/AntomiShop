@@ -63,11 +63,11 @@
                                                 <td>
                                                     @if (!Model.Order.IsFinally)
                                                     {
-                                                        <span class="text-danger">
-                                                            <a class="fa fa-minus" title="کاهش موجودی" onclick="GetId(@detail.OrderId)"></a>
-                                                        </span>
                                                         <span class="text-success">
                                                             <a class="fa fa-plus" title="افزایش موجودی" onclick="GetId(@detail.OrderId)"></a>
+                                                        </span>
+                                                        <span class="text-danger">
+                                                            <a class="fa fa-minus" title="کاهش موجودی" onclick="GetId(@detail.OrderId)"></a>
                                                         </span>
                                                     }
                                                 </td>

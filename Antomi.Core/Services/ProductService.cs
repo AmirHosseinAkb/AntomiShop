@@ -116,6 +116,7 @@ namespace Antomi.Core.Services
             var product = GetProductById(productId);
             var userId = _context.Users.SingleOrDefault(u => u.Email == EmailConvertor.FixEmail(email)).UserId;
             var order = _context.Orders.SingleOrDefault(o => o.UserId == userId && !o.IsFinally);
+            var productDiscount = IsProductHasDiscount(productId);
             if (order == null)
             {
                 order = new Order()
@@ -123,44 +124,66 @@ namespace Antomi.Core.Services
                     UserId = userId,
                     IsFinally = false,
                     PaymentStatus = "در حال انتظار",
-                    OrderSum=product.ProductPrice*count,
-                    PaidPrice=product.ProductPrice*count
+                    OrderSum = product.ProductPrice * count,
+                    PaidPrice = product.ProductPrice * count
                 };
+                if (productDiscount != null)
+                {
+                    order.OrderSum = (product.ProductPrice - (product.ProductPrice * productDiscount.DiscountPercent / 100))*count;
+                    order.PaidPrice = (product.ProductPrice - (product.ProductPrice * productDiscount.DiscountPercent / 100))*count;
+                }
                 _context.Orders.Add(order);
                 _context.SaveChanges();
                 OrderDetail orderDetail = new OrderDetail()
                 {
                     OrderId = order.OrderId,
                     ProductId = product.ProductId,
-                    ColorId=colorId,
+                    ColorId = colorId,
                     Count = count,
                     UnitPrice = product.ProductPrice
                 };
+                if (productDiscount != null)
+                {
+                    orderDetail.UnitPrice = product.ProductPrice - (product.ProductPrice * productDiscount.DiscountPercent / 100);
+                }
                 _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
                 _context.OrderDetails.Add(orderDetail);
                 _context.SaveChanges();
             }
             else
             {
-                var orderDetail = _context.OrderDetails.SingleOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId&&d.ColorId==colorId);
+                var orderDetail = _context.OrderDetails.SingleOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId && d.ColorId == colorId);
                 if (orderDetail == null)
                 {
                     orderDetail = new OrderDetail()
                     {
                         OrderId = order.OrderId,
                         ProductId = product.ProductId,
-                        ColorId=colorId,
+                        ColorId = colorId,
                         Count = count,
                         UnitPrice = product.ProductPrice
                     };
+                    if (productDiscount != null)
+                    {
+                        orderDetail.UnitPrice = product.ProductPrice - (product.ProductPrice * productDiscount.DiscountPercent / 100);
+                    }
                     _context.OrderDetails.Add(orderDetail);
                 }
                 else
                 {
-                    orderDetail.Count+=count;
+                    orderDetail.Count += count;
                 }
-                order.OrderSum += product.ProductPrice * count;
-                order.PaidPrice+=product.ProductPrice * count;
+               
+                if (productDiscount != null)
+                {
+                    order.OrderSum += (product.ProductPrice - (product.ProductPrice * productDiscount.DiscountPercent / 100))*count;
+                    order.PaidPrice += (product.ProductPrice - (product.ProductPrice * productDiscount.DiscountPercent / 100))*count;
+                }
+                else
+                {
+                    order.OrderSum += product.ProductPrice * count;
+                    order.PaidPrice += product.ProductPrice * count;
+                }
                 _context.ProductInventories.SingleOrDefault(i => i.ProductId == product.ProductId).ProductCount -= count;
                 _context.SaveChanges();
             }
@@ -339,7 +362,7 @@ namespace Antomi.Core.Services
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductColors)
                 .Include(p => p.ProductInventory)
-                .Include(p=>p.ProductComments)
+                .Include(p => p.ProductComments)
                 .SingleOrDefault(p => p.ProductId == productId);
         }
 
@@ -518,39 +541,39 @@ namespace Antomi.Core.Services
 
         public List<ProductComment> GetProductComments(int productId)
         {
-            return _context.ProductComments.Include(c=>c.User).ThenInclude(u=>u.Role).Where(c => c.ProductId == productId).ToList();
+            return _context.ProductComments.Include(c => c.User).ThenInclude(u => u.Role).Where(c => c.ProductId == productId).ToList();
         }
 
         public List<ProductBoxInformationsViewModel> GetBestSellerProducts()
         {
-            return _context.Products.Include(p => p.OrderDetails).Include(p=>p.ProductInventory)
+            return _context.Products.Include(p => p.OrderDetails).Include(p => p.ProductInventory)
                 .Where(p => p.OrderDetails.Any())
                 .OrderBy(p => p.OrderDetails.Count())
                 .Take(5)
                 .Select(p => new ProductBoxInformationsViewModel()
                 {
                     ProductId = p.ProductId,
-                    ProductTitle=p.ProductTitle,
-                    ProductPrice=p.ProductPrice,
-                    InventoryCount=p.ProductInventory.ProductCount,
-                    ProductImageName=p.ProductImageName
+                    ProductTitle = p.ProductTitle,
+                    ProductPrice = p.ProductPrice,
+                    InventoryCount = p.ProductInventory.ProductCount,
+                    ProductImageName = p.ProductImageName
                 }).ToList();
         }
 
-        public Tuple<List<ProductDiscount>,int,int> GetProductDiscountsForShow(int pageId = 1, string filterName = "", string startDate = "", string endDate = "")
+        public Tuple<List<ProductDiscount>, int, int> GetProductDiscountsForShow(int pageId = 1, string filterName = "", string startDate = "", string endDate = "")
         {
-            IQueryable<ProductDiscount> result = _context.ProductDiscounts.Include(d=>d.Product);
+            IQueryable<ProductDiscount> result = _context.ProductDiscounts.Include(d => d.Product);
             if (!string.IsNullOrEmpty(filterName))
             {
                 result = result.Where(d => d.Product.ProductTitle.Contains(filterName));
             }
             if (!string.IsNullOrEmpty(startDate))
             {
-                result=result.Where(d=>d.StartDate==DateTime.Parse(startDate));
+                result = result.Where(d => d.StartDate == DateTime.Parse(startDate));
             }
             if (!string.IsNullOrEmpty(endDate))
             {
-                result=result.Where(d=>d.EndDate==DateTime.Parse((endDate)));
+                result = result.Where(d => d.EndDate == DateTime.Parse((endDate)));
             }
             int take = 10;
             int skip = (pageId - 1) * take;
