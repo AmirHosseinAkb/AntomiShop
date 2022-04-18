@@ -12,12 +12,11 @@ namespace Antomi.Data.Entities.Product
         [Key]
         public int ProductDiscountId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="لطفا محصول مورد نظر را انتخاب کنید")]
         public int ProductId { get; set; }
 
         [Display(Name = "درصد تخفیف")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
         public int DiscountPercent { get; set; }
 
         [Display(Name = "مناسبت تخفیف")]

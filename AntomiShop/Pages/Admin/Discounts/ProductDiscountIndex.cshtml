@@ -1,0 +1,181 @@
+﻿@page
+@model AntomiShop.Pages.Admin.Discounts.ProductDiscountIndexModel
+@{
+}
+
+<div class="panel">
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-b-30">
+                    <a id="btnCreateDiscount" class="btn btn-primary waves-effect waves-light">افزودن تخفیف جدید <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+            <div class="row" style="margin-bottom:10px">
+                <form method="get">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="نام محصول" name="filterName" style="width:100%" />
+                    </div>
+                    <div class="col-md-3">
+                        <input class="stDate" placeholder="تاریخ شروع" name="stDate" style="width:100%" />
+                    </div>
+                    <div class="col-md-3">
+                        <input class="edDate" placeholder="تاریخ پایان" name="edDate" style="width:100%" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="submit" value="جستجو" class="btn btn-success" />
+                        <a class="btn btn-warning" href="/Admin/Discounts/ProductDiscountIndex">پاک کردن فیلدها</a>
+                    </div>
+                </form>
+            </div><div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th>نام محصول</th>
+                                <th>درصد تخفیف</th>
+                                <th>تاریخ شروع</th>
+                                <th>تاریخ پایان</th>
+                                <th>مناسبت تخفیف</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var discount in Model.ProductDiscounts.Item1)
+                            {
+                                <tr>
+                                    <td>@discount.Product.ProductTitle</td>
+                                    <td>@discount.DiscountPercent</td>
+                                    <td>@discount.StartDate.ConvertToShamsi()</td>
+                                    <td>@discount.EndDate.ConvertToShamsi()</td>
+                                    <td>@discount.Description</td>
+                                    <td class="actions">
+                                        <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
+                                        <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
+                                        <a asp-page="EditUser" asp-route-discountId="@discount.ProductDiscountId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                        <a onclick="GetUserIdForDelete(@discount.ProductDiscountId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div><div class="row">
+                <div class="col-md-6">
+                    <div class="dataTables_paginate paging_simple_numbers" id="datatable-editable_paginate">
+                        <ul class="pagination">
+                            @for (var i = 1; i <= Model.ProductDiscounts.Item3; i++)
+                            {
+                                <li class="paginate_button @((i==Model.ProductDiscounts.Item2)?"active":"")" aria-controls="datatable-editable" tabindex="0"><a href="/Admin/Users?pageId=@i">@i</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: page -->
+</div>
+<div id="CreateDiscountModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h4 class="modal-header">افزودن تخفیف جدید</h4>
+            <div class="modal-body">
+                <form asp-page="ProductDiscountIndex" asp-page-handler="CreateDiscount" method="post">
+                    <select asp-for="ProductDiscount.ProductId" class="form-control" asp-items="@(ViewData["products"] as SelectList)" id="prodcuts"></select>
+                    <span asp-validation-for="ProductDiscount.ProductId" class="text-danger"></span>
+                    <br />
+                    <input type="number" asp-for="ProductDiscount.DiscountPercent" class="form-control" placeholder="درصد تخفیف" />
+                    <span asp-validation-for="ProductDiscount.DiscountPercent" class="text-danger"></span>
+                    <br />
+                    <input asp-for="ProductDiscount.StartDate" class="stDate" name="stDate" id="stDate" placeholder="تاریخ شروع" />
+                    <br />
+                    <p id="stDateValidation" class="text-danger" style="display:none">لطفا تاریخ شروع را انتخاب کنید</p>
+                    <br />
+                    <input  class="edDate" name="edDate" id="edDate" placeholder="تاریخ پایان" />
+                    <br />
+                    <p id="edDateValidation" class="text-danger" style="display:none">لطفا تاریخ پایان را انتخاب کنید</p>
+                    <br />
+                    <textarea asp-for="ProductDiscount.Description" rows="5" class="form-control" placeholder="مناسبت تخفیف"></textarea>
+                    <span asp-validation-for="ProductDiscount.Description" class="text-danger"></span>
+                    <hr />
+                    <input id="btnSubmit" type="submit" class="btn btn-success" value="ثبت تخفیف" />
+                    <a id="btnCancell" class="btn btn-danger">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">آیا مطمئنید که میخواهید این کاربر را حذف کنید؟</h3>
+            <div class="modal-body">
+                <form asp-page="Index" asp-page-handler="DeleteUser" method="post">
+                    <input id="userIdInput" type="hidden" name="userId" />
+                    <input id="btnDelete" type="submit" class="btn btn-danger" value="تایید و حذف" />
+                    <a id="btnCancellDelete" class="btn btn-success">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function(){
+        $("#btnCreateDiscount").click(function(){
+            $("#CreateDiscountModal").modal('show');
+        });
+    });
+    $(function(){
+        $("#btnSubmit").click(function(){
+            if($("#stDate").val()===""){
+                $("#stDateValidation").show();
+            }
+            if($("#edDate").val()===""){
+                $("#edDateValidation").show();
+            }
+        });
+    });
+    $(function(){
+        $("#stDate").blur(function(){
+            if($("#stDate").val()!=""){
+                $("#stDateValidation").hide();
+            }
+        });
+    });
+    $(function(){
+        $("#edDate").blur(function(){
+            if($("#edDate").val()!=""){
+                $("#edDateValidation").hide();
+            }
+        });
+    });
+    function GetUserIdForDelete(userId){
+            $("#userIdInput").val(userId);
+            $("#deleteModal").modal('show');
+        }
+
+    $(function(){
+        $("#btnCancell").click(function(){
+            $("#deleteModal").modal('toggle');
+        });
+    });
+</script>
+@section Scripts{
+<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+<script src="/js/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function() {
+         $(".stDate").kendoDatePicker();
+    });
+    $(document).ready(function() {
+         $(".edDate").kendoDatePicker();
+    });
+</script>
+}

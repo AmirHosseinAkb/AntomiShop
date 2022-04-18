@@ -536,5 +536,47 @@ namespace Antomi.Core.Services
                     ProductImageName=p.ProductImageName
                 }).ToList();
         }
+
+        public Tuple<List<ProductDiscount>,int,int> GetProductDiscountsForShow(int pageId = 1, string filterName = "", string startDate = "", string endDate = "")
+        {
+            IQueryable<ProductDiscount> result = _context.ProductDiscounts.Include(d=>d.Product);
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                result = result.Where(d => d.Product.ProductTitle.Contains(filterName));
+            }
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                result=result.Where(d=>d.StartDate==DateTime.Parse(startDate));
+            }
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                result=result.Where(d=>d.EndDate==DateTime.Parse((endDate)));
+            }
+            int take = 10;
+            int skip = (pageId - 1) * take;
+            int pageCount = result.Count() / take;
+            if (result.Count() % take != 0)
+            {
+                pageCount++;
+            }
+            var query = result.Skip(skip).Take(take).ToList();
+            return Tuple.Create(query, pageId, pageCount);
+        }
+
+        public List<SelectListItem> GetProductsForSelect()
+        {
+            return _context.Products
+                .Select(p => new SelectListItem()
+                {
+                    Text = p.ProductTitle,
+                    Value = p.ProductId.ToString()
+                }).ToList();
+        }
+
+        public void AddProductDiscount(ProductDiscount productDiscount)
+        {
+            _context.ProductDiscounts.Add(productDiscount);
+            _context.SaveChanges();
+        }
     }
 }

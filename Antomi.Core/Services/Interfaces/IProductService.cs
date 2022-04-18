@@ -30,6 +30,7 @@ namespace Antomi.Core.Services.Interfaces
         int BuyProduct(int productId, string email, int colorId, int count);
         List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId);
         List<ProductBoxInformationsViewModel> GetBestSellerProducts();
+        List<SelectListItem> GetProductsForSelect();
         #endregion
 
         #region Groups
@@ -69,6 +70,12 @@ namespace Antomi.Core.Services.Interfaces
 
         void AddProductComment(ProductComment productComment);
         List<ProductComment> GetProductComments(int productId);
+
+        #endregion
+        #region ProductDiscounts
+
+        Tuple<List<ProductDiscount>, int, int> GetProductDiscountsForShow(int pageId=1,string filterName="",string startDate="",string endDate="");
+        void AddProductDiscount(ProductDiscount productDiscount);
 
         #endregion
     }
