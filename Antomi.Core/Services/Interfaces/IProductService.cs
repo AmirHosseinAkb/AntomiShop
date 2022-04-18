@@ -76,6 +76,7 @@ namespace Antomi.Core.Services.Interfaces
 
         Tuple<List<ProductDiscount>, int, int> GetProductDiscountsForShow(int pageId=1,string filterName="",string startDate="",string endDate="");
         void AddProductDiscount(ProductDiscount productDiscount);
+        ProductDiscount IsProductHasDiscount(int productId);
 
         #endregion
     }

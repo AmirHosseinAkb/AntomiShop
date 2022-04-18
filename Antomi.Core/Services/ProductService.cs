@@ -578,5 +578,11 @@ namespace Antomi.Core.Services
             _context.ProductDiscounts.Add(productDiscount);
             _context.SaveChanges();
         }
+
+        public ProductDiscount IsProductHasDiscount(int productId)
+        {
+            return _context.ProductDiscounts.SingleOrDefault(d => d.ProductId == productId && d.StartDate < DateTime.Now && d.EndDate > DateTime.Now);
+
+        }
     }
 }
