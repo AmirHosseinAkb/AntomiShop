@@ -324,7 +324,7 @@
 
                                             </a>
                                             <!--mini cart-->
-                                        <div class="mini_cart">
+                                    <div class="mini_cart">
                                                 <div class="mini_cart_inner">
                                                     @foreach (var detail in userCard.OrderDetails)
                                                     {
@@ -346,7 +346,16 @@
                                                     </div>
                                                     <div class="cart_total">
                                                         <span>تخفیف:</span>
-                                                        <span class="price">@*@userCard.DiscountPrice.ToString("#,0")*@ تومان</span>
+                                                        <span class="price">
+                                                            @if (userCard.Discount == null)
+                                                            {
+                                                                <p>0 تومان</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>@((userCard.OrderSum*userCard.Discount.DiscountPercent/100).ToString("#,0")) تومان</p>
+                                                            }
+                                                        </span>
                                                     </div>
                                                     <div class="cart_total mt-10">
                                                         <span>مبلغ پرداختی:</span>
@@ -360,7 +369,7 @@
                                                 </div>
                                             </div>
                                             <!--mini cart end-->
-                                            </div>
+                                </div>
 
                                     }
 

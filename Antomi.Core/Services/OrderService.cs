@@ -99,7 +99,7 @@ namespace Antomi.Core.Services
 
         public Tuple<List<Order>,int,int> GetOrdersForShowInAdmin(int pageId=1,string filterName="")
         {
-            IQueryable<Order> result = _context.Orders.Include(o => o.User).Include(o=>o.Address).Where(o=>o.IsFinally);
+            IQueryable<Order> result = _context.Orders.Include(o => o.User).Include(o=>o.Address).Include(o=>o.Discount).Where(o=>o.IsFinally);
             if (!string.IsNullOrEmpty(filterName))
             {
                 result = result.Where(o => o.User.FirstName.Contains(filterName) || o.User.LastName.Contains(filterName));
@@ -131,6 +131,7 @@ namespace Antomi.Core.Services
             var userId = _userService.GetUserIdByEmail(email);
             return _context.Orders.Include(o => o.OrderDetails)
                 .ThenInclude(d=>d.Product)
+                .Include(o=>o.Discount)
                 .SingleOrDefault(o => o.UserId == userId && !o.IsFinally);
         }
 
@@ -144,7 +145,7 @@ namespace Antomi.Core.Services
         public List<Order> GetUserOrders(string email)
         {
             int userId = _userService.GetUserIdByEmail(email);
-            return _context.Orders.Where(o => o.UserId == userId).ToList();
+            return _context.Orders.Include(o=>o.Discount).Where(o => o.UserId == userId).ToList();
         }
 
         public bool IsExistDiscount(string code)

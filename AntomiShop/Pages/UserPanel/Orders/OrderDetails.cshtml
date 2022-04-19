@@ -89,7 +89,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <p>@(Model.Order.PaidPrice*Model.Order.Discount.DiscountPercent/100) تومان</p>
+                                                    <p>@((Model.Order.OrderSum*Model.Order.Discount.DiscountPercent/100).ToString("#,0")) تومان</p>
                                                 }
                                             </td>
                                         </tr>
