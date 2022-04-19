@@ -8,6 +8,6 @@ namespace Antomi.Core.DTOs.Discount
 {
     public enum DiscountUseType
     {
-        Finished,ExpireTime,UserUsed,Success,WrongCode
+        Finished,ExpireTime,UserUsed,Success,WrongCode,OrderHasDiscount
     }
 }

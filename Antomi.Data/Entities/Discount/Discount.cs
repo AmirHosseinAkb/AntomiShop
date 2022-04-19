@@ -30,6 +30,7 @@ namespace Antomi.Data.Entities.Discount
         #region Relations
 
         public List<User.UserDiscount> UserDiscounts { get; set; }
+        public List<Order.Order> Orders { get; set; }
 
         #endregion
     }

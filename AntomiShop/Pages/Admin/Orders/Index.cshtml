@@ -1,4 +1,5 @@
 ﻿@page "{handler?}"
+@using Antomi.Core.Extensions;
 @model AntomiShop.Pages.Admin.Orders.IndexModel
 @{
 }
@@ -39,7 +40,7 @@
                                 <tr>
                                     <td>@(order.User.FirstName+" "+order.User.LastName)</td>
                                     <td>@order.OrderSum.ToString("#,0") تومان</td>
-                                    <td>@order.DiscountPrice.ToString("#,0") تومان</td>
+                                    <td>@*@order.DiscountPrice.ToString("#,0")*@ تومان</td>
                                     <td>@order.PaidPrice.ToString("#,0") تومان</td>
                                     <td>@order.PaymentKind</td>
                                     <td>@order.CreateDate?.ConvertToShamsi()</td>

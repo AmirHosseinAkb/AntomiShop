@@ -82,7 +82,7 @@ namespace AntomiShop.Pages.UserPanel.Orders
             var status=_orderService.UseDiscount(orderId, code);
             return Redirect("/UserPanel/Orders/OrderDetails/" + orderId+"?discountStatus="+status);
         }
-        public IActionResult OnGetDecreaseInventory(int detailId)
+        public IActionResult OnGetDecreaseInventory(int detailId,string type)
         {
             return null;
         }

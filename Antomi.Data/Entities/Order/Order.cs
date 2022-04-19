@@ -15,13 +15,11 @@ namespace Antomi.Data.Entities.Order
 
         [Required]
         public int UserId { get; set; }
+        public int? DiscountId { get; set; }
         public int? AddressId { get; set; }
 
         [Required]
         public int OrderSum { get; set; } = 0;
-
-        [Required]
-        public int DiscountPrice { get; set; } = 0;
 
         [Required]
         public int PaidPrice { get; set; } = 0;
@@ -44,6 +42,7 @@ namespace Antomi.Data.Entities.Order
         public List<OrderDetail> OrderDetails { get; set; }
         public User.User User { get; set; }
         public Address Address { get; set; }
+        public Discount.Discount Discount { get; set; }
 
         #endregion
     }

@@ -44,6 +44,22 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void ChangeOrderDetailInventory(int detailId, string type)
+        {
+            var orderDetail=_context.OrderDetails.Include(d=>d.Order).SingleOrDefault(d=>d.DetailId == detailId);
+            if (type == "decrease")
+            {
+                orderDetail.Count -= 1;
+            }
+            else
+            {
+                orderDetail.Count += 1;
+            }
+            orderDetail.Order.OrderSum = orderDetail.UnitPrice * orderDetail.Count;
+            orderDetail.Order.PaidPrice = orderDetail.UnitPrice * orderDetail.Count;
+            _context.SaveChanges();
+        }
+
         public void DeleteDiscount(int discountId)
         {
             var discount = _context.Discounts.Find(discountId);
@@ -64,6 +80,7 @@ namespace Antomi.Core.Services
                 .ThenInclude(d => d.Product)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(d => d.ProductColor)
+                .Include(o=>o.Discount)
                 .SingleOrDefault(o => o.OrderId == orderId && o.UserId == userId);
         }
 
@@ -161,9 +178,11 @@ namespace Antomi.Core.Services
                 return DiscountUseType.Finished;
             if (_context.UserDiscounts.Any(ud => ud.DiscountId == discount.DiscountId && ud.UserId == order.UserId))
                 return DiscountUseType.UserUsed;
+            if (order.DiscountId != null)
+                return DiscountUseType.OrderHasDiscount;
             var discountPrice = (int)(((long)order.OrderSum * (long)discount.DiscountPercent)/100);
-            order.DiscountPrice = discountPrice;
             order.PaidPrice -= discountPrice;
+            order.DiscountId=discount.DiscountId;
             if (discount.UsableCount != null)
             {
                 discount.UsableCount--;

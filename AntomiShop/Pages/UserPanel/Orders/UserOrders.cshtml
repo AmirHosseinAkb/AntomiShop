@@ -49,7 +49,7 @@
                                                 <tr>
                                                     <td>@order.OrderId</td>
                                                     <td>@order.OrderSum.ToString("#,0") تومان</td>
-                                                    <td>@order.DiscountPrice.ToString("#,0") تومان</td>
+                                                    <td>@*@order.DiscountPrice.ToString("#,0")*@ تومان</td>
                                                     <td>@order.PaidPrice.ToString("#,0") تومان</td>
                                                     <td>
                                                         @if (!order.IsFinally)
