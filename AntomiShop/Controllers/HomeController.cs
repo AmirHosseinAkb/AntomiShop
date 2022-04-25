@@ -1,5 +1,6 @@
 ﻿using Antomi.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AntomiShop.Controllers
 {
@@ -7,10 +8,12 @@ namespace AntomiShop.Controllers
     {
         private IUserService _userService;
         private IOrderService _orderService;
-        public HomeController(IUserService userService,IOrderService orderService)
+        private IProductService _productService;
+        public HomeController(IUserService userService,IOrderService orderService,IProductService productService)
         {
             _userService = userService;
             _orderService = orderService; 
+            _productService = productService;
         }
 
         public IActionResult Index()
@@ -84,6 +87,12 @@ namespace AntomiShop.Controllers
                 }
             }
             return View("OnlinePayment");
+        }
+        [Route("GetSubGroups/{groupId}")]
+        public IActionResult GetSubGroups(int groupId)
+        {
+            var groups=_productService.GetSubGroupsOfGroups(groupId);
+            return Json(new SelectList(groups, "Value", "Text"));
         }
     }
 }
