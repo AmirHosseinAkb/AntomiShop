@@ -89,7 +89,7 @@
                                                             else
                                                             {
                                                                 <a asp-page="OrderDetails" asp-route-orderId="@order.OrderId" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
-                                                                <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetId(@order.OrderId)"><b style="color:white">حذف سفارش</b></a>
+                                                                <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetOrderId(@order.OrderId)"><b style="color:white">حذف سفارش</b></a>
                                                             }
                                                         </span>
                                                     </td>
@@ -113,11 +113,11 @@
             <div class="modal-header">
                 <h5>آیا مطمئنید که می خواهید این سفارش را حذف کنید؟</h5>
             </div>
-            <form method="post" asp-page="UserAddresses" asp-page-handler="DeleteAddress">
+            <form method="post" asp-page="UserOrders" asp-page-handler="DeleteOrder">
                 <div class="modal-body">
                     <p>
-                        <input id="addressId" type="hidden" name="addressId" />
-                        <input id="btnDeleteAddress" type="submit" class="btn btn-danger" value="حذف آدرس" />
+                        <input id="orderId" type="hidden" name="orderId" />
+                        <input id="btnDeleteOrder" type="submit" class="btn btn-danger" value="حذف سفارش" />
                         <a id="btnCancell" class="btn btn-success">انصراف</a>
                     </p>
                 </div>
@@ -128,9 +128,9 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 
-    function GetId(addressId){
+    function GetOrderId(orderId){
         $("#deleteModal").modal('show');
-        $("#addressId").val(addressId);
+        $("#orderId").val(orderId);
     };
 
     $(function(){
@@ -139,7 +139,7 @@
         })
     });
     $(function(){
-        $("#btnDeleteAddress").click(function(){
+        $("#btnDeleteOrder").click(function(){
             $("#deleteModal").modal('toggle');
         })
     });

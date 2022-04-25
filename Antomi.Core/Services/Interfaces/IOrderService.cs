@@ -19,6 +19,7 @@ namespace Antomi.Core.Services.Interfaces
         DiscountUseType UseDiscount(int orderId, string code);
         Order GetOrderById(int orderId);
         void UpdateOrder(Order order);
+        void DeleteOrder(int orderId);
         void AddUserDiscount(UserDiscount userDiscount);
         List<SelectListItem> GetUserAddressesForSelectInOrder(string email);
         Tuple<List<Order>,int,int> GetOrdersForShowInAdmin(int pageId = 1, string filterName = "");

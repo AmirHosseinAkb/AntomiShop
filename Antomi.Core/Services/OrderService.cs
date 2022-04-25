@@ -67,6 +67,13 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteOrder(int orderId)
+        {
+            var order = GetOrderById(orderId);
+            order.IsDeleted = true;
+            _context.SaveChanges();
+        }
+
         public List<Data.Entities.Discount.Discount> GetAllDiscountsForShowInAdmin()
         {
             return _context.Discounts.ToList();

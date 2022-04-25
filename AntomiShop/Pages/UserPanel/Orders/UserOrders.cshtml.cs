@@ -19,5 +19,11 @@ namespace AntomiShop.Pages.UserPanel.Orders
         {
             Orders = _orderService.GetUserOrders(User.Identity.Name);
         }
+
+        public IActionResult OnPostDeleteOrder(int orderId)
+        {
+            _orderService.DeleteOrder(orderId);
+            return RedirectToPage("UserOrders");
+        }
     }
 }
