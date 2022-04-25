@@ -85,6 +85,19 @@ namespace Antomi.Data.Context
                 .WithMany(g => g.SecSubProducts)
                 .HasForeignKey(p => p.SecSubId);
 
+            modelBuilder.Entity<Role>()
+                .HasData(
+                    new Role() {RoleId=1,RoleTitle="مدیر سایت",IsDeleted=false },
+                    new Role() {RoleId=2,RoleTitle="دستیار مدیر",IsDeleted=false },
+                    new Role() {RoleId=3,RoleTitle="کاربر عادی",IsDeleted=false }
+                );
+            modelBuilder.Entity<ProductGroup>()
+                .HasData(
+                    new ProductGroup() { GroupId=1,GroupTitle="کالای دیجیتال",GroupImageName="Group.png",ParentId=null,IsDeleted=false },
+                    new ProductGroup() { GroupId=2,GroupTitle="موبایل",GroupImageName="Group.png",ParentId=1,IsDeleted=false },
+                    new ProductGroup() { GroupId=3,GroupTitle="سامسونگ",GroupImageName="Group.png",ParentId=2,IsDeleted=false }
+                );
+
             base.OnModelCreating(modelBuilder);
         }
     }

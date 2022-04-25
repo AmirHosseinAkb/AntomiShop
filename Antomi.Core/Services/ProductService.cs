@@ -102,6 +102,7 @@ namespace Antomi.Core.Services
                 imageConvertor.Image_resize(imagePath, thumbPath, 400);
             }
             _context.Products.Add(product);
+            _context.SaveChanges();
             ProductInventory productInventory = new ProductInventory()
             {
                 ProductId = product.ProductId,

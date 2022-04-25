@@ -56,12 +56,12 @@ namespace Antomi.Data.Entities.Product
         [ForeignKey("SecSubId")]
         public ProductGroup? SecSubGroup { get; set; }
         public List<ProductImage>? ProductImages { get; set; }
-        public ProductInventory ProductInventory { get; set; }
+        public ProductInventory? ProductInventory { get; set; }
         public List<ProductColor>? ProductColors { get; set; }
-        public List<Order.OrderDetail> OrderDetails { get; set; }
-        public List<InventoryHistory> InventoryHistories { get; set; }
-        public List<ProductComment> ProductComments { get; set; }
-        public List<ProductDiscount> ProductDiscounts { get; set; }
+        public List<Order.OrderDetail>? OrderDetails { get; set; }
+        public List<InventoryHistory>? InventoryHistories { get; set; }
+        public List<ProductComment>? ProductComments { get; set; }
+        public List<ProductDiscount>? ProductDiscounts { get; set; }
 
         #endregion
 

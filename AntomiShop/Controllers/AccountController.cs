@@ -49,7 +49,7 @@ namespace AntomiShop.Controllers
             }
             User user = new User()
             {
-                RoleId=7,
+                RoleId=3,
                 Email = register.Email,
                 Password = PasswordHasher.HashPasswordMD5(register.Password),
                 ActiveCode = NameGenerator.GenerateUniqName(),
