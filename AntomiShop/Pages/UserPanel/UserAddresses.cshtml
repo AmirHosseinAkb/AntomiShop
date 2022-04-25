@@ -28,6 +28,10 @@
                         <div class="col-md-9" style="background-color:white">
                             <div class="tab-content dashboard_content">
                                 <div class="tab-pane fade active show" id="account-details">
+                                @if (Convert.ToBoolean(ViewData["UserHasntAddress"]) == true)
+                                {
+                                    <div class="alert alert-warning">لطفا برای ثبت سفارش خود ابتدا ادرسی را وارد کنید</div>
+                                }
                                     <h3> آدرس های ثبت شده شما </h3>
                                     <hr />
                                     @{

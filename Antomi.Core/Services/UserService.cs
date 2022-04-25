@@ -334,6 +334,10 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
-      
+        public bool IsUSerHasAddress(string email)
+        {
+            var userId=GetUserIdByEmail(email);
+            return _context.Addresses.Any(a => a.UserId == userId);
+        }
     }
 }

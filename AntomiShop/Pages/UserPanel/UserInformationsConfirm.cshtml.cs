@@ -19,8 +19,9 @@ namespace AntomiShop.Pages.UserPanel
         }
         [BindProperty]
         public ConfirmUserDetailsViewModel details { get; set; }
-        public void OnGet()
+        public void OnGet(bool UserProfileNotConfirmed=false)
         {
+            ViewData["UserProfileNotConfirmed"] = UserProfileNotConfirmed;
             details = _userService.GetUserDetailsToConfirm(User.Identity.Name);
         }
         public IActionResult OnPost(string birthDay)

@@ -16,8 +16,9 @@ namespace AntomiShop.Pages.UserPanel
         }
         [BindProperty]
         public Address Address { get; set; }
-        public void OnGet()
+        public void OnGet(bool UserHasntAddress=false)
         {
+            ViewData["UserHasntAddress"] = UserHasntAddress;
             ViewData["Addresses"]=_userService.GetUserAdresses(User.Identity.Name);
         }
         public IActionResult OnPostCreateAddress()

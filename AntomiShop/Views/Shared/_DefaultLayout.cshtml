@@ -1,14 +1,16 @@
 ﻿@using Antomi.Data.Entities.Order
 @inject IProductService _productService;
 @inject IOrderService _orderService;
+@inject IUserService _userService;
 @{
     var groups = _productService.GetAllGroups();
     var userCard = new Order();
+    var user=new User();
     if (User.Identity.IsAuthenticated)
     {
         userCard = _orderService.GetUserCard(User.Identity.Name);
+        user= _userService.GetUserByEmail(User.Identity.Name);
     }
-
 }
 
 <!DOCTYPE html>
@@ -364,7 +366,18 @@
                                                 </div>
                                                 <div class="mini_cart_footer">
                                                     <div class="cart_button">
-                                                        <a href="/UserPanel/Orders/OrderDetails/@userCard.OrderId">مشاهده سبد</a>
+                                                        @if(user.FirstName=="" || user.LastName == "")
+                                                        {
+                                                            <a href="/UserPanel/UserInformationsConfirm?UserProfileNotConfirmed=true">مشاهده سبد</a>
+                                                        }
+                                                        else if (_userService.IsUSerHasAddress(User.Identity.Name))
+                                                        {
+                                                            <a href="/UserPanel/Orders/OrderDetails/@userCard.OrderId">مشاهده سبد</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/UserPanel/UserAddresses?UserHasntAddress=true">مشاهده سبد</a>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

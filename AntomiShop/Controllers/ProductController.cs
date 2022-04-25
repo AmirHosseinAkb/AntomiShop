@@ -1,5 +1,7 @@
 ﻿using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Product;
+using Antomi.Data.Entities.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntomiShop.Controllers
@@ -35,13 +37,24 @@ namespace AntomiShop.Controllers
             return Content(_productService.GetProductColorById(colorId).ColorName);
         }
 
+        [Authorize]
         public IActionResult BuyProduct(int productId,int colorId,int count)
         {
+            var user = _userService.GetUserByEmail(User.Identity.Name);
+            if (user.FirstName==""|| user.LastName == "")
+            {
+                return Redirect("/UserPanel/UserInformationsConfirm?UserProfileNotConfirmed=true");
+            }
+            else if (!_userService.IsUSerHasAddress(User.Identity.Name))
+            {
+                return Redirect("/UserPanel/UserAddresses?UserHasntAddress=true");
+            }
             int orderId=_productService.BuyProduct(productId,User.Identity.Name,colorId, count);
             return Redirect("/UserPanel/Orders/OrderDetails/"+orderId);
         }
 
         [Route("AddComment/{commentText}/{productId}")]
+        [Authorize]
         public IActionResult AddComment(string commentText,int productId)
         {
             var comment = new ProductComment();

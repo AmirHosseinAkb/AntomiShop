@@ -21,20 +21,26 @@
 <div class="account_page_bg">
     <div class="container">
         <form method="post" enctype="multipart/form-data">
-        <section class="main_content_area">
-            <div class="account_dashboard">
-                <div class="row">
-                    <partial name="_SideBar" />
-                    
-                    <div class="col-md-6" style="background-color:white">
-                        <div class="tab-content dashboard_content">
-                            <div class="tab-pane fade active show" id="account-details">
-                                <h3>جزئیات حساب </h3>
-                                <hr />
-                                <div class="login">
-                                    <div class="login_form_container">
-                                        <div class="form-group">
-                                            
+            <section class="main_content_area">
+                <div class="account_dashboard">
+                    <div class="row">
+                        <partial name="_SideBar" />
+
+                        <div class="col-md-6" style="background-color:white">
+                            <div class="tab-content dashboard_content">
+                                <div class="tab-pane fade active show" id="account-details">
+                                    @if (Convert.ToBoolean(ViewData["UserProfileNotConfirmed"]) == true)
+                                    {
+                                        <div class="alert alert-warning">
+                                            <p>لطفا قبل از تکمیل سفارش خود اطلاعات کاربری خود را تکمیل نمایید</p>
+                                        </div>
+                                    }
+                                    <h3>جزئیات حساب </h3>
+                                    <hr />
+                                    <div class="login">
+                                        <div class="login_form_container">
+                                            <div class="form-group">
+
                                                 <input type="hidden" asp-for="details.UserId" />
                                                 <input type="hidden" asp-for="details.AvatarName" />
 
@@ -71,29 +77,29 @@
                                                 <div class="save_button primary_btn default_button">
                                                     <button type="submit">ذخیره</button>
                                                 </div>
-                                            
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <p class="card-title">تصویر پروفایل</p>
-                            </div>
-                            <div class="card-body">
-                                <img id="imgAvatar" src="/UserAvatar/@Model.details.AvatarName" class="img-thumbnail" />
-                                <hr />
-                                <input id="imgInp" type="file" asp-for="@Model.details.UserAvatar" />
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <p class="card-title">تصویر پروفایل</p>
+                                </div>
+                                <div class="card-body">
+                                    <img id="imgAvatar" src="/UserAvatar/@Model.details.AvatarName" class="img-thumbnail" />
+                                    <hr />
+                                    <input id="imgInp" type="file" asp-for="@Model.details.UserAvatar" />
+                                </div>
                             </div>
                         </div>
+
                     </div>
-                    
                 </div>
-            </div>
-        </section>
+            </section>
         </form>
     </div>
 </div>
@@ -111,22 +117,22 @@
             });
 </script>
 
-    <script>
-        function readURL(input) {
+<script>
+    function readURL(input) {
 
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#imgAvatar').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
+            reader.onload = function (e) {
+                $('#imgAvatar').attr('src', e.target.result);
             }
+
+            reader.readAsDataURL(input.files[0]);
         }
-        $("#imgInp").change(function () {
-            readURL(this);
-        });
-    </script>
+    }
+    $("#imgInp").change(function () {
+        readURL(this);
+    });
+</script>
 
 }
