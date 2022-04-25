@@ -108,6 +108,13 @@ namespace Antomi.Core.Services
                 ProductId = product.ProductId,
                 ProductCount = 0,
             };
+            ProductColor color = new ProductColor()
+            {
+                ProductId=product.ProductId,
+                ColorCode = "#000000",
+                ColorName = "مشکی"
+            };
+            _context.ProductColors.Add(color);
             _context.ProductInventories.Add(productInventory);
             _context.SaveChanges();
         }
