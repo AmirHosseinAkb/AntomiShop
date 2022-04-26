@@ -231,7 +231,7 @@ namespace Antomi.Core.Services
             {
                 result = result.Where(u => u.Email.Contains(email));
             }
-            int take = 1;
+            int take = 10;
             int skip = (pageId - 1) * take;
             var showUsersVM = new ShowUsersInAdminViewModel()
             {

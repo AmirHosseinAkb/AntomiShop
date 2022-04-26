@@ -23,10 +23,10 @@ namespace Antomi.Core.Security
             if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
                 new RedirectResult("/Login");
-            } 
-            else if (!_permissionService.IsUserHasPermission(context.HttpContext.User.Identity.Name, _permissionId))
+            }
+            else if(context.HttpContext.User.Identity.IsAuthenticated && !_permissionService.IsUserHasPermission(context.HttpContext.User.Identity.Name, _permissionId))
             {
-                new RedirectResult("/Login");
+                new RedirectResult("/UserPanel");
             }
         }
     }

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Inventory
 {
+    [Authorize]
     public class InventoryHistoryModel : PageModel
     {
-        [Authorize]
         private IProductService _productService;
         public InventoryHistoryModel(IProductService productService)
         {
