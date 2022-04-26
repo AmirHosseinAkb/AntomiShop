@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Discount;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Discounts
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

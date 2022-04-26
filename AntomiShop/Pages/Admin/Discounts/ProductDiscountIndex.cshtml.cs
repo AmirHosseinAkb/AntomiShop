@@ -4,9 +4,11 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Product;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Discounts
 {
+    [Authorize]
     public class ProductDiscountIndexModel : PageModel
     {
         private IProductService _productService;

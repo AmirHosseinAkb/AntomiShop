@@ -4,9 +4,11 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.Product;
 using Antomi.Core.Security;
 using Antomi.Data.Entities.Product;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Products
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private IProductService _productService;

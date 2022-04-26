@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Product;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Products
 {
+    [Authorize]
     public class CreateProductModel : PageModel
     {
         private IProductService _productService;

@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Product;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Inventory
 {
     public class InventoryHistoryModel : PageModel
     {
+        [Authorize]
         private IProductService _productService;
         public InventoryHistoryModel(IProductService productService)
         {

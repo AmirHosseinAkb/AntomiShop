@@ -5,6 +5,7 @@ using Antomi.Data.Entities.Order;
 
 namespace AntomiShop.Pages.Admin.Orders
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

@@ -7,9 +7,11 @@ using Antomi.Data.Entities.User;
 using Antomi.Core.Convertors;
 using Antomi.Core.Security;
 using Antomi.Core.Generators;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Users
 {
+    [Authorize]
     public class CreateUserModel : PageModel
     {
         private IUserService _userService;

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.User;
 using Antomi.Core.Convertors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Users
 {
+    [Authorize]
     public class EditUserModel : PageModel
     {
         private IUserService _userService;

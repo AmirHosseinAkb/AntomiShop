@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.Product;
 using Antomi.Data.Entities.Product;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AntomiShop.Pages.Admin.Inventory
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private IProductService _productService;
