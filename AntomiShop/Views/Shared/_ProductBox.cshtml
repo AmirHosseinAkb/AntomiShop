@@ -45,7 +45,7 @@
                     {
                         <div class="alert alert-info">این کالا در انبار وجود ندارد</div>
                     }
-                    else if (Model.InventoryCount < 5)
+                    else if (Model.InventoryCount <= 5)
                     {
                         <p class="text-danger">تنها @Model.InventoryCount عدد در انبار موجود است</p>
 
@@ -92,7 +92,7 @@
                 {
                     <div class="alert alert-info">این کالا در انبار وجود ندارد</div>
                 }
-                else if (Model.InventoryCount < 5)
+                else if (Model.InventoryCount <= 5)
                 {
                     <p class="text-danger">تنها @Model.InventoryCount عدد در انبار موجود است</p>
                     if (productDiscount != null)

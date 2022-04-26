@@ -233,16 +233,21 @@
     </div>
 </div>
 @section Scripts{
+    @if(User.Identity.IsAuthenticated)
+    {
+        <script>
+            $(function(){
+            $(".color_Radio").first().attr('checked','true');
+            $.ajax({
+                    type:"get",
+                    url:"/GetColorName/"+$(".color_Radio").first().val()
+               }).done(function(res){
+                   $("#colorName").text(res);
+               });
+            });
+        </script>
+    }
 <script>
-    $(function(){
-        $(".color_Radio").first().attr('checked','true');
-        $.ajax({
-                type:"get",
-                url:"/GetColorName/"+$(".color_Radio").first().val()
-           }).done(function(res){
-               $("#colorName").text(res);
-           });
-    });
     $(function(){
         $(".color_Radio").change(function(){
            $.ajax({
@@ -276,16 +281,16 @@
             if($("#productCountInp").val()==0){
                 $("#productCountInp").val(1);
             }
-            if($("#productCountInp").val()<0){
-                 $("#productCountInp").val(1);
-            }
-            if( $("#productCountInp").val()>5){
-                alert("حداکثر 5 عدد از این محصول را می توانید سفارش دهید");
-                 $("#productCountInp").val(5);
-            }
-        });
+            if($("#productCountInp").val()<0){ $("#productCountInp").val(1);
+                                               }
+                                               if( $("#productCountInp").val()>
+    5){
+    alert("حداکثر 5 عدد از این محصول را می توانید سفارش دهید");
+    $("#productCountInp").val(5);
+    }
     });
-    
+    });
+
 </script>
 
-}
+    }

@@ -366,12 +366,12 @@ namespace Antomi.Core.Services
         public Product GetProductForShow(int productId)
         {
             return _context.Products
-                .Include(p => p.ProductGroup)
+                .Include(p=>p.ProductGroup)
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductColors)
                 .Include(p => p.ProductInventory)
                 .Include(p => p.ProductComments)
-                .SingleOrDefault(p => p.ProductId == productId);
+                .SingleOrDefault(p=>p.ProductId == productId); 
         }
 
         public List<InventoryHistory> GetProductInventoryHistory(int productId)

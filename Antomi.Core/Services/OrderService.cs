@@ -44,19 +44,28 @@ namespace Antomi.Core.Services
             _context.SaveChanges();
         }
 
-        public void ChangeOrderDetailInventory(int detailId, string type)
+        public void ChangeOrderDetailCount(int detailId, string type)
         {
-            var orderDetail=_context.OrderDetails.Include(d=>d.Order).SingleOrDefault(d=>d.DetailId == detailId);
-            if (type == "decrease")
+            var orderDetail = _context.OrderDetails.Include(d=>d.Order).ThenInclude(o=>o.Discount).SingleOrDefault(d => d.DetailId == detailId);
+            if (type == "increase")
             {
-                orderDetail.Count -= 1;
+                orderDetail.Count++;
+                orderDetail.Order.OrderSum += orderDetail.UnitPrice;
             }
             else
             {
-                orderDetail.Count += 1;
+                if (orderDetail.Count >= 1)
+                {
+                    orderDetail.Count--;
+                    orderDetail.Order.OrderSum -= orderDetail.UnitPrice;
+                }
+                else
+                {
+                    orderDetail.IsDeleted = true;
+                }
             }
-            orderDetail.Order.OrderSum = orderDetail.UnitPrice * orderDetail.Count;
-            orderDetail.Order.PaidPrice = orderDetail.UnitPrice * orderDetail.Count;
+            var order = orderDetail.Order;
+            order.PaidPrice = order.OrderSum - (order.OrderSum * order.Discount.DiscountPercent / 100);
             _context.SaveChanges();
         }
 

@@ -64,12 +64,16 @@
                                                 <td>
                                                     @if (!Model.Order.IsFinally)
                                                     {
-                                                        <span class="text-success">
-                                                            <a class="fa fa-plus" title="افزایش موجودی"></a>
-                                                        </span>
-                                                        <span class="text-danger">
-                                                            <a class="fa fa-minus" title="کاهش موجودی"></a>
-                                                        </span>
+                                                        <form style="display:inline" method="post" asp-page="OrderDetails" asp-page-handler="ChangeOrderDetailCount">
+                                                                <input type="hidden" name="detailId" value="@detail.DetailId">
+                                                                <input type="hidden" name="type" value="increase">
+                                                                <input  type="submit"  class="btn btn-success btn-sm" value="افزایش موجودی">
+                                                        </form>
+                                                        <form style="display:inline" method="post" asp-page="OrderDetails" asp-page-handler="ChangeOrderDetailCount">
+                                                                <input type="hidden" name="detailId" value="@detail.DetailId">
+                                                                <input type="hidden" name="type" value="decrease">
+                                                                <input  type="submit" class="btn btn-danger btn-sm" value="کاهش موجودی">
+                                                        </form>
                                                     }
                                                 </td>
                                             </tr>
