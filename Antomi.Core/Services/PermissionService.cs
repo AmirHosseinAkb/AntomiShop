@@ -79,6 +79,12 @@ namespace Antomi.Core.Services
                 .ToList();
         }
 
+        public List<int> GetUserPermissions(string email)
+        {
+            int roleId = _context.Users.SingleOrDefault(u=>u.Email==email).RoleId;
+            return _context.RolePermissions.Where(rp => rp.RoleId == roleId).Select(rp => rp.PermissionId).ToList();
+        }
+
         public bool IsUserHasPermission(string email, int permissionId)
         {
             var user = _context.Users.Include(u => u.Role).ThenInclude(r=>r.RolePermissions).SingleOrDefault(u => u.Email == email);

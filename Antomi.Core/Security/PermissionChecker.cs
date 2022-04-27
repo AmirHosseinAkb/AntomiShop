@@ -22,11 +22,11 @@ namespace Antomi.Core.Security
             _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
             if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
-                new RedirectResult("/Login");
+                context.Result=new RedirectResult("/Login");
             }
             else if(context.HttpContext.User.Identity.IsAuthenticated && !_permissionService.IsUserHasPermission(context.HttpContext.User.Identity.Name, _permissionId))
             {
-                new RedirectResult("/UserPanel");
+                context.Result=new RedirectResult("/UserPanel");
             }
         }
     }

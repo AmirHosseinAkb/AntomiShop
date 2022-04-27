@@ -21,5 +21,6 @@ namespace Antomi.Core.Services.Interfaces
         void EditRolePermissions(int roleId, List<int> permissionIds);
         void DeleteRole(int roleId);
         bool IsUserHasPermission(string email, int permissionId);
+        List<int> GetUserPermissions(string email);
     }
 }
