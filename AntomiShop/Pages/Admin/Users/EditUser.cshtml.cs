@@ -4,10 +4,12 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.User;
 using Antomi.Core.Convertors;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Users
 {
     [Authorize]
+    [PermissionChecker(4|6)]
     public class EditUserModel : PageModel
     {
         private IUserService _userService;

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.User;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Roles
 {
     [Authorize]
+    [PermissionChecker(9|10)]
     public class CreateRoleModel : PageModel
     {
         private IPermissionService _permissionService;

@@ -5,10 +5,12 @@ using Antomi.Data.Entities.Product;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Discounts
 {
     [Authorize]
+    [PermissionChecker(16)]
     public class ProductDiscountIndexModel : PageModel
     {
         private IProductService _productService;

@@ -1,18 +1,23 @@
 ﻿@page
 @model AntomiShop.Pages.Admin.Users.IndexModel
+@inject IPermissionService _permissionService;
 @{
+    var permissions = _permissionService.GetUserPermissions(User.Identity.Name);
 }
 
 <div class="panel">
 
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="m-b-30">
-                    <a href="/Admin/Users/CreateUser" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن کاربر جدید <i class="fa fa-plus"></i></a>
+        @if (permissions.Any(p => p == 5 || p==4))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="m-b-30">
+                        <a href="/Admin/Users/CreateUser" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن کاربر جدید <i class="fa fa-plus"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
             <div class="row" style="margin-bottom:10px">
                 <form method="get">
@@ -66,10 +71,14 @@
                                         var nameUser = user.FirstName;
                                     }
                                     <td class="actions">
-                                        <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-                                        <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-                                        <a asp-page="EditUser" asp-route-userId="@user.UserId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                        <a onclick="GetUserIdForDelete(@user.UserId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                        @if (permissions.Any(p => p == 6||p==4))
+                                        {
+                                            <a asp-page="EditUser" asp-route-userId="@user.UserId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                        }
+                                        @if (permissions.Any(p=>p == 7||p==4))
+                                        {
+                                            <a onclick="GetUserIdForDelete(@user.UserId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                        }
                                     </td>
                                 </tr>
                             }

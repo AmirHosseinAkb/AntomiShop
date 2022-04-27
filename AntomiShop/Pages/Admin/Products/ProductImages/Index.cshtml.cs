@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AntomiShop.Pages.Admin.Products.ProductImages
 {
     [Authorize]
+    [PermissionChecker(13)]
     public class IndexModel : PageModel
     {
         private IProductService _productService;

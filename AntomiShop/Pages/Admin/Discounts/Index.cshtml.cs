@@ -4,10 +4,12 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Discount;
 using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Discounts
 {
     [Authorize]
+    [PermissionChecker(15)]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

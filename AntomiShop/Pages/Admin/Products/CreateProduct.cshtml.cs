@@ -4,10 +4,12 @@ using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Product;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Products
 {
     [Authorize]
+    [PermissionChecker(13)]
     public class CreateProductModel : PageModel
     {
         private IProductService _productService;

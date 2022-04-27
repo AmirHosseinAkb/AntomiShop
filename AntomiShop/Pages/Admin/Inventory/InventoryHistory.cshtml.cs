@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Product;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Inventory
 {
     [Authorize]
+    [PermissionChecker(2)]
     public class InventoryHistoryModel : PageModel
     {
         private IProductService _productService;

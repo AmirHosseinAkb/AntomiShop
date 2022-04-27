@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Data.Entities.Order;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Orders
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
+    [PermissionChecker(3)]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

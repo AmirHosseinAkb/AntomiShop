@@ -1,17 +1,22 @@
 ﻿@page
+@inject IPermissionService _permissionService;
 @model AntomiShop.Pages.Admin.Roles.IndexModel
 @{
+    var permissions = _permissionService.GetUserPermissions(User.Identity.Name);
 }
 
 <div class="panel">
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="m-b-30">
-                    <a href="/Admin/Roles/CreateRole" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن نقش جدید <i class="fa fa-plus"></i></a>
+        @if (permissions.Any(p => p == 9 || p == 10))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="m-b-30">
+                        <a href="/Admin/Roles/CreateRole" id="addToTable" class="btn btn-primary waves-effect waves-light">افزودن نقش جدید <i class="fa fa-plus"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="row">
             <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
@@ -36,10 +41,14 @@
                                     </ul>
                                 </td>
                                 <td class="actions">
-                                    <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-                                    <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-                                    <a asp-page="EditRole" asp-route-roleId="@role.RoleId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                    <a onclick="GetRoleIdForDelete(@role.RoleId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    @if (permissions.Any(p => p == 9 || p == 11))
+                                    {
+                                        <a asp-page="EditRole" asp-route-roleId="@role.RoleId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                    }
+                                    @if (permissions.Any(p => p == 9 || p == 12))
+                                    {
+                                        <a onclick="GetRoleIdForDelete(@role.RoleId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    }
                                 </td>
                             </tr>
                         }

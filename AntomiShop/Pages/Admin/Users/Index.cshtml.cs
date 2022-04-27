@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Antomi.Core.Services.Interfaces;
 using Antomi.Core.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
+using Antomi.Core.Security;
 
 namespace AntomiShop.Pages.Admin.Users
 {
     [Authorize]
+    [PermissionChecker(4|5|6|7)]
     public class IndexModel : PageModel
     {
         private IUserService _userService;
