@@ -366,7 +366,7 @@
                                                 </div>
                                                 <div class="mini_cart_footer">
                                                     <div class="cart_button">
-                                                        @if(user.FirstName=="" || user.LastName == "")
+                                                        @if(string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
                                                         {
                                                             <a href="/UserPanel/UserInformationsConfirm?UserProfileNotConfirmed=true">مشاهده سبد</a>
                                                         }

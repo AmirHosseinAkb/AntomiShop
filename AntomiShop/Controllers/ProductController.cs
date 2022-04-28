@@ -42,7 +42,7 @@ namespace AntomiShop.Controllers
         public IActionResult BuyProduct(int productId,int colorId,int count)
         {
             var user = _userService.GetUserByEmail(User.Identity.Name);
-            if (user.FirstName==""|| user.LastName == "")
+            if (string.IsNullOrEmpty(user.FirstName)|| string.IsNullOrEmpty(user.LastName))
             {
                 return Redirect("/UserPanel/UserInformationsConfirm?UserProfileNotConfirmed=true");
             }
