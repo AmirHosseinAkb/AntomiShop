@@ -76,7 +76,14 @@
                                         <a id="btnAddColor" onclick="GetProductIdForAddColor(@product.ProductId)" class="btn btn-purple btn-sm btn-block">افزودن رنگ های محصول</a>
                                         <br/>
                                         <br/>
-                                        <a id="btnAddColor" onclick="GetProductIdForAddColor(@product.ProductId)" class="btn btn-warning btn-sm btn-block">افزودن به محصولات ویژه</a>
+                                        @if (!product.IsSpecific)
+                                        {
+                                             <a id="btnAddProductToSpecifics" onclick="GetProductForAddToSpecifics(@product.ProductId)" class="btn btn-warning btn-sm btn-block">افزودن به محصولات ویژه</a>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-info">این محصول جزو محصولات ویژه است</div>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -134,29 +141,63 @@
         </div>
     </div>
 </div>
+<div id="addToSpecificsModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h3 class="modal-header">آیا مطمئنید که میخواهید این محصول را به لیست محصولات ویژه اضافه کنید؟</h3>
+            <div class="modal-body">
+                <form asp-page="Index" asp-page-handler="AddProductToSpecifics" method="post">
+                    <input id="spProductIdInp" type="hidden" name="productId" />
+                    <input id="spbtnSubmit" type="submit" class="btn btn-success" value="تایید و افزودن" />
+                    <a id="spbtnCancell" class="btn btn-danger">انصراف</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 
     function GetProductIdForDelete(productId){
             $("#productIdInput").val(productId);
             $("#deleteModal").modal('show');
-        }
+    }
+    
+    function GetProductForAddToSpecifics(productId){
+            $("#spProductIdInp").val(productId);
+            $("#addToSpecificsModal").modal('show');
+    }
 
     $(function(){
         $("#btnCancell").click(function(){
             $("#deleteModal").modal('toggle');
         });
     });
+
+    $(function(){
+        $("#spbtnCancell").click(function(){
+            $("#addToSpecificsModal").modal('toggle');
+        });
+    });
+
     $(function(){
         $("#btnSubmit").click(function(){
             $("#deleteModal").modal('toggle');
         });
     });
+    
+    $(function(){
+        $("#spbtnSubmit").click(function(){
+            $("#addToSpecificsModal").modal('toggle');
+        });
+    });
+
     function GetProductIdForAddColor(productId)
     {
             $("#colorProductIdInp").val(productId);
             $("#colorModal").modal('show');
     }
+
     $(function(){
         $("#btnSaveAddColor").click(function(){
             if($("#colorNameInp").val().length===0){

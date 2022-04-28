@@ -47,6 +47,11 @@ namespace AntomiShop.Pages.Admin.Products
             _productService.DeleteColor(colorId);
             return RedirectToPage("Index");
         }
+        public IActionResult OnPostAddProductToSpecifics(int productId)
+        {
+            _productService.AddProductToSpecifics(productId);
+            return RedirectToPage("SpecificProducts");
+        }
 
     }
 }

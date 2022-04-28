@@ -21,5 +21,11 @@ namespace AntomiShop.Pages.Admin.Products
         {
             showProductsVM = _productService.GetSpecificProducts(pageId,filterName);
         }
+
+        public IActionResult OnPostRemoveProductFromSpecifics(int productId)
+        {
+            _productService.RemoveProductFromSpecifics(productId);
+            return RedirectToPage("Index");
+        }
     }
 }

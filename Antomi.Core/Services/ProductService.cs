@@ -639,5 +639,18 @@ namespace Antomi.Core.Services
             return showProductsVM;
         }
 
+        public void AddProductToSpecifics(int productId)
+        {
+            var product = GetProductById(productId);
+            product.IsSpecific = true;
+            _context.SaveChanges();
+        }
+
+        public void RemoveProductFromSpecifics(int productId)
+        {
+            var product= GetProductById(productId);
+            product.IsSpecific = false;
+            _context.SaveChanges();
+        }
     }
 }
