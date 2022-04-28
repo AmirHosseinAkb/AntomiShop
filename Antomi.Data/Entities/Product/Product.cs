@@ -46,6 +46,7 @@ namespace Antomi.Data.Entities.Product
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; }
+        public bool IsSpecific { get; set; }
 
         #region Relations
 
