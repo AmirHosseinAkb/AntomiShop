@@ -64,16 +64,19 @@
 
                                     </td>
                                     <td class="actions">
-                                        <a asp-page="EditProduct" asp-route-productId="@product.ProductId" class="btn btn-warning btn-sm">ویرایش</a>
+                                        <a asp-page="EditProduct" asp-route-productId="@product.ProductId" class="btn btn-warning btn-sm btn-block">ویرایش</a>
                                         <br />
                                         <br />
-                                        <a onclick="GetProductIdForDelete(@product.ProductId)" class="btn btn-danger btn-sm">حذف</a>
+                                        <a onclick="GetProductIdForDelete(@product.ProductId)" class="btn btn-danger btn-sm btn-block">حذف</a>
                                         <br />
                                         <br />
-                                        <a href="/Admin/Products/ProductImages/@product.ProductId" class="btn btn-info btn-sm">عکس های محصول</a>
+                                        <a href="/Admin/Products/ProductImages/@product.ProductId" class="btn btn-info btn-sm btn-block">عکس های محصول</a>
                                         <br />
                                         <br />
-                                        <a id="btnAddColor" onclick="GetProductIdForAddColor(@product.ProductId)" class="btn btn-purple btn-sm">افزودن رنگ های محصول</a>
+                                        <a id="btnAddColor" onclick="GetProductIdForAddColor(@product.ProductId)" class="btn btn-purple btn-sm btn-block">افزودن رنگ های محصول</a>
+                                        <br/>
+                                        <br/>
+                                        <a id="btnAddColor" onclick="GetProductIdForAddColor(@product.ProductId)" class="btn btn-warning btn-sm btn-block">افزودن به محصولات ویژه</a>
                                     </td>
                                 </tr>
                             }

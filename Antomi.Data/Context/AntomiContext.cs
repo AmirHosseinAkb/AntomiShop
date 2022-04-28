@@ -97,7 +97,11 @@ namespace Antomi.Data.Context
                     new ProductGroup() { GroupId=2,GroupTitle="موبایل",GroupImageName="Group.png",ParentId=1,IsDeleted=false },
                     new ProductGroup() { GroupId=3,GroupTitle="سامسونگ",GroupImageName="Group.png",ParentId=2,IsDeleted=false }
                 );
-
+            modelBuilder.Entity<WalletType>()
+                .HasData(
+                    new WalletType() {TypeId=1,TypeName="واریز" },
+                    new WalletType() {TypeId=2,TypeName="برداشت" }
+                );;
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,7 +1,9 @@
 ﻿@page
 @using Antomi.Core.Extensions;
+@inject IUserService _userService;
 @model AntomiShop.Pages.UserPanel.Orders.UserOrdersModel
 @{
+    var user = _userService.GetUserByEmail(User.Identity.Name);
     Layout = "_DefaultLayout";
 }
 
@@ -88,7 +90,18 @@
                                                             }
                                                             else
                                                             {
-                                                                <a asp-page="OrderDetails" asp-route-orderId="@order.OrderId" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
+                                                                @if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
+                                                                {
+                                                                    <a href="/UserPanel/UserInformationsConfirm?UserProfileNotConfirmed=true" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
+                                                                }
+                                                                else if (!_userService.IsUSerHasAddress(User.Identity.Name))
+                                                                {
+                                                                    <a href="/UserPanel/UserAddresses?UserHasntAddress=true" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a asp-page="OrderDetails" asp-route-orderId="@order.OrderId" class="btn btn-info btn-sm"><b style="color:white">جزئیات سفارش</b></a>
+                                                                }
                                                                 <a class="removeAddress btn btn-danger btn-sm" title="حذف سفارش" onclick="GetOrderId(@order.OrderId)"><b style="color:white">حذف سفارش</b></a>
                                                             }
                                                         </span>
