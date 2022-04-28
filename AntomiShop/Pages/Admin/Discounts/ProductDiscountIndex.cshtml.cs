@@ -10,7 +10,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Discounts
 {
     [Authorize]
-    [PermissionChecker(16)]
+    [PermissionChecker(new int[] {16})]
     public class ProductDiscountIndexModel : PageModel
     {
         private IProductService _productService;

@@ -11,11 +11,11 @@ namespace Antomi.Core.Security
 {
     public class PermissionChecker : AuthorizeAttribute, IAuthorizationFilter
     {
-        int _permissionId;
+        int[] _permissionIds;
         private IPermissionService _permissionService;
-        public PermissionChecker(int permissionId)
+        public PermissionChecker(int[]permissionIds)
         {
-            _permissionId = permissionId;
+            _permissionIds = permissionIds;
         }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -24,7 +24,7 @@ namespace Antomi.Core.Security
             {
                 context.Result=new RedirectResult("/Login");
             }
-            else if(context.HttpContext.User.Identity.IsAuthenticated && !_permissionService.IsUserHasPermission(context.HttpContext.User.Identity.Name, _permissionId))
+            else if(context.HttpContext.User.Identity.IsAuthenticated && !_permissionService.IsUserHasPermission(context.HttpContext.User.Identity.Name,_permissionIds))
             {
                 context.Result=new RedirectResult("/UserPanel");
             }

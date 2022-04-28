@@ -8,7 +8,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Groups
 {
     [Authorize]
-    [PermissionChecker(14)]
+    [PermissionChecker(new int[] {14})]
     public class CreateGroupModel : PageModel
     {
         private IProductService _productService;

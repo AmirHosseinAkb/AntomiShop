@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace AntomiShop.Pages.Admin
 {
     [Authorize]
-    [PermissionChecker(1)]
+    [PermissionChecker(new int[] { 1 })]
     public class IndexModel : PageModel
     {
         public void OnGet()
         {
+
         }
     }
 }

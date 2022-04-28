@@ -7,7 +7,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Orders
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [PermissionChecker(3)]
+    [PermissionChecker(new int[] { 3 })]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

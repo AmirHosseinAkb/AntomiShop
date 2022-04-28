@@ -8,7 +8,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Users
 {
     [Authorize]
-    [PermissionChecker(4|8)]
+    [PermissionChecker(new int[] {4,8})]
     public class DeletedUsersListModel : PageModel
     {
         private IUserService _userService;

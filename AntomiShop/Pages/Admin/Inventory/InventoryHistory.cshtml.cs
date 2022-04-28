@@ -8,7 +8,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Inventory
 {
     [Authorize]
-    [PermissionChecker(2)]
+    [PermissionChecker(new int[] { 2 })]
     public class InventoryHistoryModel : PageModel
     {
         private IProductService _productService;

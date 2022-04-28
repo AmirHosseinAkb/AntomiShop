@@ -85,10 +85,17 @@ namespace Antomi.Core.Services
             return _context.RolePermissions.Where(rp => rp.RoleId == roleId).Select(rp => rp.PermissionId).ToList();
         }
 
-        public bool IsUserHasPermission(string email, int permissionId)
+        public bool IsUserHasPermission(string email, int[] permissionIds)
         {
-            var user = _context.Users.Include(u => u.Role).ThenInclude(r=>r.RolePermissions).SingleOrDefault(u => u.Email == email);
-            return user.Role.RolePermissions.Any(rp => rp.PermissionId == permissionId);
+            var user = _context.Users.AsNoTracking().Include(u => u.Role).ThenInclude(r=>r.RolePermissions).SingleOrDefault(u => u.Email == email);
+            foreach (var permissionId in permissionIds)
+            {
+                if(user.Role.RolePermissions.Any(rp => rp.PermissionId == permissionId))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void UpdateRole(Role role)

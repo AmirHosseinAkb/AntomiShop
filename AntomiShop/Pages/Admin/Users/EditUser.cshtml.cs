@@ -9,7 +9,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Users
 {
     [Authorize]
-    [PermissionChecker(4|6)]
+    [PermissionChecker(new int[] {4,6})]
     public class EditUserModel : PageModel
     {
         private IUserService _userService;

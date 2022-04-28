@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AntomiShop.Pages.Admin.Users
 {
     [Authorize]
-    [PermissionChecker(4|5)]
+    [PermissionChecker(new int[] {4,5})]
     public class CreateUserModel : PageModel
     {
         private IUserService _userService;

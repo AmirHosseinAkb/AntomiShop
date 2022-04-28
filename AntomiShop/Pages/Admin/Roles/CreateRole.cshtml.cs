@@ -8,7 +8,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Roles
 {
     [Authorize]
-    [PermissionChecker(9|10)]
+    [PermissionChecker(new int[] {9,10})]
     public class CreateRoleModel : PageModel
     {
         private IPermissionService _permissionService;

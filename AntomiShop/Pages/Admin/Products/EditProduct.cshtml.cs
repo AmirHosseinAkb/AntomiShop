@@ -9,7 +9,7 @@ using Antomi.Core.Security;
 namespace AntomiShop.Pages.Admin.Products
 {
     [Authorize]
-    [PermissionChecker(13)]
+    [PermissionChecker(new int[] { 13 })]
     public class EditProductModel : PageModel
     {
         private IProductService _productService;
