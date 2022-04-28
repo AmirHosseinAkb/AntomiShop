@@ -615,5 +615,29 @@ namespace Antomi.Core.Services
             return _context.ProductDiscounts.SingleOrDefault(d => d.ProductId == productId && d.StartDate < DateTime.Now && d.EndDate > DateTime.Now);
 
         }
+
+        public ShowProductsInAdminViewModel GetSpecificProducts(int pageId = 1, string filterName = "")
+        {
+            IQueryable<Product> result = _context.Products.Where(p => p.IsSpecific);
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                result = result.Where(p => p.ProductTitle.Contains(filterName));
+            }
+            int take = 10;
+            int skip = (pageId - 1) * take;
+
+            ShowProductsInAdminViewModel showProductsVM = new ShowProductsInAdminViewModel()
+            {
+                Products=result.Skip(skip).Take(take).ToList(),
+                CurrentPage=pageId,
+                PageCount=result.Count()/take
+            };
+            if (result.Count() % take != 0)
+            {
+                showProductsVM.PageCount++;
+            }
+            return showProductsVM;
+        }
+
     }
 }

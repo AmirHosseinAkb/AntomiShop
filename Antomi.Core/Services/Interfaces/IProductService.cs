@@ -31,6 +31,7 @@ namespace Antomi.Core.Services.Interfaces
         List<ProductBoxInformationsViewModel> GetRelatedProducts(int productId);
         List<ProductBoxInformationsViewModel> GetBestSellerProducts();
         List<SelectListItem> GetProductsForSelect();
+        ShowProductsInAdminViewModel GetSpecificProducts(int pageId = 1, string filterName = "");
         #endregion
 
         #region Groups
